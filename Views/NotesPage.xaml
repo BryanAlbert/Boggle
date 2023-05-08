@@ -4,7 +4,7 @@
 		xmlns:viewModels="clr-namespace:Boggle.ViewModels"
 		x:Class="Boggle.Views.NotesPage"
 		Title="Notes"
-		NavigatedTo="ContentPage_NavigatedTo">
+		NavigatedTo="ContentPageNavigatedTo">
 
 	<ContentPage.BindingContext>
 		<viewModels:NotesViewModel />
@@ -16,8 +16,8 @@
 	</ContentPage.ToolbarItems>
 
 	<CollectionView x:Name="notesCollection" ItemsSource="{Binding Notes}" Margin="20" SelectionMode="Single"
-			SelectionChangedCommand="{Binding SelectNoteCommand}" SelectionChangedCommandParameter="{Binding 
-			Source={RelativeSource Self}, Path=SelectedItem}">
+			SelectionChangedCommand="{Binding SelectNoteCommand}"
+			SelectionChangedCommandParameter="{Binding Source={RelativeSource Self}, Path=SelectedItem}">
 
 		<CollectionView.ItemsLayout>
 			<LinearItemsLayout Orientation="Vertical" ItemSpacing="10" />
@@ -33,4 +33,3 @@
 		</CollectionView.ItemTemplate>
 	</CollectionView>
 </ContentPage>
-	

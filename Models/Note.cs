@@ -34,6 +34,7 @@ internal class Note
 			Date = File.GetLastWriteTime(filename)
 		};
 	}
+
 	public static IEnumerable<Note> LoadAll()
 	{
 		string appDataPath = FileSystem.AppDataDirectory;

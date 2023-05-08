@@ -7,7 +7,7 @@ public partial class NotesPage : ContentPage
 		InitializeComponent();
 	}
 
-	private void ContentPage_NavigatedTo(object sender, NavigatedToEventArgs e)
+	private void ContentPageNavigatedTo(object sender, NavigatedToEventArgs e)
 	{
 		notesCollection.SelectedItem = null;
 	}
