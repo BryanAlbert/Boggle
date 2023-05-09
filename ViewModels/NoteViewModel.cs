@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Boggle.Models;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Windows.Input;
 
@@ -8,12 +9,12 @@ namespace Boggle.ViewModels
 	{
 		public NoteViewModel()
 		{
-			m_note = new Models.Note();
+			m_note = new Note();
 			SaveCommand = new AsyncRelayCommand(Save);
 			DeleteCommand = new AsyncRelayCommand(Delete);
 		}
 
-		public NoteViewModel(Models.Note note)
+		public NoteViewModel(Note note)
 		{
 			m_note = note;
 			SaveCommand = new AsyncRelayCommand(Save);
@@ -25,7 +26,7 @@ namespace Boggle.ViewModels
 		{
 			if (query.TryGetValue("load", out object value))
 			{
-				m_note = Models.Note.Load(value.ToString());
+				m_note = Note.Load(value.ToString());
 				RefreshProperties();
 			}
 		}
@@ -46,7 +47,7 @@ namespace Boggle.ViewModels
 
 		public void Reload()
 		{
-			m_note = Models.Note.Load(m_note.Filename);
+			m_note = Note.Load(m_note.Filename);
 			RefreshProperties();
 		}
 
@@ -76,6 +77,7 @@ namespace Boggle.ViewModels
 		public ICommand SaveCommand { get; private set; }
 		public ICommand DeleteCommand { get; private set; }
 
-		private Models.Note m_note;
+
+		private Note m_note;
 	}
 }

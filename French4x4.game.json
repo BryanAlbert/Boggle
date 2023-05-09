@@ -1,0 +1,34 @@
+{
+	"Name": "Boggle French",
+	"Size": 4,
+	"WordSize": 3,
+	"Scoring": [
+		"0",
+		"0",
+		"1",
+		"1",
+		"2",
+		"3",
+		"5",
+		"11"
+	],
+	"Cubes": [
+		"AAEIOT",
+		"AIMORS",
+		"EGNLUY",
+		"ABILTR",
+		"ACDEMP",
+		"EGINTV",
+		"EILRUW",
+		"ELPSTU",
+		"DENOST",
+		"ACELRS",
+		"ABJMO1",
+		"EEFHIS",
+		"EHINRS",
+		"EKNOTU",
+		"ADENVZ",
+		"AIFORX"
+	],
+	"Order": 4.0
+}

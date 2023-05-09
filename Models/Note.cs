@@ -4,22 +4,19 @@ internal class Note
 {
 	public Note()
 	{
-		Filename = $"{Path.GetRandomFileName()}.notes.txt";
+		Filename = $"{Path.GetRandomFileName()}.note.txt";
 		Date = DateTime.Now;
 		Text = string.Empty;
 	}
 
 
-	public string Filename { get; set; }
-	public string Text { get; set; }
-	public DateTime Date { get; set; }
-
-
-	public void Save() =>
-		File.WriteAllText(Path.Combine(FileSystem.AppDataDirectory, Filename), Text);
-
-	public void Delete() =>
-		File.Delete(Path.Combine(FileSystem.AppDataDirectory, Filename));
+	public static IEnumerable<Note> LoadAll()
+	{
+		string appDataPath = FileSystem.AppDataDirectory;
+		return Directory.EnumerateFiles(appDataPath, "*.note.txt").
+			Select(filename => Load(Path.GetFileName(filename))).
+			OrderByDescending(note => note.Date);
+	}
 
 	public static Note Load(string filename)
 	{
@@ -35,11 +32,15 @@ internal class Note
 		};
 	}
 
-	public static IEnumerable<Note> LoadAll()
-	{
-		string appDataPath = FileSystem.AppDataDirectory;
-		return Directory.EnumerateFiles(appDataPath, "*.notes.txt").
-			Select(filename => Load(Path.GetFileName(filename))).
-			OrderByDescending(note => note.Date);
-	}
+
+	public string Filename { get; set; }
+	public string Text { get; set; }
+	public DateTime Date { get; set; }
+
+
+	public void Save() =>
+		File.WriteAllText(Path.Combine(FileSystem.AppDataDirectory, Filename), Text);
+
+	public void Delete() =>
+		File.Delete(Path.Combine(FileSystem.AppDataDirectory, Filename));
 }

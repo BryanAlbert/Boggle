@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+		xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+		xmlns:viewModels="clr-namespace:Boggle.ViewModels"
+		x:Class="Boggle.Views.GamesPage"
+		Title="Boggle Games">
+
+	<ContentPage.BindingContext>
+		<viewModels:GamesViewModel />
+	</ContentPage.BindingContext>
+
+	<CollectionView ItemsSource="{Binding Games}" Margin="20" SelectionMode="Single"
+				SelectionChangedCommand="{Binding SelectGameCommand}"
+				SelectionChangedCommandParameter="{Binding Source={RelativeSource}, Path=SelectedItem}">
+
+		<CollectionView.ItemsLayout>
+			<LinearItemsLayout Orientation="Vertical" ItemSpacing="10" />
+		</CollectionView.ItemsLayout>
+
+		<CollectionView.ItemTemplate>
+			<DataTemplate>
+				<Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,*,*,*,*,*,*,*,*,*" ColumnSpacing="20">
+					<Label Grid.Row="0" Text="{Binding Name}" FontSize="22" Grid.ColumnSpan="2" />
+					<Label Grid.Row="1" Grid.Column="0" Text="Size:" />
+					<Label Grid.Row="1" Grid.Column="1" Text="{Binding Size}" />
+					<Label Grid.Row="2" Grid.Column="0" Text="Word length:" />
+					<Label Grid.Row="2" Grid.Column="1" Text="{Binding WordLength}" />
+					<Label Grid.Row="3" Grid.Column="0" Text="Scoring:" />
+					<Label Grid.Row="3" Grid.Column="1" Text="{Binding Scoring}" />
+					<Label Grid.Row="4" Grid.Column="0" Text="Dice:" />
+					<Label Grid.Row="4" Grid.Column="1" Text="{Binding Cubes1}" LineBreakMode="TailTruncation" />
+					<Label Grid.Row="5" Grid.Column="1" Text="{Binding Cubes2}" LineBreakMode="TailTruncation" />
+					<Label Grid.Row="6" Grid.Column="1" Text="{Binding Cubes3}" LineBreakMode="TailTruncation" />
+					<Label Grid.Row="7" Grid.Column="1" Text="{Binding Cubes4}" LineBreakMode="TailTruncation" />
+					<Label Grid.Row="8" Grid.Column="1" Text="{Binding Cubes5}" LineBreakMode="TailTruncation" />
+					<Label Grid.Row="9" Grid.Column="1" Text="{Binding Cubes6}" LineBreakMode="TailTruncation" />
+				</Grid>
+			</DataTemplate>
+		</CollectionView.ItemTemplate>
+	</CollectionView>
+</ContentPage>

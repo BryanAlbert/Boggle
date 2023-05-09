@@ -1,0 +1,43 @@
+{
+	"Name": "Big Boggle Deluxe",
+	"Size": 5,
+	"WordSize": 4,
+	"Scoring": [
+		"0",
+		"0",
+		"0",
+		"1",
+		"2",
+		"3",
+		"5",
+		"11"
+	],
+	"Cubes": [
+		"AAAFRS",
+		"AAEEEE",
+		"AAFIRS",
+		"ADENNN",
+		"AEEEEM",
+		"AEEGMU",
+		"AEGMNN",
+		"AFIRSY",
+		"BJK1XZ",
+		"CCNSTW",
+		"CEIILT",
+		"CEIPST",
+		"DDLNOR",
+		"DHHLOR",
+		"DHHNOT",
+		"DHLNOR",
+		"EIIITT",
+		"CEILPT",
+		"EMOTTT",
+		"ENSSSU",
+		"FIPRSY",
+		"GORRVW",
+		"HIPRRY",
+		"NOOTUW",
+		"OOOTTU"
+	],
+	"Order": 7.0
+}

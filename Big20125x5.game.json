@@ -1,0 +1,43 @@
+{
+	"Name": "Big Boggle 2012",
+	"Size": 5,
+	"WordSize": 4,
+	"Scoring": [
+		"0",
+		"0",
+		"0",
+		"1",
+		"2",
+		"3",
+		"5",
+		"11"
+	],
+	"Cubes": [
+		"AAAFRS",
+		"AAEEEE",
+		"AAFIRS",
+		"ADENNN",
+		"AEEEEM",
+		"AEEGMU",
+		"AEGMNN",
+		"AFIRSY",
+		"BBJKXZ",
+		"CCENST",
+		"EIILST",
+		"CEIPST",
+		"DDHNOT",
+		"DHHLOR",
+		"DHHNOW",
+		"DHLNOR",
+		"EIIITT",
+		"EILPST",
+		"EMOTTT",
+		"ENSSSU",
+		"123456",
+		"GORRVW",
+		"IPRSYY",
+		"NOOTUW",
+		"OOOTTU"
+	],
+	"Order": 8.0
+}

@@ -51,7 +51,7 @@ namespace Boggle.ViewModels
 			await Shell.Current.GoToAsync(nameof(Views.NotePage));
 		}
 
-		private async Task SelectNoteAsync(ViewModels.NoteViewModel note)
+		private async Task SelectNoteAsync(NoteViewModel note)
 		{
 			if (note != null)
 				await Shell.Current.GoToAsync($"{nameof(Views.NotePage)}?load={note.Identifier}");
