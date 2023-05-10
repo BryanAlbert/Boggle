@@ -7,12 +7,13 @@ namespace Boggle.ViewModels
 	{
 		public GameViewModel()
 		{
-			m_game = new Game();
+			Letters = "T1LTATJGESFHDEYO";
 		}
 
 		public GameViewModel(Game game)
 		{
 			m_game = game;
+			Letters = "T1LTATJGESFHDEYO";
 		}
 
 
@@ -26,8 +27,10 @@ namespace Boggle.ViewModels
 		public string Cubes4 => string.Join(", ", m_game.Cubes.Skip(m_game.Size * 3).Take(m_game.Size));
 		public string Cubes5 => string.Join(", ", m_game.Cubes.Skip(m_game.Size * 4).Take(m_game.Size));
 		public string Cubes6 => string.Join(", ", m_game.Cubes.Skip(m_game.Size * 5).Take(m_game.Size));
+		public string Letters { get => m_letters; set => SetProperty(ref m_letters, value); }
 
 
 		private readonly Game m_game;
+		private string m_letters;
 	}
 }

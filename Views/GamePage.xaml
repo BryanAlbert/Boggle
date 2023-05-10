@@ -1,15 +1,91 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
 		xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+		xmlns:converters="clr-namespace:Boggle.Converters"
 		xmlns:viewModels="clr-namespace:Boggle.ViewModels"
 		x:Class="Boggle.Views.GamePage"
 		Title="Boggle Board">
 
 	<ContentPage.BindingContext>
-		<viewModels:BoardViewModel />
+		<viewModels:GameViewModel />
 	</ContentPage.BindingContext>
+
+	<ContentPage.Resources>
+		<ResourceDictionary>
+			<converters:LetterConverter x:Key="Letter" />
+			
+			<Style TargetType="Label">
+				<Setter Property="FontSize" Value="50" />
+				<Setter Property="TextColor" Value="Black" />
+				<Setter Property="FontAttributes" Value="Bold" />
+				<Setter Property="VerticalOptions" Value="Center" />
+				<Setter Property="HorizontalOptions" Value="Center" />
+			</Style>
+			
+			<Style TargetType="Frame">
+				<Setter Property="CornerRadius" Value="5" />
+				<Setter Property="BackgroundColor" Value="White" />
+				<Setter Property="Margin" Value="0" />
+				<Setter Property="Padding" Value="0" />
+			</Style>
+		</ResourceDictionary>
+	</ContentPage.Resources>
 	
 	<VerticalStackLayout>
-		<Label Text="Boggle Board" VerticalOptions="Center" HorizontalOptions="Center" />
+		<Frame CornerRadius="10" Padding="5" BackgroundColor="Black" HorizontalOptions="Center">
+			<Grid ColumnDefinitions="90,90,90,90" RowDefinitions="90,90,90,90">
+				<Frame Grid.Column="0" Grid.Row="0" >
+					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='00'}}" />
+				</Frame>
+				<Frame Grid.Column="1" Grid.Row="0" >
+					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='10'}}" />
+				</Frame>
+				<Frame Grid.Column="2" Grid.Row="0">
+					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='20'}}" />
+				</Frame>
+				<Frame Grid.Column="3" Grid.Row="0">
+					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='30'}}" />
+				</Frame>
+				
+				<Frame Grid.Column="0" Grid.Row="1">
+					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='01'}}" />
+				</Frame>
+				<Frame Grid.Column="1" Grid.Row="1">
+					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='11'}}" />
+				</Frame>
+				<Frame Grid.Column="2" Grid.Row="1">
+					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='21'}}" />
+				</Frame>
+				<Frame Grid.Column="3" Grid.Row="1">
+					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='31'}}" />
+				</Frame>
+				
+				<Frame Grid.Column="0" Grid.Row="2">
+					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='02'}}" />
+				</Frame>
+				<Frame Grid.Column="1" Grid.Row="2">
+					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='12'}}" />
+				</Frame>
+				<Frame Grid.Column="2" Grid.Row="2">
+					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='22'}}" />
+				</Frame>
+				<Frame Grid.Column="3" Grid.Row="2">
+					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='32'}}" />
+				</Frame>
+
+				<Frame Grid.Column="0" Grid.Row="3">
+					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='03'}}" />
+				</Frame>
+				<Frame Grid.Column="1" Grid.Row="3">
+					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='13'}}" />
+				</Frame>
+				<Frame Grid.Column="2" Grid.Row="3">
+					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='23'}}" />
+				</Frame>
+				<Frame Grid.Column="3" Grid.Row="3">
+					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='33'}}" />
+				</Frame>
+			</Grid>
+		</Frame>
 	</VerticalStackLayout>
 </ContentPage>

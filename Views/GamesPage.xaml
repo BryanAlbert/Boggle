@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
 		xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+		xmlns:converters="clr-namespace:Boggle.Converters"
 		xmlns:viewModels="clr-namespace:Boggle.ViewModels"
 		x:Class="Boggle.Views.GamesPage"
 		Title="Boggle Games">
@@ -9,6 +10,10 @@
 		<viewModels:GamesViewModel />
 	</ContentPage.BindingContext>
 
+	<ContentPage.Resources>
+		<converters:WordConverter x:Key="WordConverter" />
+	</ContentPage.Resources>
+	
 	<CollectionView ItemsSource="{Binding Games}" Margin="20" SelectionMode="Single"
 				SelectionChangedCommand="{Binding SelectGameCommand}"
 				SelectionChangedCommandParameter="{Binding Source={RelativeSource}, Path=SelectedItem}">
@@ -28,12 +33,12 @@
 					<Label Grid.Row="3" Grid.Column="0" Text="Scoring:" />
 					<Label Grid.Row="3" Grid.Column="1" Text="{Binding Scoring}" />
 					<Label Grid.Row="4" Grid.Column="0" Text="Dice:" />
-					<Label Grid.Row="4" Grid.Column="1" Text="{Binding Cubes1}" LineBreakMode="TailTruncation" />
-					<Label Grid.Row="5" Grid.Column="1" Text="{Binding Cubes2}" LineBreakMode="TailTruncation" />
-					<Label Grid.Row="6" Grid.Column="1" Text="{Binding Cubes3}" LineBreakMode="TailTruncation" />
-					<Label Grid.Row="7" Grid.Column="1" Text="{Binding Cubes4}" LineBreakMode="TailTruncation" />
-					<Label Grid.Row="8" Grid.Column="1" Text="{Binding Cubes5}" LineBreakMode="TailTruncation" />
-					<Label Grid.Row="9" Grid.Column="1" Text="{Binding Cubes6}" LineBreakMode="TailTruncation" />
+					<Label Grid.Row="4" Grid.Column="1" Text="{Binding Cubes1, Converter={StaticResource WordConverter}}" LineBreakMode="TailTruncation" />
+					<Label Grid.Row="5" Grid.Column="1" Text="{Binding Cubes2, Converter={StaticResource WordConverter}}" LineBreakMode="TailTruncation" />
+					<Label Grid.Row="6" Grid.Column="1" Text="{Binding Cubes3, Converter={StaticResource WordConverter}}" LineBreakMode="TailTruncation" />
+					<Label Grid.Row="7" Grid.Column="1" Text="{Binding Cubes4, Converter={StaticResource WordConverter}}" LineBreakMode="TailTruncation" />
+					<Label Grid.Row="8" Grid.Column="1" Text="{Binding Cubes5, Converter={StaticResource WordConverter}}" LineBreakMode="TailTruncation" />
+					<Label Grid.Row="9" Grid.Column="1" Text="{Binding Cubes6, Converter={StaticResource WordConverter}}" LineBreakMode="TailTruncation" />
 				</Grid>
 			</DataTemplate>
 		</CollectionView.ItemTemplate>

@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Text;
+using System.Text.Json;
 
 namespace Boggle.Models
 {
@@ -23,6 +24,31 @@ namespace Boggle.Models
 			Game game = JsonSerializer.Deserialize<Game>(File.ReadAllText(filePath));
 			return game;
 		}
+
+		public static string RenderLetter(char letter)
+		{
+			if (int.TryParse(letter.ToString(), out int number))
+				return m_comboLetters[number];
+
+			return letter.ToString();
+		}
+
+		public static string RenderWord(string word)
+		{
+			StringBuilder builder = new StringBuilder();
+			foreach (char letter in word)
+			{
+				if (int.TryParse(letter.ToString(), out int number))
+					builder.Append(m_comboLetters[number]);
+				else
+					builder.Append(letter);
+			}
+
+			return builder.ToString();
+		}
+
+
+		public static string[] m_comboLetters = { "  ", "Qu", "In", "Th", "Er", "He", "An" };
 
 
 		public string Name { get; set; }
