@@ -7,11 +7,16 @@ namespace Boggle.ViewModels
 	{
 		public GameViewModel()
 		{
+			// TODO: for testing
+#if false
 			Letters = "SONGA1RAETDIRFSONKHIDNEPM";
-			Letters = "NAAUSAONPTEPHBEBNLSIOIUTTDTAWTREM2TC";
 			Letters = "T1LTATJGESFHDEYO";
-			Cells5Visible = false;
-			Cells6Visible = false;
+			Letters = "NAAUSAONPTEPHBEBNLSIOIUTTDTAWTREM2TC";
+			Cells5Visible = true;
+			Cells6Visible = true;
+			m_game = new Game { Size = 6 };
+			GameSelected = true;
+#endif
 		}
 
 		public GameViewModel(Game game)
@@ -20,8 +25,10 @@ namespace Boggle.ViewModels
 		}
 
 
+		public bool GameSelected { get => m_isGameSelected; set => SetProperty(ref m_isGameSelected, value); }
+		public int Size => m_game?.Size ?? 0;
 		public string Name => m_game.Name;
-		public string Size => $"{m_game.Size}x{m_game.Size}";
+		public string RenderSize => $"{m_game.Size}x{m_game.Size}";
 		public int WordLength => m_game.WordSize;
 		public string Scoring => string.Join(", ", m_game.Scoring);
 		public string Cubes1 => string.Join(", ", m_game.Cubes.Take(m_game.Size));
@@ -39,5 +46,6 @@ namespace Boggle.ViewModels
 		private string m_letters;
 		private bool m_cells5Visible;
 		private bool m_cell6Visible;
+		private bool m_isGameSelected;
 	}
 }
