@@ -46,10 +46,10 @@
 				<Frame Grid.Column="3" Grid.Row="0">
 					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='30'}}" />
 				</Frame>
-				<Frame Grid.Column="4" Grid.Row="0">
+				<Frame Grid.Column="4" Grid.Row="0" IsVisible="{Binding Cells5Visible}">
 					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='40'}}" />
 				</Frame>
-				<Frame Grid.Column="5" Grid.Row="0">
+				<Frame Grid.Column="5" Grid.Row="0" IsVisible="{Binding Cells6Visible}">
 					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='50'}}" />
 				</Frame>
 
@@ -65,10 +65,10 @@
 				<Frame Grid.Column="3" Grid.Row="1">
 					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='31'}}" />
 				</Frame>
-				<Frame Grid.Column="4" Grid.Row="1">
+				<Frame Grid.Column="4" Grid.Row="1" IsVisible="{Binding Cells5Visible}">
 					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='41'}}" />
 				</Frame>
-				<Frame Grid.Column="5" Grid.Row="1">
+				<Frame Grid.Column="5" Grid.Row="1" IsVisible="{Binding Cells6Visible}">
 					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='51'}}" />
 				</Frame>
 
@@ -84,10 +84,10 @@
 				<Frame Grid.Column="3" Grid.Row="2">
 					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='32'}}" />
 				</Frame>
-				<Frame Grid.Column="4" Grid.Row="2">
+				<Frame Grid.Column="4" Grid.Row="2" IsVisible="{Binding Cells5Visible}">
 					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='42'}}" />
 				</Frame>
-				<Frame Grid.Column="5" Grid.Row="2">
+				<Frame Grid.Column="5" Grid.Row="2" IsVisible="{Binding Cells6Visible}">
 					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='52'}}" />
 				</Frame>
 
@@ -103,48 +103,48 @@
 				<Frame Grid.Column="3" Grid.Row="3">
 					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='33'}}" />
 				</Frame>
-				<Frame Grid.Column="4" Grid.Row="3">
+				<Frame Grid.Column="4" Grid.Row="3" IsVisible="{Binding Cells5Visible}">
 					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='43'}}" />
 				</Frame>
-				<Frame Grid.Column="5" Grid.Row="3">
+				<Frame Grid.Column="5" Grid.Row="3" IsVisible="{Binding Cells6Visible}">
 					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='53'}}" />
 				</Frame>
 
-				<Frame Grid.Column="0" Grid.Row="4">
+				<Frame Grid.Column="0" Grid.Row="4" IsVisible="{Binding Cells5Visible}">
 					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='04'}}" />
 				</Frame>
-				<Frame Grid.Column="1" Grid.Row="4">
+				<Frame Grid.Column="1" Grid.Row="4" IsVisible="{Binding Cells5Visible}">
 					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='14'}}" />
 				</Frame>
-				<Frame Grid.Column="2" Grid.Row="4">
+				<Frame Grid.Column="2" Grid.Row="4" IsVisible="{Binding Cells5Visible}">
 					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='24'}}" />
 				</Frame>
-				<Frame Grid.Column="3" Grid.Row="4">
+				<Frame Grid.Column="3" Grid.Row="4" IsVisible="{Binding Cells5Visible}">
 					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='34'}}" />
 				</Frame>
-				<Frame Grid.Column="4" Grid.Row="4">
+				<Frame Grid.Column="4" Grid.Row="4" IsVisible="{Binding Cells5Visible}">
 					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='44'}}" />
 				</Frame>
-				<Frame Grid.Column="5" Grid.Row="4">
+				<Frame Grid.Column="5" Grid.Row="4" IsVisible="{Binding Cells6Visible}">
 					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='54'}}" />
 				</Frame>
 
-				<Frame Grid.Column="0" Grid.Row="5">
+				<Frame Grid.Column="0" Grid.Row="5" IsVisible="{Binding Cells6Visible}">
 					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='05'}}" />
 				</Frame>
-				<Frame Grid.Column="1" Grid.Row="5">
+				<Frame Grid.Column="1" Grid.Row="5" IsVisible="{Binding Cells6Visible}">
 					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='15'}}" />
 				</Frame>
-				<Frame Grid.Column="2" Grid.Row="5">
+				<Frame Grid.Column="2" Grid.Row="5" IsVisible="{Binding Cells6Visible}">
 					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='25'}}" />
 				</Frame>
-				<Frame Grid.Column="3" Grid.Row="5">
+				<Frame Grid.Column="3" Grid.Row="5" IsVisible="{Binding Cells6Visible}">
 					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='35'}}" />
 				</Frame>
-				<Frame Grid.Column="4" Grid.Row="5">
+				<Frame Grid.Column="4" Grid.Row="5" IsVisible="{Binding Cells6Visible}">
 					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='45'}}" />
 				</Frame>
-				<Frame Grid.Column="5" Grid.Row="5">
+				<Frame Grid.Column="5" Grid.Row="5" IsVisible="{Binding Cells6Visible}">
 					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='55'}}" />
 				</Frame>
 			</Grid>

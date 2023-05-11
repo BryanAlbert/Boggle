@@ -7,9 +7,11 @@ namespace Boggle.ViewModels
 	{
 		public GameViewModel()
 		{
-			Letters = "T1LTATJGESFHDEYO";
 			Letters = "SONGA1RAETDIRFSONKHIDNEPM";
 			Letters = "NAAUSAONPTEPHBEBNLSIOIUTTDTAWTREM2TC";
+			Letters = "T1LTATJGESFHDEYO";
+			Cells5Visible = false;
+			Cells6Visible = false;
 		}
 
 		public GameViewModel(Game game)
@@ -29,9 +31,13 @@ namespace Boggle.ViewModels
 		public string Cubes5 => string.Join(", ", m_game.Cubes.Skip(m_game.Size * 4).Take(m_game.Size));
 		public string Cubes6 => string.Join(", ", m_game.Cubes.Skip(m_game.Size * 5).Take(m_game.Size));
 		public string Letters { get => m_letters; set => SetProperty(ref m_letters, value); }
+		public bool Cells5Visible { get => m_cells5Visible; set => SetProperty(ref m_cells5Visible, value); }
+		public bool Cells6Visible { get => m_cell6Visible; set => SetProperty(ref m_cell6Visible, value); }
 
 
 		private readonly Game m_game;
 		private string m_letters;
+		private bool m_cells5Visible;
+		private bool m_cell6Visible;
 	}
 }

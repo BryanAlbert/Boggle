@@ -8,10 +8,16 @@ namespace Boggle.Converters
 		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
 			if (value is string letters && parameter is string coordinates)
+			{
 				if (int.TryParse(coordinates[0].ToString(), out int x) && int.TryParse(coordinates[1].ToString(), out int y))
-					return Game.RenderLetter(letters[x + y * (int) Math.Sqrt(letters.Length)]);
+				{
+					int size = (int) Math.Sqrt(letters.Length);
+					if (x < size && y < size)
+						return Game.RenderLetter(letters[x + y * size]);
+				}
+			}
 
-			return "A";
+			return "$";
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
