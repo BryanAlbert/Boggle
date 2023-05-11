@@ -8,12 +8,13 @@ namespace Boggle.ViewModels
 		public GameViewModel()
 		{
 			Letters = "T1LTATJGESFHDEYO";
+			Letters = "SONGA1RAETDIRFSONKHIDNEPM";
+			Letters = "NAAUSAONPTEPHBEBNLSIOIUTTDTAWTREM2TC";
 		}
 
 		public GameViewModel(Game game)
 		{
 			m_game = game;
-			Letters = "T1LTATJGESFHDEYO";
 		}
 
 
