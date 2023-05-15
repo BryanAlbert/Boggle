@@ -19,6 +19,11 @@
 			<converters:SizeToFrameWidthConverter x:Key="SizeToFrameSize" />
 			<converters:SizeToFontSizeConverter x:Key="SizeToFontSize" />
 
+			<Style TargetType="Label" x:Key="NormalLabel">
+				<Setter Property="FontSize" Value="20" />
+				<Setter Property="Padding" Value="20" />
+			</Style>
+
 			<Style TargetType="Label">
 				<Setter Property="FontSize" Value="{Binding Size, Converter={StaticResource SizeToFontSize}}" />
 				<Setter Property="TextColor" Value="Black" />
@@ -26,7 +31,7 @@
 				<Setter Property="VerticalOptions" Value="Center" />
 				<Setter Property="HorizontalOptions" Value="Center" />
 			</Style>
-			
+
 			<Style TargetType="Frame">
 				<Setter Property="CornerRadius" Value="5" />
 				<Setter Property="BackgroundColor" Value="White" />
@@ -37,9 +42,11 @@
 	</ContentPage.Resources>
 	
 	<VerticalStackLayout>
-		<Label Text="Choose a game on the Game page!" IsVisible="{Binding GameSelected, Converter={StaticResource BooleanNot}}"
-				TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" FontSize="20" Padding="20" />
-		<Frame CornerRadius="10" Padding="5" BackgroundColor="Black" IsVisible="{Binding GameSelected}"
+		<Label Text="Choose a game on the Game page!" IsVisible="{Binding IsGameSelected, Converter={StaticResource BooleanNot}}"
+				Style="{StaticResource NormalLabel}" HorizontalOptions="Center" />
+		<Label Text="{Binding Name}" IsVisible="{Binding IsGameSelected}" FontSize="30"
+				Style="{StaticResource NormalLabel}" HorizontalOptions="Center" />
+		<Frame CornerRadius="10" Padding="5" BackgroundColor="Black" IsVisible="{Binding IsGameSelected}"
 				WidthRequest="{Binding Size, Converter={StaticResource SizeToFrameSize}}"
 				HeightRequest="{Binding Size, Converter={StaticResource SizeToFrameSize}}">
 			<Grid ColumnDefinitions="{Binding Size, Converter={StaticResource SizeToColumnDefinitions}}"

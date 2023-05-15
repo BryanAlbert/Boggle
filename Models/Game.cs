@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using Boggle.ViewModels;
+using System.Text;
 using System.Text.Json;
 
 namespace Boggle.Models
@@ -7,6 +8,15 @@ namespace Boggle.Models
 	{
 		public Game()
 		{
+		}
+
+		public Game(GameViewModel game)
+		{
+			Name = game.Name;
+			Size = game.Size;
+			WordSize = game.WordLength;
+			Scoring = game.Scoring;
+			Cubes = game.Cubes;
 		}
 
 
@@ -66,9 +76,6 @@ namespace Boggle.Models
 		public string Filename { get; set; }
 
 
-		private static JsonSerializerOptions m_serializerOptions = new() { WriteIndented = true };
-
-
 		private static void SaveDefaultJson()
 		{
 			foreach (string jsonText in m_defaultGames)
@@ -81,7 +88,8 @@ namespace Boggle.Models
 		}
 
 
-		private static List<string> m_defaultGames = new()
+		private static readonly JsonSerializerOptions m_serializerOptions = new() { WriteIndented = true };
+		private static readonly List<string> m_defaultGames = new()
 		{
 			@"{ ""Name"": ""Boggle Classic"", ""Size"": 4, ""WordSize"": 3, ""Scoring"": [ ""0"", ""0"", ""1"", ""1"", ""2"", ""3"", ""5"", ""11"" ]," +
 				@"""Cubes"": [ ""AEANEG"", ""AHSPCO"", ""ASPFFK"", ""OBJOAB"", ""IOTMUC"", ""RYVDEL"", ""LREIXD"", ""EIUNES"", ""WNGEEH""," +

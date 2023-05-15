@@ -13,40 +13,49 @@
 	<ContentPage.Resources>
 		<ResourceDictionary>
 			<converters:WordConverter x:Key="WordConverter" />
-			
+			<converters:NotNullToBoolConverter x:Key="NullConverter" />
+
 			<Style TargetType="Label">
 				<Setter Property="LineBreakMode" Value="TailTruncation" />
 			</Style>
 		</ResourceDictionary>
 	</ContentPage.Resources>
-	
-	<CollectionView ItemsSource="{Binding Games}" Margin="20" SelectionMode="Single"
+
+	<Grid RowDefinitions="Auto, *" ColumnDefinitions="Auto, *">
+		<Label Grid.Column="0" Text="Selected:" FontSize="20" Padding="20,0,0,0" VerticalOptions="Center"
+				IsVisible="{Binding Selected, Converter={StaticResource NullConverter}}"/>
+		<Label Grid.Column="1" Text="{Binding Selected.Name}" FontSize="20" Padding="5"
+				IsVisible="{Binding Selected, Converter={StaticResource NullConverter}}" />
+		<ScrollView Grid.Row="1" Grid.ColumnSpan="2" Margin="0,10,0,0">
+			<CollectionView ItemsSource="{Binding Games}" Margin="20" SelectionMode="Single"
 				SelectionChangedCommand="{Binding SelectGameCommand}"
-				SelectionChangedCommandParameter="{Binding Source={RelativeSource}, Path=SelectedItem}">
+				SelectionChangedCommandParameter="{Binding Source={RelativeSource Self}, Path=SelectedItem}">
 
-		<CollectionView.ItemsLayout>
-			<LinearItemsLayout Orientation="Vertical" ItemSpacing="10" />
-		</CollectionView.ItemsLayout>
+				<CollectionView.ItemsLayout>
+					<LinearItemsLayout Orientation="Vertical" ItemSpacing="10" />
+				</CollectionView.ItemsLayout>
 
-		<CollectionView.ItemTemplate>
-			<DataTemplate>
-				<Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,*,*,*,*,*,*,*,*,*" ColumnSpacing="20">
-					<Label Grid.Row="0" Text="{Binding Name}" FontSize="22" Grid.ColumnSpan="2" />
-					<Label Grid.Row="1" Grid.Column="0" Text="Size:" />
-					<Label Grid.Row="1" Grid.Column="1" Text="{Binding RenderSize}" />
-					<Label Grid.Row="2" Grid.Column="0" Text="Word length:" />
-					<Label Grid.Row="2" Grid.Column="1" Text="{Binding WordLength}" />
-					<Label Grid.Row="3" Grid.Column="0" Text="Scoring:" />
-					<Label Grid.Row="3" Grid.Column="1" Text="{Binding Scoring}" />
-					<Label Grid.Row="4" Grid.Column="0" Text="Dice:" />
-					<Label Grid.Row="4" Grid.Column="1" Text="{Binding Cubes1, Converter={StaticResource WordConverter}}" />
-					<Label Grid.Row="5" Grid.Column="1" Text="{Binding Cubes2, Converter={StaticResource WordConverter}}" />
-					<Label Grid.Row="6" Grid.Column="1" Text="{Binding Cubes3, Converter={StaticResource WordConverter}}" />
-					<Label Grid.Row="7" Grid.Column="1" Text="{Binding Cubes4, Converter={StaticResource WordConverter}}" />
-					<Label Grid.Row="8" Grid.Column="1" Text="{Binding Cubes5, Converter={StaticResource WordConverter}}" />
-					<Label Grid.Row="9" Grid.Column="1" Text="{Binding Cubes6, Converter={StaticResource WordConverter}}" />
-				</Grid>
-			</DataTemplate>
-		</CollectionView.ItemTemplate>
-	</CollectionView>
+				<CollectionView.ItemTemplate>
+					<DataTemplate>
+						<Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,*,*,*,*,*,*,*,*,*" ColumnSpacing="20">
+							<Label Grid.Row="0" Text="{Binding Name}" FontSize="22" Grid.ColumnSpan="2" />
+							<Label Grid.Row="1" Grid.Column="0" Text="Size:" />
+							<Label Grid.Row="1" Grid.Column="1" Text="{Binding RenderSize}" />
+							<Label Grid.Row="2" Grid.Column="0" Text="Word length:" />
+							<Label Grid.Row="2" Grid.Column="1" Text="{Binding WordLength}" />
+							<Label Grid.Row="3" Grid.Column="0" Text="Scoring:" />
+							<Label Grid.Row="3" Grid.Column="1" Text="{Binding RenderScoring}" />
+							<Label Grid.Row="4" Grid.Column="0" Text="Dice:" />
+							<Label Grid.Row="4" Grid.Column="1" Text="{Binding Cubes1, Converter={StaticResource WordConverter}}" />
+							<Label Grid.Row="5" Grid.Column="1" Text="{Binding Cubes2, Converter={StaticResource WordConverter}}" />
+							<Label Grid.Row="6" Grid.Column="1" Text="{Binding Cubes3, Converter={StaticResource WordConverter}}" />
+							<Label Grid.Row="7" Grid.Column="1" Text="{Binding Cubes4, Converter={StaticResource WordConverter}}" />
+							<Label Grid.Row="8" Grid.Column="1" Text="{Binding Cubes5, Converter={StaticResource WordConverter}}" />
+							<Label Grid.Row="9" Grid.Column="1" Text="{Binding Cubes6, Converter={StaticResource WordConverter}}" />
+						</Grid>
+					</DataTemplate>
+				</CollectionView.ItemTemplate>
+			</CollectionView>
+		</ScrollView>
+	</Grid>
 </ContentPage>

@@ -59,9 +59,6 @@
 	  <Compile Update="Views\GamesPage.xaml.cs">
 	    <DependentUpon>GamesPage.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Views\NotesPage.xaml.cs">
-	    <DependentUpon>NotesPage.xaml</DependentUpon>
-	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -72,12 +69,6 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\GamesPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\NotesPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\NotePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\WordsPage.xaml">
