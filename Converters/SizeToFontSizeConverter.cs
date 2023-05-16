@@ -29,7 +29,7 @@ namespace Boggle.Converters
 
 		private const int c_4x4 = 54;
 		private const int c_5x5 = 46;
-		private const int c_6x6 = 46;
+		private const int c_6x6 = 44;
 		private const int c_default = 36;
 	}
 }

@@ -8,9 +8,10 @@ namespace Boggle.Models
 	{
 		public Game()
 		{
+			m_random = new Random();
 		}
 
-		public Game(GameViewModel game)
+		public Game(GameViewModel game) : this()
 		{
 			Name = game.Name;
 			Size = game.Size;
@@ -67,6 +68,26 @@ namespace Boggle.Models
 		public static string[] m_comboLetters = { "  ", "Qu", "In", "Th", "Er", "He", "An" };
 
 
+		public string Scramble()
+		{
+			string letters = string.Empty;
+			List<int> used = new();
+			for (int index = 0; index < Cubes.Count; index++)
+			{
+				int cube = m_random.Next(Cubes.Count);
+				while (used.Contains(cube % Cubes.Count))
+					cube++;
+
+				cube %= Cubes.Count;
+				used.Add(cube);
+				int side = m_random.Next(6);
+				letters += Cubes[cube][side];
+			}
+
+			return letters;
+		}
+
+
 		public string Name { get; set; }
 		public int Size { get; set; }
 		public int WordSize { get; set; }
@@ -88,6 +109,7 @@ namespace Boggle.Models
 		}
 
 
+		private readonly Random m_random;
 		private static readonly JsonSerializerOptions m_serializerOptions = new() { WriteIndented = true };
 		private static readonly List<string> m_defaultGames = new()
 		{

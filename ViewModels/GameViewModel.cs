@@ -1,6 +1,8 @@
 ﻿using Boggle.Models;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using System.Windows.Input;
 
 namespace Boggle.ViewModels
 {
@@ -10,9 +12,9 @@ namespace Boggle.ViewModels
 		{
 			WeakReferenceMessenger.Default.Register<GameViewModel>(this, OnGameSelected);
 			_ = WeakReferenceMessenger.Default.Send(App.c_sendGameSelection);
-
-			// TODO: for testing
+			ScrambleCommand = new RelayCommand(OnScramble);
 #if false
+			// TODO: for testing
 			Letters = "SONGA1RAETDIRFSONKHIDNEPM";
 			Letters = "T1LTATJGESFHDEYO";
 			Letters = "NAAUSAONPTEPHBEBNLSIOIUTTDTAWTREM2TC";
@@ -50,6 +52,7 @@ namespace Boggle.ViewModels
 		public bool IsGameSelected { get => m_isGameSelected; set => SetProperty(ref m_isGameSelected, value); }
 		public bool Cells5Visible { get => m_cells5Visible; set => SetProperty(ref m_cells5Visible, value); }
 		public bool Cells6Visible { get => m_cell6Visible; set => SetProperty(ref m_cell6Visible, value); }
+		public ICommand ScrambleCommand { get; }
 
 
 		private void OnGameSelected(object recipient, GameViewModel game)
@@ -61,6 +64,11 @@ namespace Boggle.ViewModels
 			Cells5Visible = game.Size > 4;
 			Cells6Visible = game.Size > 5;
 			Letters = new string(' ', m_game.Size* m_game.Size);
+		}
+
+		private void OnScramble()
+		{
+			Letters = m_game.Scramble();
 		}
 
 

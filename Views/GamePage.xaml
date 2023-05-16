@@ -40,7 +40,12 @@
 			</Style>
 		</ResourceDictionary>
 	</ContentPage.Resources>
-	
+
+	<ContentPage.ToolbarItems>
+		<ToolbarItem Text="Scramble" Command="{Binding ScrambleCommand}"
+				IconImageSource="{FontImage Glyph='S', Color=White, Size=22}" />
+	</ContentPage.ToolbarItems>
+
 	<VerticalStackLayout>
 		<Label Text="Choose a game on the Game page!" IsVisible="{Binding IsGameSelected, Converter={StaticResource BooleanNot}}"
 				Style="{StaticResource NormalLabel}" HorizontalOptions="Center" />

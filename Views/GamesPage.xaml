@@ -13,7 +13,8 @@
 	<ContentPage.Resources>
 		<ResourceDictionary>
 			<converters:WordConverter x:Key="WordConverter" />
-			<converters:NotNullToBoolConverter x:Key="NullConverter" />
+			<converters:NullToBoolConverter x:Key="NullConverter" />
+			<converters:NullToBoolConverter x:Key="NotNullConverter" Not="True" />
 
 			<Style TargetType="Label">
 				<Setter Property="LineBreakMode" Value="TailTruncation" />
@@ -22,10 +23,12 @@
 	</ContentPage.Resources>
 
 	<Grid RowDefinitions="Auto, *" ColumnDefinitions="Auto, *">
+		<Label Text="Choose a game below!" IsVisible="{Binding Selected, Converter={StaticResource NullConverter}}"
+				HorizontalOptions="Center" FontSize="20" Padding="20,0,0,0" />
 		<Label Grid.Column="0" Text="Selected:" FontSize="20" Padding="20,0,0,0" VerticalOptions="Center"
-				IsVisible="{Binding Selected, Converter={StaticResource NullConverter}}"/>
+				IsVisible="{Binding Selected, Converter={StaticResource NotNullConverter}}"/>
 		<Label Grid.Column="1" Text="{Binding Selected.Name}" FontSize="20" Padding="5"
-				IsVisible="{Binding Selected, Converter={StaticResource NullConverter}}" />
+				IsVisible="{Binding Selected, Converter={StaticResource NotNullConverter}}" />
 		<ScrollView Grid.Row="1" Grid.ColumnSpan="2" Margin="0,10,0,0">
 			<CollectionView ItemsSource="{Binding Games}" Margin="20" SelectionMode="Single"
 				SelectionChangedCommand="{Binding SelectGameCommand}"

@@ -36,6 +36,6 @@ public partial class App : Application
 	}
 
 
-	private const int c_defaultWidth = 500;
+	private const int c_defaultWidth = 550;
 	private const int c_defaultHeight = 700;
 }
