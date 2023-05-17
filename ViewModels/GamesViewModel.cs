@@ -25,12 +25,13 @@ namespace Boggle.ViewModels
 		private void OnSelectGame(GameViewModel game)
 		{
 			Selected = game;
+			game.IsGameSelected = true;
 			_ = WeakReferenceMessenger.Default.Send(game);
 		}
 
 		private void OnRequest(object recipient, string message)
 		{
-			if (message == App.c_sendGameSelection && m_selected != null)
+			if (message == App.c_isGameSelected && m_selected != null)
 				_ = WeakReferenceMessenger.Default.Send(m_selected);
 		}
 

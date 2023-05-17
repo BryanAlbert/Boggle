@@ -10,8 +10,9 @@ namespace Boggle.ViewModels
 	{
 		public GameViewModel()
 		{
-			WeakReferenceMessenger.Default.Register<GameViewModel>(this, OnGameSelected);
-			_ = WeakReferenceMessenger.Default.Send(App.c_sendGameSelection);
+			WeakReferenceMessenger.Default.Register<string>(this, OnRequest);
+			WeakReferenceMessenger.Default.Register<GameViewModel>(this, OnGameUpdated);
+			_ = WeakReferenceMessenger.Default.Send(App.c_isGameSelected);
 			ScrambleCommand = new RelayCommand(OnScramble);
 #if false
 			// TODO: for testing
@@ -50,25 +51,44 @@ namespace Boggle.ViewModels
 		public string Cubes5 => string.Join(", ", m_game.Cubes.Skip(m_game.Size * 4).Take(m_game.Size));
 		public string Cubes6 => string.Join(", ", m_game.Cubes.Skip(m_game.Size * 5).Take(m_game.Size));
 		public bool IsGameSelected { get => m_isGameSelected; set => SetProperty(ref m_isGameSelected, value); }
+		public bool IsBoardGenerated { get => m_isBoardGenerated; set => SetProperty(ref m_isBoardGenerated, value); }
 		public bool Cells5Visible { get => m_cells5Visible; set => SetProperty(ref m_cells5Visible, value); }
 		public bool Cells6Visible { get => m_cell6Visible; set => SetProperty(ref m_cell6Visible, value); }
 		public ICommand ScrambleCommand { get; }
 
 
-		private void OnGameSelected(object recipient, GameViewModel game)
+		private void OnRequest(object recipient, string request)
 		{
-			m_game = new Game(game);
-			IsGameSelected = true;
-			Name = game.Name;
-			Size = game.Size;
-			Cells5Visible = game.Size > 4;
-			Cells6Visible = game.Size > 5;
-			Letters = new string(' ', m_game.Size* m_game.Size);
+			if (request == App.c_isBoardGenerated && IsBoardGenerated)
+				_ = WeakReferenceMessenger.Default.Send(this);
+		}
+
+		private void OnGameUpdated(object recipient, GameViewModel game)
+		{
+			if (game != this)
+			{
+				m_game = new Game(game);
+				IsGameSelected = true;
+				Name = game.Name;
+				Size = game.Size;
+				Cells5Visible = game.Size > 4;
+				Cells6Visible = game.Size > 5;
+				Letters = new string(' ', m_game.Size * m_game.Size);
+			}
 		}
 
 		private void OnScramble()
 		{
-			Letters = m_game.Scramble();
+			// TODO: figure out how to use the RelayCommand constructor that takes the Func<bool> canExecute parameter,
+			// there is no ChangeCanExecute so it is never enabled.
+			// See https://learn.microsoft.com/en-us/dotnet/communitytoolkit/mvvm/generators/relaycommand and 
+			// https://learn.microsoft.com/en-us/dotnet/communitytoolkit/mvvm/generators/observableproperty
+			if (m_game != null)
+			{
+				Letters = m_game.Scramble();
+				IsBoardGenerated = true;
+				_ = WeakReferenceMessenger.Default.Send(this);
+			}
 		}
 
 
@@ -79,5 +99,6 @@ namespace Boggle.ViewModels
 		private bool m_cells5Visible;
 		private bool m_cell6Visible;
 		private bool m_isGameSelected;
+		private bool m_isBoardGenerated;
 	}
 }

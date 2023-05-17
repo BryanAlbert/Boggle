@@ -1,10 +1,30 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
 		xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+		xmlns:converters="clr-namespace:Boggle.Converters"
+		xmlns:viewModels="clr-namespace:Boggle.ViewModels"
 		x:Class="Boggle.Views.WordsPage"
 		Title="Boggle Words">
 
+	<ContentPage.BindingContext>
+		<viewModels:WordsViewModel />
+	</ContentPage.BindingContext>
+
+	<ContentPage.Resources>
+		<ResourceDictionary>
+			<converters:BooleanNotConverter x:Key="BooleanNot" />
+		</ResourceDictionary>
+	</ContentPage.Resources>
+	
+	<ContentPage.ToolbarItems>
+		<ToolbarItem Text="Solve" Command="{Binding SolveCommand}"
+				IconImageSource="{FontImage Glyph='S', Color=White, Size=22}" />
+	</ContentPage.ToolbarItems>
+
 	<VerticalStackLayout>
-		<Label Text="Boggle Words" VerticalOptions="Center" HorizontalOptions="Center" />
+		<Label Text="Generate a board on the Game page!" IsVisible="{Binding IsBoardGenerated, Converter={StaticResource BooleanNot}}"
+				FontSize="20" Padding="20" HorizontalOptions="Center" />
+		<Label Text="{Binding Name}" IsVisible="{Binding IsGameSelected}" FontSize="30"
+				Style="{StaticResource NormalLabel}" HorizontalOptions="Center" />
 	</VerticalStackLayout>
 </ContentPage>

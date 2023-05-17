@@ -43,7 +43,7 @@
 
 	<ContentPage.ToolbarItems>
 		<ToolbarItem Text="Scramble" Command="{Binding ScrambleCommand}"
-				IconImageSource="{FontImage Glyph='S', Color=White, Size=22}" />
+				IconImageSource="{FontImage Glyph='S', Color=White, Size=24}" />
 	</ContentPage.ToolbarItems>
 
 	<VerticalStackLayout>
