@@ -17,8 +17,8 @@ namespace Boggle.ViewModels
 		}
 
 
-		public GameViewModel Selected { get => m_selected; set => SetProperty(ref m_selected, value); }
 		public ObservableCollection<GameViewModel> Games { get; }
+		public GameViewModel Selected { get => m_selected; set => SetProperty(ref m_selected, value); }
 		public ICommand SelectGameCommand { get;}
 
 

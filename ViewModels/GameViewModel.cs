@@ -14,18 +14,6 @@ namespace Boggle.ViewModels
 			WeakReferenceMessenger.Default.Register<GameViewModel>(this, OnGameUpdated);
 			_ = WeakReferenceMessenger.Default.Send(App.c_isGameSelected);
 			ScrambleCommand = new RelayCommand(OnScramble);
-#if false
-			// TODO: for testing
-			Letters = "SONGA1RAETDIRFSONKHIDNEPM";
-			Letters = "T1LTATJGESFHDEYO";
-			Letters = "NAAUSAONPTEPHBEBNLSIOIUTTDTAWTREM2TC";
-			Cells5Visible = true;
-			Cells6Visible = true;
-			m_game = new Game { Size = 6, Name = "Super Big Boggle" };
-			Name = m_game.Name;
-			Letters = new string(' ', Size * Size);
-			GameSelected = true;
-#endif
 		}
 
 		public GameViewModel(Game game)
@@ -41,7 +29,7 @@ namespace Boggle.ViewModels
 		public int Size { get => m_size; set => SetProperty(ref m_size, value); }
 		public string RenderSize => $"{m_game.Size}x{m_game.Size}";
 		public int WordLength => m_game.WordSize;
-		public List<string> Scoring => m_game.Scoring;
+		public List<int> Scoring => m_game.Scoring.Select(x => int.Parse(x)).ToList();
 		public string RenderScoring => string.Join(", ", m_game.Scoring);
 		public List<string> Cubes => m_game.Cubes;
 		public string Cubes1 => string.Join(", ", m_game.Cubes.Take(m_game.Size));
@@ -55,6 +43,13 @@ namespace Boggle.ViewModels
 		public bool Cells5Visible { get => m_cells5Visible; set => SetProperty(ref m_cells5Visible, value); }
 		public bool Cells6Visible { get => m_cell6Visible; set => SetProperty(ref m_cell6Visible, value); }
 		public ICommand ScrambleCommand { get; }
+
+
+		public int ComputeScore(string word)
+		{
+			int score = word.Length > Scoring.Count ? Scoring.Last() : Scoring[word.Length - 1];
+			return score < 0 ? -score * word.Length : score;
+		}
 
 
 		private void OnRequest(object recipient, string request)

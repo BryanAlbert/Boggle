@@ -16,7 +16,7 @@ namespace Boggle.Models
 			Name = game.Name;
 			Size = game.Size;
 			WordSize = game.WordLength;
-			Scoring = game.Scoring;
+			Scoring = game.Scoring.Select(x => x.ToString()).ToList();
 			Cubes = game.Cubes;
 		}
 

@@ -10,13 +10,13 @@
 	</ContentPage.BindingContext>
 
 	<VerticalStackLayout Spacing="10" Margin="10">
+		<Label Text="{Binding Instructions}" LineBreakMode="WordWrap" Padding="20" />
 		<HorizontalStackLayout Spacing="10">
 			<Image Source="dotnet_bot.png" SemanticProperties.Description="The dot net bot waving hello!"
 					HeightRequest="64" />
 			<Label FontSize="22" FontAttributes="Bold" Text="{Binding Title}" VerticalOptions="End" />
-			<Label FontSize="22" Text="{Binding Version}" VerticalOptions="End" />
+			<Label FontSize="16" Text="{Binding Version}" VerticalOptions="End" />
 		</HorizontalStackLayout>
 
-		<Label Text="{Binding Instructions}" LineBreakMode="WordWrap" Padding="20" />
 	</VerticalStackLayout>
 </ContentPage>

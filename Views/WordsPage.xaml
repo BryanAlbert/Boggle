@@ -21,10 +21,30 @@
 				IconImageSource="{FontImage Glyph='S', Color=White, Size=22}" />
 	</ContentPage.ToolbarItems>
 
-	<VerticalStackLayout>
-		<Label Text="Generate a board on the Game page!" IsVisible="{Binding IsBoardGenerated, Converter={StaticResource BooleanNot}}"
-				FontSize="20" Padding="20" HorizontalOptions="Center" />
-		<Label Text="{Binding Name}" IsVisible="{Binding IsGameSelected}" FontSize="30"
-				Style="{StaticResource NormalLabel}" HorizontalOptions="Center" />
-	</VerticalStackLayout>
+	<Grid RowDefinitions="Auto,*">
+		<Label Grid.Row="0" Text="{Binding Message}" FontSize="20" Padding="20" HorizontalOptions="Center"
+				IsVisible="{Binding IsBoardGenerated, Converter={StaticResource BooleanNot}}" />
+		<Label Grid.Row="0" Text="{Binding Name}" FontSize="30" Padding="20" HorizontalOptions="Center"
+				IsVisible="{Binding IsBoardGenerated}" />
+		<ScrollView Grid.Row="1">
+			<CollectionView ItemsSource="{Binding Solutions}" Margin="20,0,0,0" SelectionMode="Single"
+				SelectionChangedCommand="{Binding SelectWordCommand}"
+				SelectionChangedCommandParameter="{Binding Source={RelativeSource Self}, Path=SelectedItem}">
+
+				<CollectionView.ItemsLayout>
+					<LinearItemsLayout Orientation="Vertical" ItemSpacing="0" />
+				</CollectionView.ItemsLayout>
+
+				<CollectionView.ItemTemplate>
+					<DataTemplate>
+						<Grid ColumnDefinitions="100,25,*" ColumnSpacing="10">
+							<Label Grid.Column="0" Text="{Binding Word}" FontSize="Body" />
+							<Label Grid.Column="1" Text="{Binding Score}" />
+							<Label Grid.Column="2" Text="{Binding RenderPath}" />
+						</Grid>
+					</DataTemplate>
+				</CollectionView.ItemTemplate>
+			</CollectionView>
+		</ScrollView>
+	</Grid>
 </ContentPage>
