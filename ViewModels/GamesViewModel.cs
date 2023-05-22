@@ -32,7 +32,7 @@ namespace Boggle.ViewModels
 		private void OnRequest(object recipient, string message)
 		{
 			if (message == App.c_isGameSelected && m_selected != null)
-				_ = WeakReferenceMessenger.Default.Send(m_selected);
+				_ = WeakReferenceMessenger.Default.Send(Selected);
 		}
 
 

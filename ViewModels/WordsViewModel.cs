@@ -16,10 +16,13 @@ namespace Boggle.ViewModels
 				m_solver = new Solver();
 				Solutions = new ObservableCollection<Solution>();
 				WeakReferenceMessenger.Default.Register<GameViewModel>(this, OnGameUpdated);
+				_ = WeakReferenceMessenger.Default.Send(App.c_isGameSelected);
 				_ = WeakReferenceMessenger.Default.Send(App.c_isBoardGenerated);
+				if (!IsBoardGenerated)
+					Message = "Pick a game on the Games page!";
+
 				SolveCommand = new RelayCommand(OnSolve);
 				SelectWordCommand = new RelayCommand<Solution>(OnWordSelected);
-				Message = "Scramble the board on the Game page!";
 			}
 			catch (Exception exception)
 			{
@@ -41,17 +44,21 @@ namespace Boggle.ViewModels
 		{
 			m_solver.Game = game;
 			IsBoardGenerated = game.IsBoardGenerated;
+			Message = "Scramble the board on the Game page!";
 			Name = game.Name;
+			Solutions.Clear();
+			m_solved = false;
 		}
 
 		private void OnSolve()
 		{
 			// TODO: figure out how to use the RelayCommand constructor that takes the Func<bool> canExecute parameter,
-			if (IsBoardGenerated && m_solver != null)
+			if (IsBoardGenerated && !m_solved)
 			{
-				Solutions.Clear();
 				foreach (Solution solution in m_solver.Solve())
 					Solutions.Add(solution);
+			
+				m_solved = true;
 			}
 		}
 
@@ -65,5 +72,6 @@ namespace Boggle.ViewModels
 		private string m_message;
 		private bool m_isBoardGenerated;
 		private string m_name;
+		private bool m_solved;
 	}
 }

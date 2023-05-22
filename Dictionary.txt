@@ -1,5 +1,4 @@
 # CSW15.txt Collins Scrabble Words from http://pages.cs.wisc.edu/~o-laughl/csw15.txt found in https://opendata.stackexchange.com/questions/285/is-there-a-source-for-various-scrabble-dictionaries
-276663
 AA
 AAH
 AAHED
@@ -263764,7 +263763,7 @@ UXORIOUS
 UXORIOUSLY
 UXORIOUSNESS
 UXORIOUSNESSES
-VAC
+FAC
 VACANCE
 VACANCES
 VACANCIES

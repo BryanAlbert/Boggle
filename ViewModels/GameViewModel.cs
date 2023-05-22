@@ -54,13 +54,13 @@ namespace Boggle.ViewModels
 
 		private void OnRequest(object recipient, string request)
 		{
-			if (request == App.c_isBoardGenerated && IsBoardGenerated)
+			if (request == App.c_isBoardGenerated)
 				_ = WeakReferenceMessenger.Default.Send(this);
 		}
 
 		private void OnGameUpdated(object recipient, GameViewModel game)
 		{
-			if (game != this)
+			if (game.Name != Name)
 			{
 				m_game = new Game(game);
 				IsGameSelected = true;

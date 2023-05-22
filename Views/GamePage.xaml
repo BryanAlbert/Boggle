@@ -47,7 +47,7 @@
 	</ContentPage.ToolbarItems>
 
 	<VerticalStackLayout>
-		<Label Text="Choose a game on the Game page!" IsVisible="{Binding IsGameSelected, Converter={StaticResource BooleanNot}}"
+		<Label Text="Pick a game on the Games page!" IsVisible="{Binding IsGameSelected, Converter={StaticResource BooleanNot}}"
 				Style="{StaticResource NormalLabel}" HorizontalOptions="Center" />
 		<Label Text="{Binding Name}" IsVisible="{Binding IsGameSelected}" FontSize="30"
 				Style="{StaticResource NormalLabel}" HorizontalOptions="Center" />

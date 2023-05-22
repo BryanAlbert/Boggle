@@ -11,31 +11,7 @@ namespace Boggle
 			using Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(c_dictionaryPath);
 			{
 				using StreamReader reader = new(stream);
-				string[] data = reader.ReadToEnd().Split("\r\n");
-				int start = 0;
-				while (data[start++][0] == '#') ;
-				if (int.TryParse(data[start - 1], out int wordCount))
-				{
-					int index = 0;
-					m_dictionary = Array.CreateInstance(typeof(string), wordCount);
-					foreach (string word in data.Skip(start))
-					{
-						if (string.IsNullOrEmpty(word) || word[0] == '#')
-							continue;
-
-						if (index >= wordCount)
-							throw new Exception($"Dictionary contains more than the {wordCount} words specified");
-
-						m_dictionary.SetValue(word, index++);
-					}
-
-					if (index != wordCount)
-						throw new Exception($"Dictionary specified {wordCount} words, only contains {index}");
-				}
-				else
-				{
-					throw new Exception($"Dictionary missing word count.");
-				}
+				m_dictionary = reader.ReadToEnd().Split("\r\n");
 			}
 		}
 
@@ -47,7 +23,8 @@ namespace Boggle
 			set
 			{
 				m_game = value;
-				FilterWordList();
+				if (m_game.IsBoardGenerated)
+					FilterWordList();
 			}
 		}
 
@@ -76,9 +53,16 @@ namespace Boggle
 
 		private void FilterWordList()
 		{
-			// TODO: make a list of letters in use, remove all words which don't contain these letters
 			if (Game == null)
 				throw new ArgumentNullException(nameof(Game));
+
+			string letters = Models.Game.RenderWord(string.Join("", Game.Letters.Distinct())).ToUpper();
+			List<string> words = new();
+			foreach (string word in m_dictionary)
+				if (!word.Any(x => !letters.Contains(x)))
+					words.Add(word);
+
+			m_abridged = words.ToArray();
 		}
 
 		private void FindWordsAt(int[] path, string word, int from)
@@ -146,15 +130,15 @@ namespace Boggle
 
 		private bool? IsWord(string word)
 		{
-			int found = Array.BinarySearch(m_dictionary, word);
+			int found = Array.BinarySearch(m_abridged, word);
 			if (found >= 0)
 				return true;
 
 			found = ~found;
-			if (found >= m_dictionary.Length)
+			if (found >= m_abridged.Length)
 				return false;
 		
-			string nextWord = (string) m_dictionary.GetValue(found);
+			string nextWord = (string) m_abridged.GetValue(found);
 			return (word.Length < nextWord.Length && nextWord[..word.Length] == word) ? null : false;
 		}
 
@@ -180,7 +164,8 @@ namespace Boggle
 
 		private enum Directions { E, SE, S, SW, W, NW, N, NE }
 		private const string c_dictionaryPath = "Boggle.Dictionary.txt";
-		private readonly Array m_dictionary;
+		private readonly string[] m_dictionary;
+		private Array m_abridged;
 		private GameViewModel m_game;
 	}
 }
