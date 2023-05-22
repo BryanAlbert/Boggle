@@ -21,12 +21,14 @@
 				IconImageSource="{FontImage Glyph='S', Color=White, Size=22}" />
 	</ContentPage.ToolbarItems>
 
-	<Grid RowDefinitions="Auto,*">
-		<Label Grid.Row="0" Text="{Binding Message}" FontSize="20" Padding="20" HorizontalOptions="Center"
-				IsVisible="{Binding IsBoardGenerated, Converter={StaticResource BooleanNot}}" />
-		<Label Grid.Row="0" Text="{Binding Name}" FontSize="30" Padding="20" HorizontalOptions="Center"
-				IsVisible="{Binding IsBoardGenerated}" />
-		<ScrollView Grid.Row="1">
+	<Grid RowDefinitions="Auto,Auto,*" ColumnDefinitions="Auto,*">
+		<Label Grid.ColumnSpan="2" Text="{Binding Message}" FontSize="20" Padding="20" HorizontalOptions="Center"
+				IsVisible="{Binding BoardGenerated, Converter={StaticResource BooleanNot}}" />
+		<Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" FontSize="30" Margin="20,10,0,0" HorizontalOptions="Center"
+				Text="{Binding Name}" IsVisible="{Binding BoardGenerated}" />
+		<Label Grid.Row="1" Grid.Column="0" Text="Score:" Margin="20,0,10,0" FontSize="20" IsVisible="{Binding Solved}" />
+		<Label Grid.Row="1" Grid.Column="1" Text="{Binding Score}" FontSize="20" IsVisible="{Binding Solved}" />
+		<ScrollView Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2">
 			<CollectionView ItemsSource="{Binding Solutions}" Margin="20,0,0,0" SelectionMode="Single"
 				SelectionChangedCommand="{Binding SelectWordCommand}"
 				SelectionChangedCommandParameter="{Binding Source={RelativeSource Self}, Path=SelectedItem}">
@@ -37,7 +39,7 @@
 
 				<CollectionView.ItemTemplate>
 					<DataTemplate>
-						<Grid ColumnDefinitions="100,25,*" ColumnSpacing="10">
+						<Grid ColumnDefinitions="100,25,*">
 							<Label Grid.Column="0" Text="{Binding Word}" FontSize="Body" />
 							<Label Grid.Column="1" Text="{Binding Score}" />
 							<Label Grid.Column="2" Text="{Binding RenderPath}" />

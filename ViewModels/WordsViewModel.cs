@@ -18,7 +18,7 @@ namespace Boggle.ViewModels
 				WeakReferenceMessenger.Default.Register<GameViewModel>(this, OnGameUpdated);
 				_ = WeakReferenceMessenger.Default.Send(App.c_isGameSelected);
 				_ = WeakReferenceMessenger.Default.Send(App.c_isBoardGenerated);
-				if (!IsBoardGenerated)
+				if (m_solver.Game == null)
 					Message = "Pick a game on the Games page!";
 
 				SolveCommand = new RelayCommand(OnSolve);
@@ -26,7 +26,7 @@ namespace Boggle.ViewModels
 			}
 			catch (Exception exception)
 			{
-				IsBoardGenerated = false;
+				BoardGenerated = false;
 				Message = exception.Message;
 			}
 		}
@@ -34,31 +34,33 @@ namespace Boggle.ViewModels
 
 		public string Message { get => m_message; set => SetProperty(ref m_message, value); }
 		public string Name { get => m_name; set => SetProperty(ref m_name, value); }
+		public int Score { get => m_score; set => SetProperty(ref m_score, value); }
 		public ObservableCollection<Solution> Solutions { get; private set; }
-		public bool IsBoardGenerated { get => m_isBoardGenerated; set => SetProperty(ref m_isBoardGenerated, value); }
+		public bool BoardGenerated { get => m_boardGenerated; set => SetProperty(ref m_boardGenerated, value); }
+		public bool Solved { get => m_solved; private set => SetProperty(ref m_solved, value); }
 		public ICommand SolveCommand { get; set; }
 		public ICommand SelectWordCommand { get; set; }
-
 
 		private void OnGameUpdated(object recipient, GameViewModel game)
 		{
 			m_solver.Game = game;
-			IsBoardGenerated = game.IsBoardGenerated;
+			BoardGenerated = game.IsBoardGenerated;
 			Message = "Scramble the board on the Game page!";
 			Name = game.Name;
 			Solutions.Clear();
-			m_solved = false;
+			Solved = false;
 		}
 
 		private void OnSolve()
 		{
 			// TODO: figure out how to use the RelayCommand constructor that takes the Func<bool> canExecute parameter,
-			if (IsBoardGenerated && !m_solved)
+			if (BoardGenerated && !m_solved)
 			{
 				foreach (Solution solution in m_solver.Solve())
 					Solutions.Add(solution);
 			
-				m_solved = true;
+				Solved = true;
+				Score = Solutions.Sum(x => x.Score);
 			}
 		}
 
@@ -70,8 +72,9 @@ namespace Boggle.ViewModels
 
 		private readonly Solver m_solver;
 		private string m_message;
-		private bool m_isBoardGenerated;
+		private bool m_boardGenerated;
 		private string m_name;
 		private bool m_solved;
+		private int m_score;
 	}
 }
