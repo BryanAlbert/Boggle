@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
 		xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 		xmlns:converters="clr-namespace:Boggle.Converters"
+		xmlns:models="clr-namespace:Boggle.Models"
 		xmlns:viewModels="clr-namespace:Boggle.ViewModels"
 		x:Class="Boggle.Views.WordsPage"
 		Title="Boggle Words">
@@ -13,6 +14,20 @@
 	<ContentPage.Resources>
 		<ResourceDictionary>
 			<converters:BooleanNotConverter x:Key="BooleanNot" />
+
+			<Style TargetType="Label" x:Key="ScoreLabel">
+				<Setter Property="FontSize" Value="22"/>
+				<Setter Property="IsVisible" Value="{Binding Solved}" />
+			</Style>
+			<Style TargetType="Label" x:Key="TableHeaderLabel">
+				<Setter Property="FontSize" Value="16"/>
+			</Style>
+			<Style TargetType="Label" x:Key="GroupHeaderLabel">
+				<Setter Property="FontSize" Value="18"/>
+			</Style>
+			<Style TargetType="Label" x:Key="TableLabel">
+				<Setter Property="FontSize" Value="16"/>
+			</Style>
 		</ResourceDictionary>
 	</ContentPage.Resources>
 	
@@ -24,29 +39,44 @@
 	<Grid RowDefinitions="Auto,Auto,*" ColumnDefinitions="Auto,*">
 		<Label Grid.ColumnSpan="2" Text="{Binding Message}" FontSize="20" Padding="20" HorizontalOptions="Center"
 				IsVisible="{Binding BoardGenerated, Converter={StaticResource BooleanNot}}" />
-		<Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" FontSize="30" Margin="20,10,0,0" HorizontalOptions="Center"
+		<Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" FontSize="30" Padding="20" HorizontalOptions="Center"
 				Text="{Binding Name}" IsVisible="{Binding BoardGenerated}" />
-		<Label Grid.Row="1" Grid.Column="0" Text="Score:" Margin="20,0,10,0" FontSize="20" IsVisible="{Binding Solved}" />
-		<Label Grid.Row="1" Grid.Column="1" Text="{Binding Score}" FontSize="20" IsVisible="{Binding Solved}" />
+		<Label Grid.Row="1" Grid.Column="0" Text="Total Score:" Margin="20,0,10,10" Style="{StaticResource ScoreLabel}" />
+		<Label Grid.Row="1" Grid.Column="1" Text="{Binding Score}" Style="{StaticResource ScoreLabel}" />
 		<ScrollView Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2">
-			<CollectionView ItemsSource="{Binding Solutions}" Margin="20,0,0,0" SelectionMode="Single"
-				SelectionChangedCommand="{Binding SelectWordCommand}"
-				SelectionChangedCommandParameter="{Binding Source={RelativeSource Self}, Path=SelectedItem}">
+			<ListView ItemsSource="{Binding Solutions}" IsGroupingEnabled="True" Margin="20,0,0,0" SelectionMode="None"
+						IsVisible="{Binding Solved}">
+				<ListView.Header>
+					<Grid ColumnDefinitions="110,55,*">
+						<Label Grid.Column="0" Text="Word" Style="{StaticResource TableHeaderLabel}" />
+						<Label Grid.Column="1" Text="Score" Style="{StaticResource TableHeaderLabel}" />
+						<Label Grid.Column="2" Text="Path" Style="{StaticResource TableHeaderLabel}" />
+					</Grid>
+				</ListView.Header>
 
-				<CollectionView.ItemsLayout>
-					<LinearItemsLayout Orientation="Vertical" ItemSpacing="0" />
-				</CollectionView.ItemsLayout>
-
-				<CollectionView.ItemTemplate>
-					<DataTemplate>
-						<Grid ColumnDefinitions="100,25,*">
-							<Label Grid.Column="0" Text="{Binding Word}" FontSize="Body" />
-							<Label Grid.Column="1" Text="{Binding Score}" />
-							<Label Grid.Column="2" Text="{Binding RenderPath}" />
-						</Grid>
+				<ListView.GroupHeaderTemplate>
+					<DataTemplate x:DataType="models:Solutions">
+						<ViewCell>
+							<Grid ColumnDefinitions="Auto,10,*">
+								<Label Grid.Column="0" Text="Word length" Style="{StaticResource GroupHeaderLabel}" />
+								<Label Grid.Column="2" Text="{Binding WordLength}" Style="{StaticResource GroupHeaderLabel}" />
+							</Grid>
+						</ViewCell>
 					</DataTemplate>
-				</CollectionView.ItemTemplate>
-			</CollectionView>
+				</ListView.GroupHeaderTemplate>
+				
+				<ListView.ItemTemplate>
+					<DataTemplate x:DataType="models:Solution">
+						<ViewCell>
+							<Grid ColumnDefinitions="20,100,50,*">
+								<Label Grid.Column="1" Text="{Binding Word}" Style="{StaticResource TableLabel}" />
+								<Label Grid.Column="2" Text="{Binding Score}" Style="{StaticResource TableLabel}" />
+								<Label Grid.Column="3" Text="{Binding RenderPath}" Style="{StaticResource TableLabel}" />
+							</Grid>
+						</ViewCell>
+					</DataTemplate>
+				</ListView.ItemTemplate>
+			</ListView>
 		</ScrollView>
 	</Grid>
 </ContentPage>
