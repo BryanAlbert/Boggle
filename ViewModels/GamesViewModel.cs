@@ -14,6 +14,9 @@ namespace Boggle.ViewModels
 			Games = new ObservableCollection<GameViewModel>(Game.LoadAll().Select(g => new GameViewModel(g)));
 			SelectGameCommand = new RelayCommand<GameViewModel>(OnSelectGame);
 			WeakReferenceMessenger.Default.Register<string>(this, OnRequest);
+
+			// TODO: testing
+			Selected = Games.FirstOrDefault();
 		}
 
 

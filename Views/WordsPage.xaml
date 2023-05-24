@@ -14,19 +14,22 @@
 	<ContentPage.Resources>
 		<ResourceDictionary>
 			<converters:BooleanNotConverter x:Key="BooleanNot" />
+			<converters:PluralConverter x:Key="PluralWords1" Word="word{0}," />
+			<converters:PluralConverter x:Key="PluralWords2" Word="-letter words," />
+			<converters:PluralConverter x:Key="PluralPoints" Word="point{0}" />
 
 			<Style TargetType="Label" x:Key="ScoreLabel">
 				<Setter Property="FontSize" Value="22"/>
 				<Setter Property="IsVisible" Value="{Binding Solved}" />
 			</Style>
 			<Style TargetType="Label" x:Key="TableHeaderLabel">
-				<Setter Property="FontSize" Value="16"/>
-			</Style>
-			<Style TargetType="Label" x:Key="GroupHeaderLabel">
 				<Setter Property="FontSize" Value="18"/>
 			</Style>
-			<Style TargetType="Label" x:Key="TableLabel">
+			<Style TargetType="Label" x:Key="GroupHeaderLabel">
 				<Setter Property="FontSize" Value="16"/>
+			</Style>
+			<Style TargetType="Label" x:Key="TableLabel">
+				<Setter Property="FontSize" Value="14"/>
 			</Style>
 		</ResourceDictionary>
 	</ContentPage.Resources>
@@ -36,14 +39,18 @@
 				IconImageSource="{FontImage Glyph='S', Color=White, Size=22}" />
 	</ContentPage.ToolbarItems>
 
-	<Grid RowDefinitions="Auto,Auto,*" ColumnDefinitions="Auto,*">
-		<Label Grid.ColumnSpan="2" Text="{Binding Message}" FontSize="20" Padding="20" HorizontalOptions="Center"
+	<Grid RowDefinitions="Auto,Auto,*" ColumnDefinitions="Auto,8,Auto,8,Auto,8,*">
+		<Label Grid.ColumnSpan="7" Text="{Binding Message}" FontSize="20" Padding="20" HorizontalOptions="Center"
 				IsVisible="{Binding BoardGenerated, Converter={StaticResource BooleanNot}}" />
-		<Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" FontSize="30" Padding="20" HorizontalOptions="Center"
+		<Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="7" FontSize="30" Padding="20" HorizontalOptions="Center"
 				Text="{Binding Name}" IsVisible="{Binding BoardGenerated}" />
-		<Label Grid.Row="1" Grid.Column="0" Text="Total Score:" Margin="20,0,10,10" Style="{StaticResource ScoreLabel}" />
-		<Label Grid.Row="1" Grid.Column="1" Text="{Binding Score}" Style="{StaticResource ScoreLabel}" />
-		<ScrollView Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2">
+		<Label Grid.Row="1" Grid.Column="0" Text="{Binding WordCount}" Margin="20,0,0,10" Style="{StaticResource ScoreLabel}" />
+		<Label Grid.Row="1" Grid.Column="2" Text="{Binding WordCount, Converter={StaticResource PluralWords1}}"
+				Style="{StaticResource ScoreLabel}" />
+		<Label Grid.Row="1" Grid.Column="4" Text="{Binding Score}" Style="{StaticResource ScoreLabel}" />
+		<Label Grid.Row="1" Grid.Column="6" Text="{Binding Score, Converter={StaticResource PluralPoints}}"
+				Style="{StaticResource ScoreLabel}" />
+		<ScrollView Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="7">
 			<ListView ItemsSource="{Binding Solutions}" IsGroupingEnabled="True" Margin="20,0,0,0" SelectionMode="None"
 						IsVisible="{Binding Solved}">
 				<ListView.Header>
@@ -57,11 +64,14 @@
 				<ListView.GroupHeaderTemplate>
 					<DataTemplate>
 						<ViewCell>
-							<Grid ColumnDefinitions="Auto,10,Auto,10,Auto,10,*">
-								<Label Grid.Column="0" Text="Word length:" Style="{StaticResource GroupHeaderLabel}" />
+							<Grid ColumnDefinitions="Auto,8,Auto,Auto,8,Auto,8,*" Margin="0, 20,0,0">
+								<Label Grid.Column="0" Text="{Binding Count}" Style="{StaticResource GroupHeaderLabel}" />
 								<Label Grid.Column="2" Text="{Binding WordLength}" Style="{StaticResource GroupHeaderLabel}" />
-								<Label Grid.Column="4" Text="Score:" Style="{StaticResource GroupHeaderLabel}" />
-								<Label Grid.Column="6" Text="23" Style="{StaticResource GroupHeaderLabel}" />
+								<Label Grid.Column="3" Text="{Binding WordLength, Converter={StaticResource PluralWords2}}"
+										Style="{StaticResource GroupHeaderLabel}" />
+								<Label Grid.Column="5" Text="{Binding Score}" Style="{StaticResource GroupHeaderLabel}" />
+								<Label Grid.Column="7" Text="{Binding Score, Converter={StaticResource PluralPoints}}"
+										Style="{StaticResource GroupHeaderLabel}" />
 							</Grid>
 						</ViewCell>
 					</DataTemplate>

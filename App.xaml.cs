@@ -32,6 +32,9 @@ public partial class App : Application
 				DisplayInfo disp = DeviceDisplay.Current.MainDisplayInfo;
 				window.X = (disp.Width / disp.Density - window.Width) / 2;
 				window.Y = (disp.Height / disp.Density - window.Height) / 2;
+
+				// TODO: hack to move to the laptop display when the main display is above it
+				window.Y = 1100;
 			}
 		};
 #endif

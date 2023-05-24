@@ -34,6 +34,7 @@ namespace Boggle.ViewModels
 
 		public string Message { get => m_message; set => SetProperty(ref m_message, value); }
 		public string Name { get => m_name; set => SetProperty(ref m_name, value); }
+		public int WordCount { get => m_wordCount; set => SetProperty(ref m_wordCount, value); }
 		public int Score { get => m_score; set => SetProperty(ref m_score, value); }
 		public ObservableCollection<Solutions> Solutions { get; private set; }
 		public bool BoardGenerated { get => m_boardGenerated; set => SetProperty(ref m_boardGenerated, value); }
@@ -49,6 +50,11 @@ namespace Boggle.ViewModels
 			Name = game.Name;
 			Solutions.Clear();
 			Solved = false;
+
+#if false
+			// TODO: testing
+			OnSolve();
+#endif
 		}
 
 		private void OnSolve()
@@ -56,40 +62,16 @@ namespace Boggle.ViewModels
 			// TODO: figure out how to use the RelayCommand constructor that takes the Func<bool> canExecute parameter,
 			if (BoardGenerated && !m_solved)
 			{
-#if true
 				List<Solution> solutions = m_solver.Solve();
 				Dictionary<int, List<Solution>> map = solutions.OrderByDescending(x => x.Word.Length).ThenBy(x => x.Word).
 					GroupBy(x => x.Word.Length).ToDictionary(x => x.Key, x => x.ToList());
 
 				foreach (KeyValuePair<int, List<Solution>> solution in map)
-					Solutions.Add(new Solutions(solution.Key, new List<Solution>(solution.Value)));
+					Solutions.Add(new Solutions(solution.Key, solution.Value));
 
 				Solved = true;
 				Score = solutions.Sum(x => x.Score);
-#elif false
-				foreach (Solution solution in m_solver.Solve())
-					Solutions.Add(solution);
-			
-				Solved = true;
-				Score = Solutions.Sum(x => x.Score);
-#else
-
-				// TODO: testing
-				GameViewModel game = new(new Game() { Scoring = new List<string> { "0", "0", "1", "1", "2", "3", "5", "11" } });
-				List<Solution> solutions = new List<Solution>
-				{
-					new Solution("FRED", new int[] { 4, 5, 6, 11 }, game),
-					new Solution("FART", new int[] { 4, 5, 6, 11 }, game)
-				};
-
-				Solutions.Add(new Solutions(4, solutions));
-				solutions.Clear();
-				solutions.Add(new Solution("BRUCE", new int[] { 0, 1, 2, 3, 7 }, game));
-				solutions.Add(new Solution("ONION", new int[] { 0, 1, 2, 3, 7 }, game));
-				Solutions.Add(new Solutions(5, solutions));
-				Solved = true;
-				Score = Solutions.Sum(x => x.Score);
-#endif
+				WordCount = solutions.Count;
 			}
 		}
 
@@ -105,5 +87,6 @@ namespace Boggle.ViewModels
 		private string m_name;
 		private bool m_solved;
 		private int m_score;
+		private int m_wordCount;
 	}
 }
