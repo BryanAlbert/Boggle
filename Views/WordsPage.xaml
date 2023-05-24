@@ -47,26 +47,28 @@
 			<ListView ItemsSource="{Binding Solutions}" IsGroupingEnabled="True" Margin="20,0,0,0" SelectionMode="None"
 						IsVisible="{Binding Solved}">
 				<ListView.Header>
-					<Grid ColumnDefinitions="110,55,*">
-						<Label Grid.Column="0" Text="Word" Style="{StaticResource TableHeaderLabel}" />
-						<Label Grid.Column="1" Text="Score" Style="{StaticResource TableHeaderLabel}" />
-						<Label Grid.Column="2" Text="Path" Style="{StaticResource TableHeaderLabel}" />
+					<Grid ColumnDefinitions="20,100,55,*">
+						<Label Grid.Column="1" Text="Word" Style="{StaticResource TableHeaderLabel}" />
+						<Label Grid.Column="2" Text="Score" Style="{StaticResource TableHeaderLabel}" />
+						<Label Grid.Column="3" Text="Path" Style="{StaticResource TableHeaderLabel}" />
 					</Grid>
 				</ListView.Header>
 
 				<ListView.GroupHeaderTemplate>
-					<DataTemplate x:DataType="models:Solutions">
+					<DataTemplate>
 						<ViewCell>
-							<Grid ColumnDefinitions="Auto,10,*">
-								<Label Grid.Column="0" Text="Word length" Style="{StaticResource GroupHeaderLabel}" />
+							<Grid ColumnDefinitions="Auto,10,Auto,10,Auto,10,*">
+								<Label Grid.Column="0" Text="Word length:" Style="{StaticResource GroupHeaderLabel}" />
 								<Label Grid.Column="2" Text="{Binding WordLength}" Style="{StaticResource GroupHeaderLabel}" />
+								<Label Grid.Column="4" Text="Score:" Style="{StaticResource GroupHeaderLabel}" />
+								<Label Grid.Column="6" Text="23" Style="{StaticResource GroupHeaderLabel}" />
 							</Grid>
 						</ViewCell>
 					</DataTemplate>
 				</ListView.GroupHeaderTemplate>
 				
 				<ListView.ItemTemplate>
-					<DataTemplate x:DataType="models:Solution">
+					<DataTemplate>
 						<ViewCell>
 							<Grid ColumnDefinitions="20,100,50,*">
 								<Label Grid.Column="1" Text="{Binding Word}" Style="{StaticResource TableLabel}" />

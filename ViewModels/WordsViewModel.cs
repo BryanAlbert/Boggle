@@ -56,7 +56,17 @@ namespace Boggle.ViewModels
 			// TODO: figure out how to use the RelayCommand constructor that takes the Func<bool> canExecute parameter,
 			if (BoardGenerated && !m_solved)
 			{
-#if false
+#if true
+				List<Solution> solutions = m_solver.Solve();
+				Dictionary<int, List<Solution>> map = solutions.OrderByDescending(x => x.Word.Length).ThenBy(x => x.Word).
+					GroupBy(x => x.Word.Length).ToDictionary(x => x.Key, x => x.ToList());
+
+				foreach (KeyValuePair<int, List<Solution>> solution in map)
+					Solutions.Add(new Solutions(solution.Key, new List<Solution>(solution.Value)));
+
+				Solved = true;
+				Score = solutions.Sum(x => x.Score);
+#elif false
 				foreach (Solution solution in m_solver.Solve())
 					Solutions.Add(solution);
 			
