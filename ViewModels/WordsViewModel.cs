@@ -59,7 +59,7 @@ namespace Boggle.ViewModels
 			Solved = false;
 			Solutions.Clear();
 
-#if false
+#if true
 			// TODO: testing
 			OnSolve();
 #endif
