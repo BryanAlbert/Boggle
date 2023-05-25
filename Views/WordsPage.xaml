@@ -17,19 +17,38 @@
 			<converters:PluralConverter x:Key="PluralWords1" Word="word{0}," />
 			<converters:PluralConverter x:Key="PluralWords2" Word="-letter words," />
 			<converters:PluralConverter x:Key="PluralPoints" Word="point{0}" />
+			<converters:SizeToGridDefinitionsConverter x:Key="SizeToColumnDefinitions" GetColumnDefinition="True"  />
+			<converters:SizeToGridDefinitionsConverter x:Key="SizeToRowDefinitions" GetColumnDefinition="False" />
+			<converters:SizeToWidthConverter x:Key="SizeToFrameSize" />
+			<converters:SizeToFontSizeConverter x:Key="SizeToFontSize" />
+			<converters:LetterConverter x:Key="Letter" />
 
 			<Style TargetType="Label" x:Key="ScoreLabel">
 				<Setter Property="FontSize" Value="22"/>
 				<Setter Property="IsVisible" Value="{Binding Solved}" />
 			</Style>
-			<Style TargetType="Label" x:Key="TableHeaderLabel">
-				<Setter Property="FontSize" Value="18"/>
-			</Style>
 			<Style TargetType="Label" x:Key="GroupHeaderLabel">
-				<Setter Property="FontSize" Value="16"/>
+				<Setter Property="FontSize" Value="18"/>
 			</Style>
 			<Style TargetType="Label" x:Key="TableLabel">
 				<Setter Property="FontSize" Value="14"/>
+			</Style>
+			<Style TargetType="Label" x:Key="NormalLabel">
+				<Setter Property="FontSize" Value="20" />
+				<Setter Property="Padding" Value="20" />
+			</Style>
+			<Style TargetType="Label">
+				<Setter Property="FontSize" Value="{Binding Size, Converter={StaticResource SizeToFontSize}}" />
+				<Setter Property="TextColor" Value="Black" />
+				<Setter Property="FontAttributes" Value="Bold" />
+				<Setter Property="VerticalOptions" Value="Center" />
+				<Setter Property="HorizontalOptions" Value="Center" />
+			</Style>
+			<Style TargetType="Frame">
+				<Setter Property="CornerRadius" Value="5" />
+				<Setter Property="BackgroundColor" Value="Ivory" />
+				<Setter Property="Margin" Value="0" />
+				<Setter Property="Padding" Value="0" />
 			</Style>
 		</ResourceDictionary>
 	</ContentPage.Resources>
@@ -39,28 +58,143 @@
 				IconImageSource="{FontImage Glyph='S', Color=White, Size=22}" />
 	</ContentPage.ToolbarItems>
 
-	<Grid RowDefinitions="Auto,Auto,*" ColumnDefinitions="Auto,8,Auto,8,Auto,8,*">
-		<Label Grid.ColumnSpan="7" Text="{Binding Message}" FontSize="20" Padding="20" HorizontalOptions="Center"
+	<Grid RowDefinitions="Auto,Auto,Auto,*" ColumnDefinitions="Auto,8,Auto,8,Auto,8,*">
+		<Label Grid.ColumnSpan="7" Text="{Binding Message}" Style="{StaticResource NormalLabel}" HorizontalOptions="Center"
 				IsVisible="{Binding BoardGenerated, Converter={StaticResource BooleanNot}}" />
-		<Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="7" FontSize="30" Padding="20" HorizontalOptions="Center"
-				Text="{Binding Name}" IsVisible="{Binding BoardGenerated}" />
-		<Label Grid.Row="1" Grid.Column="0" Text="{Binding WordCount}" Margin="20,0,0,10" Style="{StaticResource ScoreLabel}" />
-		<Label Grid.Row="1" Grid.Column="2" Text="{Binding WordCount, Converter={StaticResource PluralWords1}}"
+		<Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="7" Text="{Binding Name}" IsVisible="{Binding BoardGenerated}" 
+			   FontSize="30" Style="{StaticResource NormalLabel}" HorizontalOptions="Center" />
+		<Label Grid.Row="2" Grid.Column="0" Text="{Binding WordCount}" Margin="20,0,0,10" Style="{StaticResource ScoreLabel}" />
+		<Label Grid.Row="2" Grid.Column="2" Text="{Binding WordCount, Converter={StaticResource PluralWords1}}"
 				Style="{StaticResource ScoreLabel}" />
-		<Label Grid.Row="1" Grid.Column="4" Text="{Binding Score}" Style="{StaticResource ScoreLabel}" />
-		<Label Grid.Row="1" Grid.Column="6" Text="{Binding Score, Converter={StaticResource PluralPoints}}"
+		<Label Grid.Row="2" Grid.Column="4" Text="{Binding Score}" Style="{StaticResource ScoreLabel}" />
+		<Label Grid.Row="2" Grid.Column="6" Text="{Binding Score, Converter={StaticResource PluralPoints}}"
 				Style="{StaticResource ScoreLabel}" />
-		<ScrollView Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="7">
+
+		<Frame Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="7" CornerRadius="10" Margin="20,0,0,10" Padding="3"
+				BackgroundColor="Maroon" IsVisible="{Binding BoardGenerated}" HorizontalOptions="Start"
+				WidthRequest="{Binding Size, Converter={StaticResource SizeToFrameSize}}"
+				HeightRequest="{Binding Size, Converter={StaticResource SizeToFrameSize}}">
+			<Grid ColumnDefinitions="{Binding Size, Converter={StaticResource SizeToColumnDefinitions}}"
+					RowDefinitions="{Binding Size, Converter={StaticResource SizeToRowDefinitions}}">
+				<Frame Grid.Column="0" Grid.Row="0">
+					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='00'}" />
+				</Frame>
+				<Frame Grid.Column="1" Grid.Row="0">
+					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='10'}" />
+				</Frame>
+				<Frame Grid.Column="2" Grid.Row="0">
+					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='20'}" />
+				</Frame>
+				<Frame Grid.Column="3" Grid.Row="0">
+					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='30'}" />
+				</Frame>
+				<Frame Grid.Column="4" Grid.Row="0" IsVisible="{Binding Cells5Visible}">
+					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='40'}" />
+				</Frame>
+				<Frame Grid.Column="5" Grid.Row="0" IsVisible="{Binding Cells6Visible}">
+					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='50'}" />
+				</Frame>
+
+				<Frame Grid.Column="0" Grid.Row="1">
+					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='01'}" />
+				</Frame>
+				<Frame Grid.Column="1" Grid.Row="1">
+					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='11'}" />
+				</Frame>
+				<Frame Grid.Column="2" Grid.Row="1">
+					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='21'}" />
+				</Frame>
+				<Frame Grid.Column="3" Grid.Row="1">
+					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='31'}" />
+				</Frame>
+				<Frame Grid.Column="4" Grid.Row="1" IsVisible="{Binding Cells5Visible}">
+					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='41'}" />
+				</Frame>
+				<Frame Grid.Column="5" Grid.Row="1" IsVisible="{Binding Cells6Visible}">
+					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='51'}" />
+				</Frame>
+
+				<Frame Grid.Column="0" Grid.Row="2">
+					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='02'}" />
+				</Frame>
+				<Frame Grid.Column="1" Grid.Row="2">
+					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='12'}" />
+				</Frame>
+				<Frame Grid.Column="2" Grid.Row="2">
+					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='22'}" />
+				</Frame>
+				<Frame Grid.Column="3" Grid.Row="2">
+					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='32'}" />
+				</Frame>
+				<Frame Grid.Column="4" Grid.Row="2" IsVisible="{Binding Cells5Visible}">
+					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='42'}" />
+				</Frame>
+				<Frame Grid.Column="5" Grid.Row="2" IsVisible="{Binding Cells6Visible}">
+					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='52'}" />
+				</Frame>
+
+				<Frame Grid.Column="0" Grid.Row="3">
+					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='03'}" />
+				</Frame>
+				<Frame Grid.Column="1" Grid.Row="3">
+					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='13'}" />
+				</Frame>
+				<Frame Grid.Column="2" Grid.Row="3">
+					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='23'}" />
+				</Frame>
+				<Frame Grid.Column="3" Grid.Row="3">
+					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='33'}" />
+				</Frame>
+				<Frame Grid.Column="4" Grid.Row="3" IsVisible="{Binding Cells5Visible}">
+					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='43'}" />
+				</Frame>
+				<Frame Grid.Column="5" Grid.Row="3" IsVisible="{Binding Cells6Visible}">
+					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='53'}" />
+				</Frame>
+
+				<Frame Grid.Column="0" Grid.Row="4" IsVisible="{Binding Cells5Visible}">
+					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='04'}" />
+				</Frame>
+				<Frame Grid.Column="1" Grid.Row="4" IsVisible="{Binding Cells5Visible}">
+					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='14'}" />
+				</Frame>
+				<Frame Grid.Column="2" Grid.Row="4" IsVisible="{Binding Cells5Visible}">
+					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='24'}" />
+				</Frame>
+				<Frame Grid.Column="3" Grid.Row="4" IsVisible="{Binding Cells5Visible}">
+					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='34'}" />
+				</Frame>
+				<Frame Grid.Column="4" Grid.Row="4" IsVisible="{Binding Cells5Visible}">
+					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='44'}" />
+				</Frame>
+				<Frame Grid.Column="5" Grid.Row="4" IsVisible="{Binding Cells6Visible}">
+					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='54'}" />
+				</Frame>
+
+				<Frame Grid.Column="0" Grid.Row="5" IsVisible="{Binding Cells6Visible}">
+					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='05'}" />
+				</Frame>
+				<Frame Grid.Column="1" Grid.Row="5" IsVisible="{Binding Cells6Visible}">
+					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='15'}" />
+				</Frame>
+				<Frame Grid.Column="2" Grid.Row="5" IsVisible="{Binding Cells6Visible}">
+					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='25'}" />
+				</Frame>
+				<Frame Grid.Column="3" Grid.Row="5" IsVisible="{Binding Cells6Visible}">
+					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='35'}" />
+				</Frame>
+				<Frame Grid.Column="4" Grid.Row="5" IsVisible="{Binding Cells6Visible}">
+					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='45'}" />
+				</Frame>
+				<Frame Grid.Column="5" Grid.Row="5" IsVisible="{Binding Cells6Visible}">
+					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='55'}" />
+				</Frame>
+			</Grid>
+		</Frame>
+
+		<ScrollView Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="7">
 			<ListView ItemsSource="{Binding Solutions}" IsGroupingEnabled="True" Margin="20,0,0,0" SelectionMode="None"
 						IsVisible="{Binding Solved}">
-				<ListView.Header>
-					<Grid ColumnDefinitions="20,100,55,*">
-						<Label Grid.Column="1" Text="Word" Style="{StaticResource TableHeaderLabel}" />
-						<Label Grid.Column="2" Text="Score" Style="{StaticResource TableHeaderLabel}" />
-						<Label Grid.Column="3" Text="Path" Style="{StaticResource TableHeaderLabel}" />
-					</Grid>
-				</ListView.Header>
-
 				<ListView.GroupHeaderTemplate>
 					<DataTemplate>
 						<ViewCell>

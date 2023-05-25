@@ -28,11 +28,11 @@ namespace Boggle.ViewModels
 
 
 		public string Name { get => m_name; set => SetProperty(ref m_name, value); }
-		public string Letters { get => m_letters; set => SetProperty(ref m_letters, value); }
 		public int Size { get => m_size; set => SetProperty(ref m_size, value); }
-		public string RenderSize => $"{m_game.Size}x{m_game.Size}";
-		public int WordLength => m_game.WordSize;
+		public string Letters { get => m_letters; set => SetProperty(ref m_letters, value); }
 		public List<int> Scoring => m_game.Scoring.Select(x => int.Parse(x)).ToList();
+		public int WordLength => m_game.WordSize;
+		public string RenderSize => $"{m_game.Size}x{m_game.Size}";
 		public string RenderScoring => string.Join(", ", m_game.Scoring);
 		public List<string> Cubes => m_game.Cubes;
 		public string Cubes1 => string.Join(", ", m_game.Cubes.Take(m_game.Size));

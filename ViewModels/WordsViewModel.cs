@@ -33,12 +33,16 @@ namespace Boggle.ViewModels
 
 
 		public string Message { get => m_message; set => SetProperty(ref m_message, value); }
+		public int Size { get => m_size; set => SetProperty(ref m_size, value); }
+		public string Letters { get => m_letters; set => SetProperty(ref m_letters, value); }
 		public string Name { get => m_name; set => SetProperty(ref m_name, value); }
 		public int WordCount { get => m_wordCount; set => SetProperty(ref m_wordCount, value); }
 		public int Score { get => m_score; set => SetProperty(ref m_score, value); }
 		public ObservableCollection<Solutions> Solutions { get; private set; }
 		public bool BoardGenerated { get => m_boardGenerated; set => SetProperty(ref m_boardGenerated, value); }
 		public bool Solved { get => m_solved; private set => SetProperty(ref m_solved, value); }
+		public bool Cells5Visible { get => m_cells5Visible; set => SetProperty(ref m_cells5Visible, value); }
+		public bool Cells6Visible { get => m_cell6Visible; set => SetProperty(ref m_cell6Visible, value); }
 		public ICommand SolveCommand { get; set; }
 		public ICommand SelectWordCommand { get; set; }
 
@@ -48,8 +52,12 @@ namespace Boggle.ViewModels
 			BoardGenerated = game.IsBoardGenerated;
 			Message = "Scramble the board on the Game page!";
 			Name = game.Name;
-			Solutions.Clear();
+			Letters = game.Letters;
+			Size = game.Size;
+			Cells5Visible = game.Size > 4;
+			Cells6Visible = game.Size > 5;
 			Solved = false;
+			Solutions.Clear();
 
 #if false
 			// TODO: testing
@@ -86,6 +94,10 @@ namespace Boggle.ViewModels
 		private bool m_boardGenerated;
 		private string m_name;
 		private bool m_solved;
+		private int m_size;
+		private bool m_cells5Visible;
+		private bool m_cell6Visible;
+		private string m_letters;
 		private int m_score;
 		private int m_wordCount;
 	}

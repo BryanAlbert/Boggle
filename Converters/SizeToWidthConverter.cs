@@ -2,19 +2,23 @@
 
 namespace Boggle.Converters
 {
-	internal class SizeToFrameWidthConverter : IValueConverter
+	internal class SizeToWidthConverter : IValueConverter
 	{
+		public bool Big { get; set; }
+
+
 		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
-			int result = c_default;
+			int index = Big ? 0 : 1;
+			int result = c_default[index];
 			if (value is int size)
 			{
 				result = size switch
 				{
-					4 => c_4x4,
-					5 => c_5x5,
-					6 => c_6x6,
-					_ => c_default
+					4 => c_4x4[index],
+					5 => c_5x5[index],
+					6 => c_6x6[index],
+					_ => c_default[index]
 				};
 			}
 
@@ -26,11 +30,12 @@ namespace Boggle.Converters
 			throw new NotImplementedException();
 		}
 
+
 		// TODO: obviously this converter isn't doing much... but maybe it would be useful on different\
 		// devices if we were checking the width or something...
-		private const int c_4x4 = 390;
-		private const int c_5x5 = 390;
-		private const int c_6x6 = 390;
-		private const int c_default = 390;
+		private readonly int[] c_4x4 = { 392, 103 };
+		private readonly int[] c_5x5 = { 390, 117 };
+		private readonly int[] c_6x6 = { 390, 139 };
+		private readonly int[] c_default = { 392, 103 };
 	}
 }
