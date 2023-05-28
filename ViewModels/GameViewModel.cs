@@ -15,8 +15,10 @@ namespace Boggle.ViewModels
 			_ = WeakReferenceMessenger.Default.Send(App.c_isGameSelected);
 			ScrambleCommand = new RelayCommand(OnScramble);
 
+#if false
 			// TODO: testing
 			OnScramble();
+#endif
 		}
 
 		public GameViewModel(Game game)

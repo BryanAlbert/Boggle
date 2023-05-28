@@ -36,7 +36,7 @@ namespace Boggle.Converters
 			Colors.SpringGreen,
 			Colors.LightSkyBlue,
 			Colors.BlueViolet,
-			Colors.Gainsboro
+			Colors.DarkGray
 		};
 	}
 }

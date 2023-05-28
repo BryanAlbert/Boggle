@@ -29,11 +29,12 @@ namespace Boggle
 		}
 
 
-		public List<Solution> Solve()
+		public async Task<List<Solution>> SolveAsync(Action<int[]> setPath)
 		{
+			m_setPath = setPath;
 			WordList.Clear();
 			if (Game == null)
-				throw new ArgumentNullException(nameof(Game));
+				throw new InvalidOperationException("Game has not been initialized.");
 
 			int[] path = new int[Game.Letters.Length];
 			for (int index = 0; index < Game.Letters.Length; index++)
@@ -43,7 +44,7 @@ namespace Boggle
 					continue;
 
 				path[index] = 1;
-				FindWordsAt(path, word, index);
+				await FindWordsAtAsync(path, word, index);
 				path[index] = 0;
 			}
 
@@ -65,7 +66,7 @@ namespace Boggle
 			m_abridged = words.ToArray();
 		}
 
-		private void FindWordsAt(int[] path, string word, int from)
+		private async Task FindWordsAtAsync(int[] path, string word, int from)
 		{
 			foreach (Directions direction in Enum.GetValues(typeof(Directions)))
 			{
@@ -86,9 +87,12 @@ namespace Boggle
 				Array.Copy(path, pathCopy, Game.Letters.Length);
 				pathCopy[index] = testWord.Length;
 				if (isWord == true && testWord.Length >= Game.WordLength && !WordList.Any(x => x.Word == testWord))
+				{
 					WordList.Add(new Solution(testWord, pathCopy, Game));
+					await MainThread.InvokeOnMainThreadAsync(() => m_setPath(pathCopy));
+				}
 
-				FindWordsAt(pathCopy, testWord, index);
+				await FindWordsAtAsync(pathCopy, testWord, index);
 			}
 		}
 
@@ -167,5 +171,6 @@ namespace Boggle
 		private readonly string[] m_dictionary;
 		private Array m_abridged;
 		private GameViewModel m_game;
+		private Action<int[]> m_setPath;
 	}
 }

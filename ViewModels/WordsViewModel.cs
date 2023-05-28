@@ -21,7 +21,7 @@ namespace Boggle.ViewModels
 				if (m_solver.Game == null)
 					Message = "Pick a game on the Games page!";
 
-				SolveCommand = new RelayCommand(OnSolve);
+				SolveCommand = new AsyncRelayCommand(OnSolveAsync);
 				SelectWordCommand = new RelayCommand<Solution>(OnWordSelected);
 			}
 			catch (Exception exception)
@@ -55,23 +55,26 @@ namespace Boggle.ViewModels
 			Name = game.Name;
 			Letters = game.Letters;
 			Size = game.Size;
+			Path = null;
 			Cells5Visible = game.Size > 4;
 			Cells6Visible = game.Size > 5;
 			Solved = false;
 			Solutions.Clear();
 
-#if true
+#if false
 			// TODO: testing
 			OnSolve();
 #endif
 		}
 
-		private void OnSolve()
+		private async Task OnSolveAsync()
 		{
 			// TODO: figure out how to use the RelayCommand constructor that takes the Func<bool> canExecute parameter,
 			if (BoardGenerated && !m_solved)
 			{
-				List<Solution> solutions = m_solver.Solve();
+				List<Solution> solutions = await Task.Run(async () => await m_solver.SolveAsync((x) => Path = x));
+				Path = null;
+
 				Dictionary<int, List<Solution>> map = solutions.OrderByDescending(x => x.Word.Length).ThenBy(x => x.Word).
 					GroupBy(x => x.Word.Length).ToDictionary(x => x.Key, x => x.ToList());
 

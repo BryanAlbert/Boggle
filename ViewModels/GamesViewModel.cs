@@ -15,8 +15,10 @@ namespace Boggle.ViewModels
 			SelectGameCommand = new RelayCommand<GameViewModel>(OnSelectGame);
 			WeakReferenceMessenger.Default.Register<string>(this, OnRequest);
 
+#if false
 			// TODO: testing
 			Selected = Games.FirstOrDefault();
+#endif
 		}
 
 
