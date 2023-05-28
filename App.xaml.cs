@@ -16,7 +16,7 @@ public partial class App : Application
 	{
 		Window window = base.CreateWindow(activationState);
 
-#if true
+#if WINDOWS
 		window.Activated += async (sender, e) =>
 		{
 			if (!m_initialized)

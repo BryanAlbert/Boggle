@@ -33,9 +33,10 @@ namespace Boggle.ViewModels
 
 
 		public string Message { get => m_message; set => SetProperty(ref m_message, value); }
+		public string Name { get => m_name; set => SetProperty(ref m_name, value); }
 		public int Size { get => m_size; set => SetProperty(ref m_size, value); }
 		public string Letters { get => m_letters; set => SetProperty(ref m_letters, value); }
-		public string Name { get => m_name; set => SetProperty(ref m_name, value); }
+		public int[] Path { get => m_path; set => SetProperty(ref m_path, value); }
 		public int WordCount { get => m_wordCount; set => SetProperty(ref m_wordCount, value); }
 		public int Score { get => m_score; set => SetProperty(ref m_score, value); }
 		public ObservableCollection<Solutions> Solutions { get; private set; }
@@ -85,7 +86,7 @@ namespace Boggle.ViewModels
 
 		private void OnWordSelected(Solution solution)
 		{
-			throw new NotImplementedException();
+			Path = solution?.Path;
 		}
 
 
@@ -93,11 +94,12 @@ namespace Boggle.ViewModels
 		private string m_message;
 		private bool m_boardGenerated;
 		private string m_name;
-		private bool m_solved;
 		private int m_size;
+		private string m_letters;
+		private int[] m_path;
+		private bool m_solved;
 		private bool m_cells5Visible;
 		private bool m_cell6Visible;
-		private string m_letters;
 		private int m_score;
 		private int m_wordCount;
 	}

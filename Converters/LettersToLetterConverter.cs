@@ -3,7 +3,7 @@ using System.Globalization;
 
 namespace Boggle.Converters
 {
-	internal class LetterConverter : IValueConverter
+	internal class LettersToLetterConverter : IValueConverter
 	{
 		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{

@@ -17,7 +17,7 @@
 			<converters:SizeToGridDefinitionsConverter x:Key="SizeToRowDefinitions" Big="True" GetColumnDefinition="False" />
 			<converters:SizeToWidthConverter x:Key="SizeToFrameSize" Big="True" />
 			<converters:SizeToFontSizeConverter x:Key="SizeToFontSize" Big="True" />
-			<converters:LetterConverter x:Key="Letter" />
+			<converters:LettersToLetterConverter x:Key="Letter" />
 
 			<Style TargetType="Label" x:Key="NormalLabel">
 				<Setter Property="FontSize" Value="20" />
