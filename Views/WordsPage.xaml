@@ -14,8 +14,8 @@
 	<ContentPage.Resources>
 		<ResourceDictionary>
 			<converters:BooleanNotConverter x:Key="BooleanNot" />
-			<converters:PluralConverter x:Key="PluralWords1" Word="word{0}," />
-			<converters:PluralConverter x:Key="PluralWords2" Word="-letter words," />
+			<converters:PluralConverter x:Key="TotalPluralWords" Word="word{0}," />
+			<converters:PluralConverter x:Key="HeaderPluralWords" Word="-letter word{0}," />
 			<converters:PluralConverter x:Key="PluralPoints" Word="point{0}" />
 			<converters:SizeToGridDefinitionsConverter x:Key="SizeToColumnDefinitions" GetColumnDefinition="True"  />
 			<converters:SizeToGridDefinitionsConverter x:Key="SizeToRowDefinitions" GetColumnDefinition="False" />
@@ -65,7 +65,7 @@
 		<Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="7" Text="{Binding Name}" IsVisible="{Binding BoardGenerated}" 
 			   FontSize="30" Style="{StaticResource NormalLabel}" HorizontalOptions="Center" />
 		<Label Grid.Row="2" Grid.Column="0" Text="{Binding WordCount}" Margin="20,0,0,10" Style="{StaticResource ScoreLabel}" />
-		<Label Grid.Row="2" Grid.Column="2" Text="{Binding WordCount, Converter={StaticResource PluralWords1}}"
+		<Label Grid.Row="2" Grid.Column="2" Text="{Binding WordCount, Converter={StaticResource TotalPluralWords}}"
 				Style="{StaticResource ScoreLabel}" />
 		<Label Grid.Row="2" Grid.Column="4" Text="{Binding Score}" Style="{StaticResource ScoreLabel}" />
 		<Label Grid.Row="2" Grid.Column="6" Text="{Binding Score, Converter={StaticResource PluralPoints}}"
@@ -240,9 +240,14 @@
 				<CollectionView.GroupHeaderTemplate>
 					<DataTemplate>
 						<Grid ColumnDefinitions="Auto,8,Auto,Auto,8,Auto,8,*" Margin="0, 20,0,0">
-							<Label Grid.Column="0" Text="{Binding Count}" Style="{StaticResource GroupHeaderLabel}" />
+							<Grid.GestureRecognizers>
+								<TapGestureRecognizer NumberOfTapsRequired="1"
+										Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:WordsViewModel}},
+										Path=SelectHeaderCommand}" CommandParameter="{Binding .}" />
+							</Grid.GestureRecognizers>
+							<Label Grid.Column="0" Text="{Binding WordCount}" Style="{StaticResource GroupHeaderLabel}" />
 							<Label Grid.Column="2" Text="{Binding WordLength}" Style="{StaticResource GroupHeaderLabel}" />
-							<Label Grid.Column="3" Text="{Binding WordLength, Converter={StaticResource PluralWords2}}"
+							<Label Grid.Column="3" Text="{Binding WordCount, Converter={StaticResource HeaderPluralWords}}"
 									Style="{StaticResource GroupHeaderLabel}" />
 							<Label Grid.Column="5" Text="{Binding Score}" Style="{StaticResource GroupHeaderLabel}" />
 							<Label Grid.Column="7" Text="{Binding Score, Converter={StaticResource PluralPoints}}"

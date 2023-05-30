@@ -1,8 +1,10 @@
-﻿namespace Boggle.Models
+﻿using System.Collections.ObjectModel;
+
+namespace Boggle.Models
 {
-	internal class Solutions : List<Solution>
+	internal class Solutions : ObservableCollection<Solution>
 	{
-		public Solutions(int wordLength, List<Solution> solutions) : base(solutions)
+		public Solutions(int wordLength, List<Solution> solutions) : base(new List<Solution>())
 		{
 			WordLength = wordLength;
 			WordCount = solutions.Count;

@@ -23,6 +23,7 @@ namespace Boggle.ViewModels
 
 				SolveCommand = new AsyncRelayCommand(OnSolveAsync);
 				SelectWordCommand = new RelayCommand<Solution>(OnWordSelected);
+				SelectHeaderCommand = new RelayCommand<Solutions>(OnHeaderSelected);
 			}
 			catch (Exception exception)
 			{
@@ -44,8 +45,10 @@ namespace Boggle.ViewModels
 		public bool Solved { get => m_solved; private set => SetProperty(ref m_solved, value); }
 		public bool Cells5Visible { get => m_cells5Visible; set => SetProperty(ref m_cells5Visible, value); }
 		public bool Cells6Visible { get => m_cell6Visible; set => SetProperty(ref m_cell6Visible, value); }
-		public ICommand SolveCommand { get; set; }
-		public ICommand SelectWordCommand { get; set; }
+		public ICommand SolveCommand { get; }
+		public ICommand SelectHeaderCommand { get; }
+		public ICommand SelectWordCommand { get; }
+
 
 		private void OnGameUpdated(object recipient, GameViewModel game)
 		{
@@ -60,6 +63,7 @@ namespace Boggle.ViewModels
 			Cells6Visible = game.Size > 5;
 			Solved = false;
 			Solutions.Clear();
+			m_solutionsMap = null;
 
 #if false
 			// TODO: testing
@@ -75,15 +79,30 @@ namespace Boggle.ViewModels
 				List<Solution> solutions = await Task.Run(async () => await m_solver.SolveAsync((x) => Path = x));
 				Path = null;
 
-				Dictionary<int, List<Solution>> map = solutions.OrderByDescending(x => x.Word.Length).ThenBy(x => x.Word).
+				m_solutionsMap = solutions.OrderByDescending(x => x.Word.Length).ThenBy(x => x.Word).
 					GroupBy(x => x.Word.Length).ToDictionary(x => x.Key, x => x.ToList());
 
-				foreach (KeyValuePair<int, List<Solution>> solution in map)
+				foreach (KeyValuePair<int, List<Solution>> solution in m_solutionsMap)
 					Solutions.Add(new Solutions(solution.Key, solution.Value));
 
 				Solved = true;
 				Score = solutions.Sum(x => x.Score);
 				WordCount = solutions.Count;
+			}
+		}
+
+		private void OnHeaderSelected(Solutions selected)
+		{
+			Solutions solutions = Solutions.First(x => x.WordLength == selected.WordLength);
+			if (solutions.Count == 0)
+			{
+				foreach (Solution solution in m_solutionsMap[selected.WordLength])
+					solutions.Add(solution);
+			}
+			else
+			{
+				solutions.Clear();
+				Path = null;
 			}
 		}
 
@@ -105,5 +124,6 @@ namespace Boggle.ViewModels
 		private bool m_cell6Visible;
 		private int m_score;
 		private int m_wordCount;
+		Dictionary<int, List<Solution>> m_solutionsMap;
 	}
 }
