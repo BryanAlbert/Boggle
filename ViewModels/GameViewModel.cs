@@ -31,7 +31,44 @@ namespace Boggle.ViewModels
 
 		public string Name { get => m_name; set => SetProperty(ref m_name, value); }
 		public int Size { get => m_size; set => SetProperty(ref m_size, value); }
-		public string Letters { get => m_letters; set => SetProperty(ref m_letters, value); }
+		public string Letters
+		{
+			get => m_letters;
+			set
+			{
+				if (SetProperty(ref m_letters, value))
+					LetterEntry = m_letters.TrimEnd();
+			}
+		}
+
+		public string LetterEntry
+		{
+			get => m_letterEntry;
+			set
+			{
+				string filtered = string.Empty;
+				foreach (char letter in value.ToUpper())
+				{
+					if (c_validLetters.Contains(letter))
+						filtered += letter;
+					else
+						m_letterEntry = string.Empty;
+				}
+
+				int square = Size * Size;
+				if (filtered.Length > square)
+					filtered = filtered[..square];
+
+				if (SetProperty(ref m_letterEntry, filtered))
+				{
+					if (filtered.Length < square)
+						filtered += new string(' ', square - filtered.Length);
+
+					Letters = filtered;
+				}
+			}
+		}
+
 		public List<int> Scoring => m_game.Scoring.Select(x => int.Parse(x)).ToList();
 		public int WordLength => m_game.WordSize;
 		public string RenderSize => $"{m_game.Size}x{m_game.Size}";
@@ -92,9 +129,11 @@ namespace Boggle.ViewModels
 		}
 
 
+		private const string c_validLetters = "ABCDEFGHIJKLMNOPRSTUVWXYZ0123456";
 		private string m_name;
 		private Game m_game;
 		private string m_letters;
+		private string m_letterEntry;
 		private int m_size;
 		private bool m_cells5Visible;
 		private bool m_cell6Visible;

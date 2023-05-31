@@ -34,7 +34,7 @@ public partial class App : Application
 				window.Y = (disp.Height / disp.Density - window.Height) / 2;
 
 				// TODO: hack to move to the laptop display when the main display is above it
-				window.Y = 1100;
+				window.Y = 1080;
 			}
 		};
 #endif
@@ -45,5 +45,5 @@ public partial class App : Application
 
 	private bool m_initialized;
 	private const int c_defaultWidth = 550;
-	private const int c_defaultHeight = 750;
+	private const int c_defaultHeight = 760;
 }

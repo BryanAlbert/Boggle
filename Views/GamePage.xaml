@@ -13,7 +13,7 @@
 	<ContentPage.Resources>
 		<ResourceDictionary>
 			<converters:BooleanNotConverter x:Key="BooleanNot" />
-			<converters:SizeToGridDefinitionsConverter x:Key="SizeToColumnDefinitions" Big="True" GetColumnDefinition="True"  />
+			<converters:SizeToGridDefinitionsConverter x:Key="SizeToColumnDefinitions" Big="True" GetColumnDefinition="True" />
 			<converters:SizeToGridDefinitionsConverter x:Key="SizeToRowDefinitions" Big="True" GetColumnDefinition="False" />
 			<converters:SizeToWidthConverter x:Key="SizeToFrameSize" Big="True" />
 			<converters:SizeToFontSizeConverter x:Key="SizeToFontSize" Big="True" />
@@ -21,9 +21,21 @@
 
 			<Style TargetType="Label" x:Key="NormalLabel">
 				<Setter Property="FontSize" Value="20" />
-				<Setter Property="Padding" Value="20" />
+				<Setter Property="Margin" Value="15" />
 			</Style>
 			<Style TargetType="Label">
+				<Setter Property="FontSize" Value="{Binding Size, Converter={StaticResource SizeToFontSize}}" />
+				<Setter Property="TextColor" Value="Black" />
+				<Setter Property="FontAttributes" Value="Bold" />
+				<Setter Property="VerticalOptions" Value="Center" />
+				<Setter Property="HorizontalOptions" Value="Center" />
+			</Style>
+			<Style TargetType="Entry" x:Key="LettersEntry">
+				<Setter Property="FontSize" Value="15" />
+				<Setter Property="HorizontalOptions" Value="Start" />
+				<Setter Property="TextColor" Value="White" />
+			</Style>
+			<Style TargetType="Entry">
 				<Setter Property="FontSize" Value="{Binding Size, Converter={StaticResource SizeToFontSize}}" />
 				<Setter Property="TextColor" Value="Black" />
 				<Setter Property="FontAttributes" Value="Bold" />
@@ -49,6 +61,11 @@
 				Style="{StaticResource NormalLabel}" HorizontalOptions="Center" />
 		<Label Text="{Binding Name}" IsVisible="{Binding IsGameSelected}" FontSize="30"
 				Style="{StaticResource NormalLabel}" HorizontalOptions="Center" />
+		<Grid ColumnDefinitions="Auto, *" Margin="20,0,15,20" IsVisible="{Binding IsGameSelected}">
+			<Label Grid.Column="0" Text="Letters:" FontSize="15" Margin="0,0,10,0" TextColor="White" />
+			<Entry Grid.Column="1" Text="{Binding LetterEntry, Mode=TwoWay}" Style="{StaticResource LettersEntry}" />
+		</Grid>
+			
 		<Frame CornerRadius="10" Padding="5" BackgroundColor="Maroon" IsVisible="{Binding IsGameSelected}"
 				WidthRequest="{Binding Size, Converter={StaticResource SizeToFrameSize}}"
 				HeightRequest="{Binding Size, Converter={StaticResource SizeToFrameSize}}">

@@ -17,6 +17,5 @@
 			<Label FontSize="22" FontAttributes="Bold" Text="{Binding Title}" VerticalOptions="End" />
 			<Label FontSize="16" Text="{Binding Version}" VerticalOptions="End" />
 		</HorizontalStackLayout>
-
 	</VerticalStackLayout>
 </ContentPage>
