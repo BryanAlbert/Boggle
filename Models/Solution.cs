@@ -14,6 +14,6 @@
 		public int Score { get; set; }
 		public int[] Path { get; set; }
 		public string RenderPath => string.Join(", ", Path.Select((p, i) => new { p, i }).
-			Where(x => x.p > 0).OrderBy(x => x.p).Select(x => x.i));
+			Where(x => x.p > 0).OrderBy(x => x.p).Select(x => x.i + 1));
 	}
 }
