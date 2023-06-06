@@ -28,12 +28,13 @@
 				<Setter Property="TextColor" Value="Black" />
 				<Setter Property="FontAttributes" Value="Bold" />
 				<Setter Property="VerticalOptions" Value="Center" />
-				<Setter Property="HorizontalOptions" Value="Center" />
+				<Setter Property="HorizontalOptions" Value="Start" />
 			</Style>
 			<Style TargetType="Entry" x:Key="LettersEntry">
 				<Setter Property="FontSize" Value="15" />
-				<Setter Property="HorizontalOptions" Value="Start" />
+				<Setter Property="HorizontalOptions" Value="Fill" />
 				<Setter Property="TextColor" Value="White" />
+				<Setter Property="Margin" Value="0,0,20,0" />
 			</Style>
 			<Style TargetType="Entry">
 				<Setter Property="FontSize" Value="{Binding Size, Converter={StaticResource SizeToFontSize}}" />
@@ -41,6 +42,7 @@
 				<Setter Property="FontAttributes" Value="Bold" />
 				<Setter Property="VerticalOptions" Value="Center" />
 				<Setter Property="HorizontalOptions" Value="Center" />
+				<Setter Property="HorizontalTextAlignment" Value="Center" />
 			</Style>
 			<Style TargetType="Frame">
 				<Setter Property="CornerRadius" Value="5" />
@@ -61,128 +63,167 @@
 				Style="{StaticResource NormalLabel}" HorizontalOptions="Center" />
 		<Label Text="{Binding Name}" IsVisible="{Binding IsGameSelected}" FontSize="30"
 				Style="{StaticResource NormalLabel}" HorizontalOptions="Center" />
-		<Grid ColumnDefinitions="Auto, *" Margin="20,0,15,20" IsVisible="{Binding IsGameSelected}">
-			<Label Grid.Column="0" Text="Letters:" FontSize="15" Margin="0,0,10,0" TextColor="White" />
-			<Entry Grid.Column="1" Text="{Binding LetterEntry, Mode=TwoWay}" Style="{StaticResource LettersEntry}" />
+		<Grid ColumnDefinitions="Auto, *" RowDefinitions="*,*" Margin="20,0,15,20" IsVisible="{Binding IsGameSelected}">
+			<Label Grid.Row="1" Grid.Column="0" Text="Letters:" FontSize="15" Margin="0,0,10,0" TextColor="White" />
+			<Entry Grid.Row="1" Grid.Column="1" x:Name="LettersEntry" Text="{Binding LettersList, Mode=TwoWay}"
+					Style="{StaticResource LettersEntry}" />
+			<Label Grid.Row="0" Grid.Column="0" Text="Combo letters:" FontSize="15" Margin="0,0,10,0" TextColor="White" />
+			<Label Grid.Row="0" Grid.Column="1" Text="{Binding ComboLetters}" FontSize="15" TextColor="White" HorizontalOptions="Start" />
 		</Grid>
-			
+		
 		<Frame CornerRadius="10" Padding="5" BackgroundColor="Maroon" IsVisible="{Binding IsGameSelected}"
 				WidthRequest="{Binding Size, Converter={StaticResource SizeToFrameSize}}"
 				HeightRequest="{Binding Size, Converter={StaticResource SizeToFrameSize}}">
 			<Grid ColumnDefinitions="{Binding Size, Converter={StaticResource SizeToColumnDefinitions}}"
 					RowDefinitions="{Binding Size, Converter={StaticResource SizeToRowDefinitions}}">
 				<Frame Grid.Column="0" Grid.Row="0">
-					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='00'}" />
+					<Entry x:Name="Entry00" Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='00'}"
+							Focused="OnEntryFocused" Unfocused="OnEntryUnfocused" />
 				</Frame>
 				<Frame Grid.Column="1" Grid.Row="0">
-					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='10'}" />
+					<Entry x:Name="Entry10" Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='10'}"
+							Focused="OnEntryFocused" Unfocused="OnEntryUnfocused" />
 				</Frame>
 				<Frame Grid.Column="2" Grid.Row="0">
-					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='20'}" />
+					<Entry x:Name="Entry20" Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='20'}"
+							Focused="OnEntryFocused" Unfocused="OnEntryUnfocused" />
 				</Frame>
 				<Frame Grid.Column="3" Grid.Row="0">
-					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='30'}" />
+					<Entry x:Name="Entry30" Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='30'}"
+							Focused="OnEntryFocused" Unfocused="OnEntryUnfocused" />
 				</Frame>
 				<Frame Grid.Column="4" Grid.Row="0" IsVisible="{Binding Cells5Visible}">
-					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='40'}" />
+					<Entry x:Name="Entry40" Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='40'}"
+							Focused="OnEntryFocused" Unfocused="OnEntryUnfocused" />
 				</Frame>
 				<Frame Grid.Column="5" Grid.Row="0" IsVisible="{Binding Cells6Visible}">
-					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='50'}" />
+					<Entry x:Name="Entry50" Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='50'}"
+							Focused="OnEntryFocused" Unfocused="OnEntryUnfocused" />
 				</Frame>
 
 				<Frame Grid.Column="0" Grid.Row="1">
-					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='01'}" />
+					<Entry x:Name="Entry01" Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='01'}"
+							Focused="OnEntryFocused" Unfocused="OnEntryUnfocused" />
 				</Frame>
 				<Frame Grid.Column="1" Grid.Row="1">
-					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='11'}" />
+					<Entry x:Name="Entry11" Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='11'}"
+							Focused="OnEntryFocused" Unfocused="OnEntryUnfocused" />
 				</Frame>
 				<Frame Grid.Column="2" Grid.Row="1">
-					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='21'}" />
+					<Entry x:Name="Entry21" Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='21'}"
+							Focused="OnEntryFocused" Unfocused="OnEntryUnfocused" />
 				</Frame>
 				<Frame Grid.Column="3" Grid.Row="1">
-					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='31'}" />
+					<Entry x:Name="Entry31" Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='31'}"
+							Focused="OnEntryFocused" Unfocused="OnEntryUnfocused" />
 				</Frame>
 				<Frame Grid.Column="4" Grid.Row="1" IsVisible="{Binding Cells5Visible}">
-					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='41'}" />
+					<Entry x:Name="Entry41" Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='41'}"
+							Focused="OnEntryFocused" Unfocused="OnEntryUnfocused" />
 				</Frame>
 				<Frame Grid.Column="5" Grid.Row="1" IsVisible="{Binding Cells6Visible}">
-					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='51'}" />
+					<Entry x:Name="Entry51" Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='51'}"
+							Focused="OnEntryFocused" Unfocused="OnEntryUnfocused" />
 				</Frame>
 
 				<Frame Grid.Column="0" Grid.Row="2">
-					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='02'}" />
+					<Entry x:Name="Entry02" Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='02'}"
+							Focused="OnEntryFocused" Unfocused="OnEntryUnfocused" />
 				</Frame>
 				<Frame Grid.Column="1" Grid.Row="2">
-					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='12'}" />
+					<Entry x:Name="Entry12" Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='12'}"
+							Focused="OnEntryFocused" Unfocused="OnEntryUnfocused" />
 				</Frame>
 				<Frame Grid.Column="2" Grid.Row="2">
-					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='22'}" />
+					<Entry x:Name="Entry22" Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='22'}"
+							Focused="OnEntryFocused" Unfocused="OnEntryUnfocused" />
 				</Frame>
 				<Frame Grid.Column="3" Grid.Row="2">
-					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='32'}" />
+					<Entry x:Name="Entry32" Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='32'}"
+							Focused="OnEntryFocused" Unfocused="OnEntryUnfocused" />
 				</Frame>
 				<Frame Grid.Column="4" Grid.Row="2" IsVisible="{Binding Cells5Visible}">
-					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='42'}" />
+					<Entry x:Name="Entry42" Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='42'}"
+							Focused="OnEntryFocused" Unfocused="OnEntryUnfocused" />
 				</Frame>
 				<Frame Grid.Column="5" Grid.Row="2" IsVisible="{Binding Cells6Visible}">
-					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='52'}" />
+					<Entry x:Name="Entry52" Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='52'}"
+							Focused="OnEntryFocused" Unfocused="OnEntryUnfocused" />
 				</Frame>
 
 				<Frame Grid.Column="0" Grid.Row="3">
-					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='03'}" />
+					<Entry x:Name="Entry03" Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='03'}"
+							Focused="OnEntryFocused" Unfocused="OnEntryUnfocused" />
 				</Frame>
 				<Frame Grid.Column="1" Grid.Row="3">
-					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='13'}" />
+					<Entry x:Name="Entry13" Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='13'}"
+							Focused="OnEntryFocused" Unfocused="OnEntryUnfocused" />
 				</Frame>
 				<Frame Grid.Column="2" Grid.Row="3">
-					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='23'}" />
+					<Entry x:Name="Entry23" Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='23'}"
+							Focused="OnEntryFocused" Unfocused="OnEntryUnfocused" />
 				</Frame>
 				<Frame Grid.Column="3" Grid.Row="3">
-					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='33'}" />
+					<Entry x:Name="Entry33" Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='33'}"
+							Focused="OnEntryFocused" Unfocused="OnEntryUnfocused" />
 				</Frame>
 				<Frame Grid.Column="4" Grid.Row="3" IsVisible="{Binding Cells5Visible}">
-					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='43'}" />
+					<Entry x:Name="Entry43" Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='43'}"
+							Focused="OnEntryFocused" Unfocused="OnEntryUnfocused" />
 				</Frame>
 				<Frame Grid.Column="5" Grid.Row="3" IsVisible="{Binding Cells6Visible}">
-					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='53'}" />
+					<Entry x:Name="Entry53" Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='53'}"
+							Focused="OnEntryFocused" Unfocused="OnEntryUnfocused" />
 				</Frame>
 
 				<Frame Grid.Column="0" Grid.Row="4" IsVisible="{Binding Cells5Visible}">
-					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='04'}" />
+					<Entry x:Name="Entry04" Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='04'}"
+							Focused="OnEntryFocused" Unfocused="OnEntryUnfocused" />
 				</Frame>
 				<Frame Grid.Column="1" Grid.Row="4" IsVisible="{Binding Cells5Visible}">
-					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='14'}" />
+					<Entry x:Name="Entry14" Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='14'}"
+							Focused="OnEntryFocused" Unfocused="OnEntryUnfocused" />
 				</Frame>
 				<Frame Grid.Column="2" Grid.Row="4" IsVisible="{Binding Cells5Visible}">
-					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='24'}" />
+					<Entry x:Name="Entry24" Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='24'}"
+							Focused="OnEntryFocused" Unfocused="OnEntryUnfocused" />
 				</Frame>
 				<Frame Grid.Column="3" Grid.Row="4" IsVisible="{Binding Cells5Visible}">
-					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='34'}" />
+					<Entry x:Name="Entry34" Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='34'}"
+							Focused="OnEntryFocused" Unfocused="OnEntryUnfocused" />
 				</Frame>
 				<Frame Grid.Column="4" Grid.Row="4" IsVisible="{Binding Cells5Visible}">
-					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='44'}" />
+					<Entry x:Name="Entry44" Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='44'}"
+							Focused="OnEntryFocused" Unfocused="OnEntryUnfocused" />
 				</Frame>
 				<Frame Grid.Column="5" Grid.Row="4" IsVisible="{Binding Cells6Visible}">
-					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='54'}" />
+					<Entry x:Name="Entry54" Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='54'}"
+							Focused="OnEntryFocused" Unfocused="OnEntryUnfocused" />
 				</Frame>
 
 				<Frame Grid.Column="0" Grid.Row="5" IsVisible="{Binding Cells6Visible}">
-					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='05'}" />
+					<Entry x:Name="Entry05" Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='05'}"
+							Focused="OnEntryFocused" Unfocused="OnEntryUnfocused" />
 				</Frame>
 				<Frame Grid.Column="1" Grid.Row="5" IsVisible="{Binding Cells6Visible}">
-					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='15'}" />
+					<Entry x:Name="Entry15" Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='15'}"
+							Focused="OnEntryFocused" Unfocused="OnEntryUnfocused" />
 				</Frame>
 				<Frame Grid.Column="2" Grid.Row="5" IsVisible="{Binding Cells6Visible}">
-					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='25'}" />
+					<Entry x:Name="Entry25" Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='25'}"
+							Focused="OnEntryFocused" Unfocused="OnEntryUnfocused" />
 				</Frame>
 				<Frame Grid.Column="3" Grid.Row="5" IsVisible="{Binding Cells6Visible}">
-					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='35'}" />
+					<Entry x:Name="Entry35" Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='35'}"
+							Focused="OnEntryFocused" Unfocused="OnEntryUnfocused" />
 				</Frame>
 				<Frame Grid.Column="4" Grid.Row="5" IsVisible="{Binding Cells6Visible}">
-					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='45'}" />
+					<Entry x:Name="Entry45" Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='45'}"
+							Focused="OnEntryFocused" Unfocused="OnEntryUnfocused" />
 				</Frame>
 				<Frame Grid.Column="5" Grid.Row="5" IsVisible="{Binding Cells6Visible}">
-					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='55'}" />
+					<Entry x:Name="Entry55" Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='55'}"
+							Focused="OnEntryFocused" Unfocused="OnEntryUnfocused" />
 				</Frame>
 			</Grid>
 		</Frame>

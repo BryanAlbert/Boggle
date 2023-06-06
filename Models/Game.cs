@@ -1,6 +1,7 @@
 ﻿using Boggle.ViewModels;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Boggle.Models
 {
@@ -18,6 +19,11 @@ namespace Boggle.Models
 			WordSize = game.WordLength;
 			Scoring = game.Scoring.Select(x => x.ToString()).ToList();
 			Cubes = game.Cubes;
+			IEnumerable<int> comboIndicies = Cubes.SelectMany(x => x.Where(char.IsDigit)).Distinct().Order().
+				Select(x => int.Parse(x.ToString()));
+
+			ComboLetterIndicies = string.Concat(comboIndicies);
+			ComboLettersList = string.Join(", ", comboIndicies.Select(x => $"{x}={m_comboLetters[x]}"));
 		}
 
 
@@ -64,6 +70,15 @@ namespace Boggle.Models
 			return builder.ToString();
 		}
 
+		public static string ParseLetter(string letter)
+		{
+			if (letter.Length < 2)
+				return letter;
+
+			string result = Array.IndexOf(m_comboLetters, letter).ToString();
+			return result == "-1" ? letter : result;
+		}
+
 
 		public static string[] m_comboLetters = { "  ", "Qu", "In", "Th", "Er", "He", "An" };
 
@@ -95,6 +110,11 @@ namespace Boggle.Models
 		public List<string> Cubes { get; set; }
 		public double Order { get; set; }
 		public string Filename { get; set; }
+
+		[JsonIgnore]
+		public string ComboLetterIndicies { get; }
+		[JsonIgnore]
+		public string ComboLettersList { get; set; }
 
 
 		private static void SaveDefaultJson()

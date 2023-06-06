@@ -7,13 +7,14 @@ namespace Boggle.Converters
 	{
 		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
-			if (value is string letters && parameter is string coordinates)
+			if (value is string letters && parameter is string coordinates && int.TryParse(coordinates[0].ToString(), out int x) &&
+				int.TryParse(coordinates[1].ToString(), out int y))
 			{
-				if (int.TryParse(coordinates[0].ToString(), out int x) && int.TryParse(coordinates[1].ToString(), out int y))
+				int size = (int) Math.Sqrt(letters.Length);
+				if (x < size && y < size)
 				{
-					int size = (int) Math.Sqrt(letters.Length);
-					if (x < size && y < size)
-						return Game.RenderLetter(letters[x + y * size]);
+					string letter = Game.RenderLetter(letters[x + y * size]);
+					return letter != " " ? letter : string.Empty;
 				}
 			}
 
@@ -22,7 +23,8 @@ namespace Boggle.Converters
 
 		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
 		{
-			throw new NotImplementedException();
+			return value is string letter && parameter is string coordinates && char.IsDigit(coordinates[0]) && char.IsDigit(coordinates[1])
+				? letter.Length > 0 ? coordinates + Game.ParseLetter(letter) : coordinates : "$";
 		}
 	}
 }

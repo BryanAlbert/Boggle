@@ -32,8 +32,8 @@ namespace Boggle.Converters
 
 
 		private readonly int[] c_4x4 = { 54, 14 };
-		private readonly int[] c_5x5 = { 46, 12 };
-		private readonly int[] c_6x6 = { 44, 12 };
-		private readonly int[] c_default = { 54, 14 };
+		private readonly int[] c_5x5 = { 41, 12 };
+		private readonly int[] c_6x6 = { 33, 12 };
+		private readonly int[] c_default = { 52, 14 };
 	}
 }

@@ -13,7 +13,7 @@
 		public string Word { get; set; }
 		public int Score { get; set; }
 		public int[] Path { get; set; }
-		public string RenderPath => string.Join(", ", Path.Select((v, i) => new { v, i }).
-			Where(x => x.v > 0).OrderBy(x => x.v).Select(x => x.i));
+		public string RenderPath => string.Join(", ", Path.Select((p, i) => new { p, i }).
+			Where(x => x.p > 0).OrderBy(x => x.p).Select(x => x.i));
 	}
 }
