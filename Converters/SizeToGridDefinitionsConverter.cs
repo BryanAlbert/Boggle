@@ -20,8 +20,9 @@ namespace Boggle.Converters
 						4 => new ColumnDefinition(c_4x4[index]),
 						5 => new ColumnDefinition(c_5x5[index]),
 						6 => new ColumnDefinition(c_6x6[index]),
-						_ => new ColumnDefinition(c_default[index])
+						_ => new ColumnDefinition(c_4x4[index])
 					};
+
 					ColumnDefinition[] columns = { column, column, column, column, column, column };
 					return new ColumnDefinitionCollection(columns);
 				}
@@ -31,7 +32,7 @@ namespace Boggle.Converters
 					4 => new RowDefinition(c_4x4[index]),
 					5 => new RowDefinition(c_5x5[index]),
 					6 => new RowDefinition(c_6x6[index]),
-					_ => new RowDefinition(c_default[index])
+					_ => new RowDefinition(c_4x4[index])
 				};
 
 				RowDefinition[] rows = { row, row, row, row, row, row };
@@ -50,6 +51,5 @@ namespace Boggle.Converters
 		private readonly int[] c_4x4 = { 95, 24 };
 		private readonly int[] c_5x5 = { 76, 22 };
 		private readonly int[] c_6x6 = { 63, 22 };
-		private readonly int[] c_default = { 95, 24 };
 	}
 }
