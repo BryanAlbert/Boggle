@@ -29,7 +29,7 @@ namespace Boggle
 		}
 
 
-		public async Task<List<Solution>> SolveAsync(Action<int[]> setPath)
+		public async Task<List<Solution>> SolveAsync(Action<int[], int, int> setPath)
 		{
 			m_setPath = setPath;
 			WordList.Clear();
@@ -89,7 +89,8 @@ namespace Boggle
 				if (isWord == true && testWord.Length >= Game.WordLength && !WordList.Any(x => x.Word == testWord))
 				{
 					WordList.Add(new Solution(testWord, pathCopy, Game));
-					await MainThread.InvokeOnMainThreadAsync(() => m_setPath(pathCopy));
+					await MainThread.InvokeOnMainThreadAsync(() =>
+						m_setPath(pathCopy, WordList.Sum(x => x.Score), WordList.Count));
 				}
 
 				await FindWordsAtAsync(pathCopy, testWord, index);
@@ -166,11 +167,12 @@ namespace Boggle
 			return from < Game.Size;
 		}
 
+
 		private enum Directions { E, SE, S, SW, W, NW, N, NE }
 		private const string c_dictionaryPath = "Boggle.Dictionary.txt";
 		private readonly string[] m_dictionary;
 		private Array m_abridged;
 		private GameViewModel m_game;
-		private Action<int[]> m_setPath;
+		private Action<int[], int, int> m_setPath;
 	}
 }

@@ -38,7 +38,7 @@ public partial class GamePage : ContentPage
 
 		m_previous = ((Entry) sender).Text;
 		((Entry) sender).Text = string.Empty;
-    }
+	}
 
 	private void OnEntryUnfocused(object sender, FocusEventArgs e)
 	{
@@ -48,4 +48,26 @@ public partial class GamePage : ContentPage
 
 
 	private string m_previous;
+
+	private void OnEntryTextChanged(object sender, TextChangedEventArgs e)
+	{
+#if ANDROID
+		// TODO: apparently the two-way binding or perhaps interactions between two interconnected two-way bindings 
+		// breaks the cursor position--it always returns to position 0. When this gets fixed, remove this hack.
+		if (e.OldTextValue == null)
+			return;
+
+		int index = 0;
+		for (; index < e.OldTextValue.Length && index < e.NewTextValue.Length &&
+			e.OldTextValue[index] == e.NewTextValue[index]; index++) ;
+
+		if (e.OldTextValue.Length <= e.NewTextValue.Length)
+			index++;
+
+		if (index != ((Entry) sender).CursorPosition)
+		{
+			((Entry) sender).CursorPosition = index;
+		}
+#endif
+	}
 }

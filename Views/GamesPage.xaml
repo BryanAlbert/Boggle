@@ -4,6 +4,7 @@
 		xmlns:converters="clr-namespace:Boggle.Converters"
 		xmlns:viewModels="clr-namespace:Boggle.ViewModels"
 		x:Class="Boggle.Views.GamesPage"
+		x:DataType="viewModels:GamesViewModel"
 		Title="Boggle Games">
 
 	<ContentPage.BindingContext>
@@ -24,7 +25,7 @@
 
 	<Grid RowDefinitions="Auto,*" ColumnDefinitions="Auto,*">
 		<Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalOptions="Center" FontSize="20" Padding="20,0,0,0"
-				Text="Choose a game below!"  IsVisible="{Binding Selected, Converter={StaticResource NullConverter}}" />
+				Text="Choose a game below!" IsVisible="{Binding Selected, Converter={StaticResource NullConverter}}" />
 		<Label Grid.Row="0" Grid.Column="0" Text="Selected:" FontSize="20" Padding="20,0,0,0" VerticalOptions="Center"
 				IsVisible="{Binding Selected, Converter={StaticResource NotNullConverter}}"/>
 		<Label Grid.Row="0" Grid.Column="1" Text="{Binding Selected.Name}" FontSize="20" Padding="5"
@@ -39,7 +40,7 @@
 				</CollectionView.ItemsLayout>
 
 				<CollectionView.ItemTemplate>
-					<DataTemplate>
+					<DataTemplate x:DataType="viewModels:GameViewModel">
 						<Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,*,*,*,*,*,*,*,*,*" ColumnSpacing="20">
 							<Label Grid.Row="0" Text="{Binding Name}" FontSize="22" Grid.ColumnSpan="2" />
 							<Label Grid.Row="1" Grid.Column="0" Text="Size:" />

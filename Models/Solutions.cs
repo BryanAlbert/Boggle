@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 namespace Boggle.Models
 {
@@ -15,5 +16,17 @@ namespace Boggle.Models
 		public int WordLength { get; set; }
 		public int WordCount { get; set; }
 		public int Score { get; set; }
+		public bool IsBusy
+		{
+			get => m_busy;
+			set
+			{
+				m_busy = value;
+				OnPropertyChanged(new PropertyChangedEventArgs(nameof(IsBusy)));
+			}
+		}
+
+
+		private bool m_busy;
 	}
 }
