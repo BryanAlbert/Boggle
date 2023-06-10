@@ -52,7 +52,6 @@ namespace Boggle.ViewModels
 		public ICommand SelectHeaderCommand { get; }
 		public ICommand SelectWordCommand { get; }
 
-
 		private void OnGameUpdated(object recipient, GameViewModel game)
 		{
 			m_solver.Game = game;
@@ -96,6 +95,16 @@ namespace Boggle.ViewModels
 				foreach (KeyValuePair<int, List<Solution>> solution in m_solutionsMap)
 					Solutions.Add(new Solutions(solution.Key, solution.Value));
 
+				// hack: add a bogus Solution at the end with a bogus entry to force scrolling to work... 
+				List<Solution> list = new();
+				for (int hack = 0; hack < 5; hack++)
+					list.Add(new Solution("ZZZ"));
+
+				Solutions last = new(0, list);
+				m_solutionsMap.Add(0, list);
+				Solutions.Add(last);
+				await OnHeaderSelectedAsync(last);
+
 				IsSolved = true;
 				IsSolving = false;
 				Score = solutions.Sum(x => x.Score);
@@ -105,21 +114,28 @@ namespace Boggle.ViewModels
 
 		private async Task OnHeaderSelectedAsync(Solutions selected)
 		{
+			// give the UI a moment to show the ActivityIndicator (hack)
 			Solutions solutions = Solutions.First(x => x.WordLength == selected.WordLength);
+			solutions.IsBusy = true;
 			if (solutions.Count == 0)
 			{
-				solutions.IsBusy = true;
 				await Task.Delay(250);
 				foreach (Solution solution in m_solutionsMap[selected.WordLength])
 					solutions.Add(solution);
 
-				solutions.IsBusy = false;
+#if false
+				// hack to force the end of the list to be available
+				for (int hack = 0; hack < 5; hack++)
+					solutions.Add(new Solution("ZZZ"));
+#endif
 			}
 			else
 			{
 				solutions.Clear();
 				Path = null;
 			}
+
+			solutions.IsBusy = false;
 		}
 
 		private void OnWordSelected(Solution solution)
