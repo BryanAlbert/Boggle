@@ -24,6 +24,7 @@ namespace Boggle.ViewModels
 				SolveCommand = new AsyncRelayCommand(OnSolveAsync);
 				SelectWordCommand = new RelayCommand<Solution>(OnWordSelected);
 				SelectHeaderCommand = new AsyncRelayCommand<Solutions>(OnHeaderSelectedAsync);
+				IsNotSolved = true;
 			}
 			catch (Exception exception)
 			{

@@ -18,10 +18,13 @@
 			<converters:PluralConverter x:Key="TotalPluralWords" Word="word{0}," />
 			<converters:PluralConverter x:Key="HeaderPluralWords" Word="-letter word{0}," />
 			<converters:PluralConverter x:Key="PluralPoints" Word="point{0}" />
-			<converters:SizeToGridDefinitionsConverter x:Key="SizeToColumnDefinitions" GetColumnDefinition="True" />
-			<converters:SizeToGridDefinitionsConverter x:Key="SizeToRowDefinitions" GetColumnDefinition="False" />
-			<converters:SizeToWidthConverter x:Key="SizeToFrameSize" />
-			<converters:SizeToFontSizeConverter x:Key="SizeToFontSize" />
+			<converters:SizeAndSolvedToGridDefinitionsConverter x:Key="SizeToColumnDefinitions" GetColumnDefinition="True" />
+			<converters:SizeAndSolvedToGridDefinitionsConverter x:Key="SizeToRowDefinitions" GetColumnDefinition="False" />
+			<converters:SizeAndSolvedToWidthConverter x:Key="SizeToFrame" Type="Frame" />
+			<converters:SizeAndSolvedToWidthConverter x:Key="SizeToRadius" Type="Radius" />
+			<converters:SizeAndSolvedToWidthConverter x:Key="SizeToPadding" Type="Padding" />
+			<converters:SizeAndSolvedToWidthConverter x:Key="SizeToMargin" Type="Margin" />
+			<converters:SizeAndSolvedToFontSizeConverter x:Key="SizeToFontSize" />
 			<converters:LettersToLetterConverter x:Key="Letter" />
 			<converters:PathToColorConverter x:Key="PathToColor" />
 
@@ -30,196 +33,267 @@
 				<Setter Property="IsVisible" Value="{Binding IsNotSolved, Converter={StaticResource BooleanNot}}" />
 				<Setter Property="VerticalOptions" Value="Center" />
 			</Style>
+			
 			<Style TargetType="Label" x:Key="GroupHeaderLabel">
 				<Setter Property="FontSize" Value="18"/>
 			</Style>
+			
 			<Style TargetType="Label" x:Key="TableLabel">
 				<Setter Property="FontSize" Value="14"/>
 			</Style>
+			
 			<Style TargetType="Label" x:Key="NormalLabel">
 				<Setter Property="FontSize" Value="20" />
 				<Setter Property="Padding" Value="20" />
 			</Style>
+			
 			<Style TargetType="Label">
-				<Setter Property="FontSize" Value="{Binding Size, Converter={StaticResource SizeToFontSize}}" />
+				<Setter Property="FontSize">
+					<Setter.Value>
+						<MultiBinding Converter="{StaticResource SizeToFontSize}">
+							<Binding Path="Size" />
+							<Binding Path="IsSolved" />
+						</MultiBinding>
+					</Setter.Value>
+				</Setter>
 				<Setter Property="TextColor" Value="Black" />
 				<Setter Property="FontAttributes" Value="Bold" />
 				<Setter Property="VerticalOptions" Value="Center" />
 				<Setter Property="HorizontalOptions" Value="Center" />
 			</Style>
+			
 			<Style TargetType="Frame">
-				<Setter Property="CornerRadius" Value="5" />
+				<Setter Property="CornerRadius">
+					<Setter.Value>
+						<MultiBinding Converter="{StaticResource SizeToRadius}">
+							<Binding Path="Size" />
+							<Binding Path="IsSolved" />
+						</MultiBinding>
+					</Setter.Value>
+				</Setter>
+				<Setter Property="Margin">
+					<Setter.Value>
+						<MultiBinding Converter="{StaticResource SizeToMargin}">
+							<Binding Path="Size" />
+							<Binding Path="IsSolved" />
+						</MultiBinding>
+					</Setter.Value>
+				</Setter>
 				<Setter Property="BackgroundColor" Value="Ivory" />
-				<Setter Property="Margin" Value="0" />
 				<Setter Property="Padding" Value="0" />
 			</Style>
 		</ResourceDictionary>
 	</ContentPage.Resources>
 	
 	<ContentPage.ToolbarItems>
-		<ToolbarItem Text="Solve" Command="{Binding SolveCommand}"
-				IconImageSource="{FontImage Glyph='S', Color=White, Size=22}" />
+		<!-- since Windows won't show the text unless the menu is opened (https://github.com/dotnet/maui/issues/12063), this -->
+		<!-- TODO: use a better Glyph and use it on both platforms -->
+		<OnPlatform x:TypeArguments="ToolbarItem">
+			<On Platform="UWP">
+				<ToolbarItem Text="Solve" Command="{Binding SolveCommand}" 
+						IconImageSource="{FontImage Glyph='S', Color=White, Size=22}" />
+			</On>
+			<On Platform="Android">
+				<ToolbarItem Text="Solve" Command="{Binding SolveCommand}"  />
+			</On>
+		</OnPlatform>
 	</ContentPage.ToolbarItems>
 
-	<Grid RowDefinitions="Auto,Auto,Auto,*" ColumnDefinitions="Auto,Auto,8,Auto,8,Auto,8,*">
-		<Label Grid.ColumnSpan="7" Text="{Binding Message}" Style="{StaticResource NormalLabel}" HorizontalOptions="Center"
+	<Grid ColumnDefinitions="Auto,Auto,8,Auto,8,Auto,8,*" RowDefinitions="Auto,Auto,Auto,*">
+		<Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="8" Text="{Binding Message}" 
+				Style="{StaticResource NormalLabel}" HorizontalOptions="Center"
 				IsVisible="{Binding IsBoardGenerated, Converter={StaticResource BooleanNot}}" />
-		<Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="8" Text="{Binding Name}" IsVisible="{Binding IsBoardGenerated}" 
-				FontSize="30" Style="{StaticResource NormalLabel}" HorizontalOptions="Center" />
-		
-		<Frame Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="8" CornerRadius="10" Margin="20,0,0,10" Padding="3"
-				BackgroundColor="Maroon" IsVisible="{Binding IsBoardGenerated}" HorizontalOptions="Start"
-				WidthRequest="{Binding Size, Converter={StaticResource SizeToFrameSize}}"
-				HeightRequest="{Binding Size, Converter={StaticResource SizeToFrameSize}}">
-			<Grid ColumnDefinitions="{Binding Size, Converter={StaticResource SizeToColumnDefinitions}}"
-					RowDefinitions="{Binding Size, Converter={StaticResource SizeToRowDefinitions}}">
-				<Frame Grid.Column="0" Grid.Row="0" BackgroundColor="{Binding Path,
-						Converter={StaticResource PathToColor}, ConverterParameter='00'}">
+		<Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="8" Text="{Binding Name}"
+				FontSize="30" Style="{StaticResource NormalLabel}" HorizontalOptions="Center"
+				IsVisible="{Binding IsBoardGenerated}" />
+		<Frame Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="8" BackgroundColor="Maroon"
+				IsVisible="{Binding IsBoardGenerated}" HorizontalOptions="Center" Margin="0,0,0,15">
+			<Frame.WidthRequest>
+				<MultiBinding Converter="{StaticResource SizeToFrame}">
+					<Binding Path="Size" />
+					<Binding Path="IsSolved" />
+				</MultiBinding>
+			</Frame.WidthRequest>
+			<Frame.HeightRequest>
+				<MultiBinding Converter="{StaticResource SizeToFrame}">
+					<Binding Path="Size" />
+					<Binding Path="IsSolved" />
+				</MultiBinding>
+			</Frame.HeightRequest>
+			<Frame.CornerRadius>
+				<MultiBinding Converter="{StaticResource SizeToRadius}">
+					<Binding Path="Size" />
+					<Binding Path="IsSolved" />
+				</MultiBinding>
+			</Frame.CornerRadius>
+			<Frame.Padding>
+				<MultiBinding Converter="{StaticResource SizeToPadding}">
+					<Binding Path="Size" />
+					<Binding Path="IsSolved" />
+				</MultiBinding>
+			</Frame.Padding>
+
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<MultiBinding Converter="{StaticResource SizeToColumnDefinitions}">
+						<Binding Path="Size" />
+						<Binding Path="IsSolved" />
+					</MultiBinding>
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<MultiBinding Converter="{StaticResource SizeToRowDefinitions}">
+						<Binding Path="Size" />
+						<Binding Path="IsSolved" />
+					</MultiBinding>
+				</Grid.RowDefinitions>
+
+				<Frame Grid.Row="0" Grid.Column="0"
+						BackgroundColor="{Binding Path, Converter={StaticResource PathToColor}, ConverterParameter='00'}">
 					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='00'}" />
 				</Frame>
-				<Frame Grid.Column="1" Grid.Row="0" BackgroundColor="{Binding Path,
-						Converter={StaticResource PathToColor}, ConverterParameter='10'}">
+				<Frame Grid.Row="0" Grid.Column="1"
+						BackgroundColor="{Binding Path, Converter={StaticResource PathToColor}, ConverterParameter='10'}">
 					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='10'}" />
 				</Frame>
-				<Frame Grid.Column="2" Grid.Row="0" BackgroundColor="{Binding Path,
-						Converter={StaticResource PathToColor}, ConverterParameter='20'}">
+				<Frame Grid.Row="0" Grid.Column="2"
+						BackgroundColor="{Binding Path, Converter={StaticResource PathToColor}, ConverterParameter='20'}">
 					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='20'}" />
 				</Frame>
-				<Frame Grid.Column="3" Grid.Row="0" BackgroundColor="{Binding Path,
-						Converter={StaticResource PathToColor}, ConverterParameter='30'}">
+				<Frame Grid.Row="0" Grid.Column="3"
+						BackgroundColor="{Binding Path, Converter={StaticResource PathToColor}, ConverterParameter='30'}">
 					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='30'}" />
 				</Frame>
-				<Frame Grid.Column="4" Grid.Row="0" IsVisible="{Binding IsCells5Visible}" BackgroundColor="{Binding Path,
-						Converter={StaticResource PathToColor}, ConverterParameter='40'}">
+				<Frame Grid.Row="0" Grid.Column="4" IsVisible="{Binding IsCells5Visible}"
+						BackgroundColor="{Binding Path, Converter={StaticResource PathToColor}, ConverterParameter='40'}">
 					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='40'}" />
 				</Frame>
-				<Frame Grid.Column="5" Grid.Row="0" IsVisible="{Binding IsCells6Visible}" BackgroundColor="{Binding Path,
-						Converter={StaticResource PathToColor}, ConverterParameter='50'}">
+				<Frame Grid.Row="0" Grid.Column="5" IsVisible="{Binding IsCells6Visible}"
+						BackgroundColor="{Binding Path, Converter={StaticResource PathToColor}, ConverterParameter='50'}">
 					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='50'}" />
 				</Frame>
 
-				<Frame Grid.Column="0" Grid.Row="1" BackgroundColor="{Binding Path,
-						Converter={StaticResource PathToColor}, ConverterParameter='01'}">
+				<Frame Grid.Row="1" Grid.Column="0"
+						BackgroundColor="{Binding Path,Converter={StaticResource PathToColor}, ConverterParameter='01'}">
 					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='01'}" />
 				</Frame>
-				<Frame Grid.Column="1" Grid.Row="1" BackgroundColor="{Binding Path,
-						Converter={StaticResource PathToColor}, ConverterParameter='11'}">
+				<Frame Grid.Row="1" Grid.Column="1"
+						BackgroundColor="{Binding Path,Converter={StaticResource PathToColor}, ConverterParameter='11'}">
 					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='11'}" />
 				</Frame>
-				<Frame Grid.Column="2" Grid.Row="1" BackgroundColor="{Binding Path,
-						Converter={StaticResource PathToColor}, ConverterParameter='21'}">
+				<Frame Grid.Row="1" Grid.Column="2"
+						BackgroundColor="{Binding Path,Converter={StaticResource PathToColor}, ConverterParameter='21'}">
 					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='21'}" />
 				</Frame>
-				<Frame Grid.Column="3" Grid.Row="1" BackgroundColor="{Binding Path,
-						Converter={StaticResource PathToColor}, ConverterParameter='31'}">
+				<Frame Grid.Row="1" Grid.Column="3"
+						BackgroundColor="{Binding Path,Converter={StaticResource PathToColor}, ConverterParameter='31'}">
 					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='31'}" />
 				</Frame>
-				<Frame Grid.Column="4" Grid.Row="1" IsVisible="{Binding IsCells5Visible}" BackgroundColor="{Binding Path,
-						Converter={StaticResource PathToColor}, ConverterParameter='41'}">
+				<Frame Grid.Row="1" Grid.Column="4" IsVisible="{Binding IsCells5Visible}"
+						BackgroundColor="{Binding Path,Converter={StaticResource PathToColor}, ConverterParameter='41'}">
 					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='41'}" />
 				</Frame>
-				<Frame Grid.Column="5" Grid.Row="1" IsVisible="{Binding IsCells6Visible}" BackgroundColor="{Binding Path,
-						Converter={StaticResource PathToColor}, ConverterParameter='51'}">
+				<Frame Grid.Row="1" Grid.Column="5" IsVisible="{Binding IsCells6Visible}"
+						BackgroundColor="{Binding Path,Converter={StaticResource PathToColor}, ConverterParameter='51'}">
 					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='51'}" />
 				</Frame>
 
-				<Frame Grid.Column="0" Grid.Row="2" BackgroundColor="{Binding Path,
-						Converter={StaticResource PathToColor}, ConverterParameter='02'}">
+				<Frame Grid.Row="2" Grid.Column="0"
+						BackgroundColor="{Binding Path,Converter={StaticResource PathToColor}, ConverterParameter='02'}">
 					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='02'}" />
 				</Frame>
-				<Frame Grid.Column="1" Grid.Row="2" BackgroundColor="{Binding Path,
-						Converter={StaticResource PathToColor}, ConverterParameter='12'}">
+				<Frame Grid.Row="2" Grid.Column="1"
+						BackgroundColor="{Binding Path,Converter={StaticResource PathToColor}, ConverterParameter='12'}">
 					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='12'}" />
 				</Frame>
-				<Frame Grid.Column="2" Grid.Row="2" BackgroundColor="{Binding Path,
-						Converter={StaticResource PathToColor}, ConverterParameter='22'}">
+				<Frame Grid.Row="2" Grid.Column="2"
+						BackgroundColor="{Binding Path,Converter={StaticResource PathToColor}, ConverterParameter='22'}">
 					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='22'}" />
 				</Frame>
-				<Frame Grid.Column="3" Grid.Row="2" BackgroundColor="{Binding Path,
-						Converter={StaticResource PathToColor}, ConverterParameter='32'}">
+				<Frame Grid.Row="2" Grid.Column="3"
+						BackgroundColor="{Binding Path,Converter={StaticResource PathToColor}, ConverterParameter='32'}">
 					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='32'}" />
 				</Frame>
-				<Frame Grid.Column="4" Grid.Row="2" IsVisible="{Binding IsCells5Visible}" BackgroundColor="{Binding Path,
-						Converter={StaticResource PathToColor}, ConverterParameter='42'}">
+				<Frame Grid.Row="2" Grid.Column="4" IsVisible="{Binding IsCells5Visible}"
+						BackgroundColor="{Binding Path,Converter={StaticResource PathToColor}, ConverterParameter='42'}">
 					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='42'}" />
 				</Frame>
-				<Frame Grid.Column="5" Grid.Row="2" IsVisible="{Binding IsCells6Visible}" BackgroundColor="{Binding Path,
-						Converter={StaticResource PathToColor}, ConverterParameter='52'}">
+				<Frame Grid.Row="2" Grid.Column="5" IsVisible="{Binding IsCells6Visible}"
+						BackgroundColor="{Binding Path,Converter={StaticResource PathToColor}, ConverterParameter='52'}">
 					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='52'}" />
 				</Frame>
 
-				<Frame Grid.Column="0" Grid.Row="3" BackgroundColor="{Binding Path,
-						Converter={StaticResource PathToColor}, ConverterParameter='03'}">
+				<Frame Grid.Row="3" Grid.Column="0"
+						BackgroundColor="{Binding Path,Converter={StaticResource PathToColor}, ConverterParameter='03'}">
 					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='03'}" />
 				</Frame>
-				<Frame Grid.Column="1" Grid.Row="3" BackgroundColor="{Binding Path,
-						Converter={StaticResource PathToColor}, ConverterParameter='13'}">
+				<Frame Grid.Row="3" Grid.Column="1"
+						BackgroundColor="{Binding Path,Converter={StaticResource PathToColor}, ConverterParameter='13'}">
 					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='13'}" />
 				</Frame>
-				<Frame Grid.Column="2" Grid.Row="3" BackgroundColor="{Binding Path,
-						Converter={StaticResource PathToColor}, ConverterParameter='23'}">
+				<Frame Grid.Row="3" Grid.Column="2"
+						BackgroundColor="{Binding Path,Converter={StaticResource PathToColor}, ConverterParameter='23'}">
 					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='23'}" />
 				</Frame>
-				<Frame Grid.Column="3" Grid.Row="3" BackgroundColor="{Binding Path,
-						Converter={StaticResource PathToColor}, ConverterParameter='33'}">
+				<Frame Grid.Row="3" Grid.Column="3"
+						BackgroundColor="{Binding Path,Converter={StaticResource PathToColor}, ConverterParameter='33'}">
 					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='33'}" />
 				</Frame>
-				<Frame Grid.Column="4" Grid.Row="3" IsVisible="{Binding IsCells5Visible}" BackgroundColor="{Binding Path,
-						Converter={StaticResource PathToColor}, ConverterParameter='43'}">
+				<Frame Grid.Row="3" Grid.Column="4" IsVisible="{Binding IsCells5Visible}"
+						BackgroundColor="{Binding Path,Converter={StaticResource PathToColor}, ConverterParameter='43'}">
 					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='43'}" />
 				</Frame>
-				<Frame Grid.Column="5" Grid.Row="3" IsVisible="{Binding IsCells6Visible}" BackgroundColor="{Binding Path,
-						Converter={StaticResource PathToColor}, ConverterParameter='53'}">
+				<Frame Grid.Row="3" Grid.Column="5" IsVisible="{Binding IsCells6Visible}"
+						BackgroundColor="{Binding Path,Converter={StaticResource PathToColor}, ConverterParameter='53'}">
 					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='53'}" />
 				</Frame>
 
-				<Frame Grid.Column="0" Grid.Row="4" IsVisible="{Binding IsCells5Visible}" BackgroundColor="{Binding Path,
-						Converter={StaticResource PathToColor}, ConverterParameter='04'}">
+				<Frame Grid.Row="4" Grid.Column="0" IsVisible="{Binding IsCells5Visible}"
+						BackgroundColor="{Binding Path,Converter={StaticResource PathToColor}, ConverterParameter='04'}">
 					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='04'}" />
 				</Frame>
-				<Frame Grid.Column="1" Grid.Row="4" IsVisible="{Binding IsCells5Visible}" BackgroundColor="{Binding Path,
-						Converter={StaticResource PathToColor}, ConverterParameter='14'}">
+				<Frame Grid.Row="4" Grid.Column="1" IsVisible="{Binding IsCells5Visible}"
+						BackgroundColor="{Binding Path,Converter={StaticResource PathToColor}, ConverterParameter='14'}">
 					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='14'}" />
 				</Frame>
-				<Frame Grid.Column="2" Grid.Row="4" IsVisible="{Binding IsCells5Visible}" BackgroundColor="{Binding Path,
-						Converter={StaticResource PathToColor}, ConverterParameter='24'}">
+				<Frame Grid.Row="4" Grid.Column="2" IsVisible="{Binding IsCells5Visible}"
+						BackgroundColor="{Binding Path,Converter={StaticResource PathToColor}, ConverterParameter='24'}">
 					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='24'}" />
 				</Frame>
-				<Frame Grid.Column="3" Grid.Row="4" IsVisible="{Binding IsCells5Visible}" BackgroundColor="{Binding Path,
-						Converter={StaticResource PathToColor}, ConverterParameter='34'}">
+				<Frame Grid.Row="4" Grid.Column="3" IsVisible="{Binding IsCells5Visible}"
+						BackgroundColor="{Binding Path,Converter={StaticResource PathToColor}, ConverterParameter='34'}">
 					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='34'}" />
 				</Frame>
-				<Frame Grid.Column="4" Grid.Row="4" IsVisible="{Binding IsCells5Visible}" BackgroundColor="{Binding Path,
-						Converter={StaticResource PathToColor}, ConverterParameter='44'}">
+				<Frame Grid.Row="4" Grid.Column="4" IsVisible="{Binding IsCells5Visible}"
+						BackgroundColor="{Binding Path,Converter={StaticResource PathToColor}, ConverterParameter='44'}">
 					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='44'}" />
 				</Frame>
-				<Frame Grid.Column="5" Grid.Row="4" IsVisible="{Binding IsCells6Visible}" BackgroundColor="{Binding Path,
-						Converter={StaticResource PathToColor}, ConverterParameter='54'}">
+				<Frame Grid.Row="4" Grid.Column="5" IsVisible="{Binding IsCells6Visible}"
+						BackgroundColor="{Binding Path,Converter={StaticResource PathToColor}, ConverterParameter='54'}">
 					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='54'}" />
 				</Frame>
 
-				<Frame Grid.Column="0" Grid.Row="5" IsVisible="{Binding IsCells6Visible}" BackgroundColor="{Binding Path,
-						Converter={StaticResource PathToColor}, ConverterParameter='05'}">
+				<Frame Grid.Row="5" Grid.Column="0" IsVisible="{Binding IsCells6Visible}"
+						BackgroundColor="{Binding Path,Converter={StaticResource PathToColor}, ConverterParameter='05'}">
 					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='05'}" />
 				</Frame>
-				<Frame Grid.Column="1" Grid.Row="5" IsVisible="{Binding IsCells6Visible}" BackgroundColor="{Binding Path,
-						Converter={StaticResource PathToColor}, ConverterParameter='15'}">
+				<Frame Grid.Row="5" Grid.Column="1" IsVisible="{Binding IsCells6Visible}"
+						BackgroundColor="{Binding Path,Converter={StaticResource PathToColor}, ConverterParameter='15'}">
 					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='15'}" />
 				</Frame>
-				<Frame Grid.Column="2" Grid.Row="5" IsVisible="{Binding IsCells6Visible}" BackgroundColor="{Binding Path,
-						Converter={StaticResource PathToColor}, ConverterParameter='25'}">
+				<Frame Grid.Row="5" Grid.Column="2" IsVisible="{Binding IsCells6Visible}"
+						BackgroundColor="{Binding Path,Converter={StaticResource PathToColor}, ConverterParameter='25'}">
 					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='25'}" />
 				</Frame>
-				<Frame Grid.Column="3" Grid.Row="5" IsVisible="{Binding IsCells6Visible}" BackgroundColor="{Binding Path,
-						Converter={StaticResource PathToColor}, ConverterParameter='35'}">
+				<Frame Grid.Row="5" Grid.Column="3" IsVisible="{Binding IsCells6Visible}"
+						BackgroundColor="{Binding Path,Converter={StaticResource PathToColor}, ConverterParameter='35'}">
 					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='35'}" />
 				</Frame>
-				<Frame Grid.Column="4" Grid.Row="5" IsVisible="{Binding IsCells6Visible}" BackgroundColor="{Binding Path,
-						Converter={StaticResource PathToColor}, ConverterParameter='45'}">
+				<Frame Grid.Row="5" Grid.Column="4" IsVisible="{Binding IsCells6Visible}"
+						BackgroundColor="{Binding Path,Converter={StaticResource PathToColor}, ConverterParameter='45'}">
 					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='45'}" />
 				</Frame>
-				<Frame Grid.Column="5" Grid.Row="5" IsVisible="{Binding IsCells6Visible}" BackgroundColor="{Binding Path,
-						Converter={StaticResource PathToColor}, ConverterParameter='55'}">
+				<Frame Grid.Row="5" Grid.Column="5" IsVisible="{Binding IsCells6Visible}"
+						BackgroundColor="{Binding Path,Converter={StaticResource PathToColor}, ConverterParameter='55'}">
 					<Label Text="{Binding Letters, Converter={StaticResource Letter}, ConverterParameter='55'}" />
 				</Frame>
 			</Grid>

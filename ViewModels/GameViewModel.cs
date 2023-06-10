@@ -172,7 +172,10 @@ namespace Boggle.ViewModels
 			if (m_game != null)
 			{
 				Letters = m_game.Scramble();
+#if WINDOWS
+				// not on Android to try and keep the keyboard hidden
 				_ = LettersEntry.Focus();
+#endif
 			}
 		}
 

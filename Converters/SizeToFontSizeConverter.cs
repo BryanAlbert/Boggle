@@ -4,24 +4,20 @@ namespace Boggle.Converters
 {
 	internal class SizeToFontSizeConverter : IValueConverter
 	{
-		public bool Big { get; set; }
-
-
 		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
-			int index = Big ? 0 : 1;
 			if (value is int size)
 			{
 				return size switch
 				{
-					4 => c_4x4[index],
-					5 => c_5x5[index],
-					6 => c_6x6[index],
-					_ => c_4x4[index]
+					4 => c_4x4,
+					5 => c_5x5,
+					6 => c_6x6,
+					_ => c_4x4
 				};
 			}
 
-			return c_4x4[index];
+			return c_4x4;
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -30,8 +26,8 @@ namespace Boggle.Converters
 		}
 
 
-		private readonly int[] c_4x4 = { 52, 14 };
-		private readonly int[] c_5x5 = { 39, 12 };
-		private readonly int[] c_6x6 = { 33, 12 };
+		private readonly double c_4x4 = 52.0;
+		private readonly double c_5x5 = 39.0;
+		private readonly double c_6x6 = 33.0;
 	}
 }
