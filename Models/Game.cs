@@ -9,10 +9,14 @@ namespace Boggle.Models
 	{
 		public Game()
 		{
-			m_random = new Random();
 		}
 
-		public Game(GameViewModel game) : this()
+		public Game(int? seed)
+		{
+			m_random = seed.HasValue ? new Random(seed.Value) : new Random();
+		}
+
+		public Game(GameViewModel game, int? seed) : this(seed)
 		{
 			Name = game.Name;
 			Size = game.Size;

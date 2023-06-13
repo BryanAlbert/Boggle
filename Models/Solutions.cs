@@ -5,11 +5,11 @@ namespace Boggle.Models
 {
 	internal class Solutions : ObservableCollection<Solution>
 	{
-		public Solutions(int wordLength, List<Solution> solutions) : base(new List<Solution>())
+		public Solutions(KeyValuePair<int, List<Solution>> solutions, List<Solution> partial) : base(partial)
 		{
-			WordLength = wordLength;
-			WordCount = solutions.Count;
-			Score = solutions.Sum(x => x.Score);
+			WordLength = solutions.Key;
+			WordCount = solutions.Value.Count;
+			Score = solutions.Value.Sum(x => x.Score);
 		}
 
 
