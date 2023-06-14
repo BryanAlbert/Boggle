@@ -97,13 +97,32 @@ namespace Boggle.ViewModels
 				m_solutionsMap = solutions.OrderByDescending(x => x.Word.Length).ThenBy(x => x.Word).
 					GroupBy(x => x.Word.Length).ToDictionary(x => x.Key, x => x.ToList());
 
-				m_nextKey = m_solutionsMap.First().Key;
-				m_nextValue = 0;
-				OnAtScrollThreshold();
+#if true
+				// TODO: remove this hackishness when more bugs are fixed, in the meantime, add filler at the ent
+				// to make the CollectionView scroll the real solutions into view when requested
+				List<Solution> bogusList = new();
+				for (int bogus = 0; bogus < 10; bogus++)
+					bogusList.Add(new Solution());
+
+				m_solutionsMap.Add(0, bogusList);
+#endif
+
 				IsSolved = true;
 				IsSolving = false;
 				Score = solutions.Sum(x => x.Score);
 				WordCount = solutions.Count;
+				m_nextKey = m_solutionsMap.First().Key;
+				m_nextValue = 0;
+				OnAtScrollThreshold();
+
+				// TODO:figure out a better way to do this... since CollectionView's spacing doesn't work on Windows, it's only Android
+				// that can show more than the ten Solutions on one page, so add more
+				if (DeviceInfo.Platform == DevicePlatform.Android)
+				{
+					// hopefully show the first batch of solutions 
+					await Task.Delay(250);
+					OnAtScrollThreshold();
+				}
 			}
 #if WINDOWS
 			else if (IsBoardGenerated)
@@ -146,7 +165,7 @@ namespace Boggle.ViewModels
 
 		private void OnAtScrollThreshold()
 		{
-			if (WordCount == Solutions.Sum(x => x.Count))
+			if (WordCount == Solutions.Where(x => x.WordLength > 0).Sum(x => x.Count))
 				return;
 
 			int remaining = c_scrollBatchSize;

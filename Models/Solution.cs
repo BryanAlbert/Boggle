@@ -2,6 +2,13 @@
 {
 	internal class Solution
 	{
+		public Solution()
+		{
+			Word = string.Empty;
+			Score = 0;
+			Path = new int[] { 0 };
+		}
+
 		public Solution(string word)
 		{
 			Word = word;

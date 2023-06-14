@@ -10,11 +10,6 @@ namespace Boggle.ViewModels
 	{
 		public GameViewModel()
 		{
-#if true
-			// TODO: testing
-			m_seed = 23;
-#endif
-
 			ScrambleCommand = new RelayCommand(OnScramble);
 			WeakReferenceMessenger.Default.Register<string>(this, OnRequest);
 			WeakReferenceMessenger.Default.Register<GameViewModel>(this, OnGameUpdated);
@@ -22,6 +17,7 @@ namespace Boggle.ViewModels
 
 #if true
 			// TODO: testing
+			m_seed = 23;
 			OnScramble();
 #endif
 		}
@@ -74,6 +70,9 @@ namespace Boggle.ViewModels
 						}
 					}
 				}
+
+				if (m_seed.HasValue)
+					m_letters = string.Empty;
 
 				if (SetProperty(ref m_letters, filtered))
 				{
@@ -156,7 +155,7 @@ namespace Boggle.ViewModels
 		{
 			if (game.Name != Name)
 			{
-				m_game = new Game(game, m_seed);
+				m_game = new Game(game);
 				IsGameSelected = true;
 				Name = m_game.Name;
 				Size = m_game.Size;
@@ -176,7 +175,7 @@ namespace Boggle.ViewModels
 			// https://learn.microsoft.com/en-us/dotnet/communitytoolkit/mvvm/generators/observableproperty
 			if (m_game != null)
 			{
-				Letters = m_game.Scramble();
+				Letters = m_game.Scramble(m_seed);
 #if WINDOWS
 				// not on Android to try and keep the keyboard hidden
 				_ = LettersEntry?.Focus();

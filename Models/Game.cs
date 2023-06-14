@@ -9,14 +9,10 @@ namespace Boggle.Models
 	{
 		public Game()
 		{
+			m_random = new Random();
 		}
 
-		public Game(int? seed)
-		{
-			m_random = seed.HasValue ? new Random(seed.Value) : new Random();
-		}
-
-		public Game(GameViewModel game, int? seed) : this(seed)
+		public Game(GameViewModel game) : this ()
 		{
 			Name = game.Name;
 			Size = game.Size;
@@ -87,8 +83,25 @@ namespace Boggle.Models
 		public static string[] m_comboLetters = { "  ", "Qu", "In", "Th", "Er", "He", "An" };
 
 
-		public string Scramble()
+		public string Name { get; set; }
+		public int Size { get; set; }
+		public int WordSize { get; set; }
+		public List<string> Scoring { get; set; }
+		public List<string> Cubes { get; set; }
+		public double Order { get; set; }
+		public string Filename { get; set; }
+
+		[JsonIgnore]
+		public string ComboLetterIndicies { get; }
+		[JsonIgnore]
+		public string ComboLettersList { get; set; }
+
+
+		public string Scramble(int? seed)
 		{
+			if (seed.HasValue)
+				m_random = new Random(seed.Value);
+
 			string letters = string.Empty;
 			List<int> used = new();
 			for (int index = 0; index < Cubes.Count; index++)
@@ -107,20 +120,6 @@ namespace Boggle.Models
 		}
 
 
-		public string Name { get; set; }
-		public int Size { get; set; }
-		public int WordSize { get; set; }
-		public List<string> Scoring { get; set; }
-		public List<string> Cubes { get; set; }
-		public double Order { get; set; }
-		public string Filename { get; set; }
-
-		[JsonIgnore]
-		public string ComboLetterIndicies { get; }
-		[JsonIgnore]
-		public string ComboLettersList { get; set; }
-
-
 		private static void SaveDefaultJson()
 		{
 			foreach (string jsonText in m_defaultGames)
@@ -133,7 +132,6 @@ namespace Boggle.Models
 		}
 
 
-		private readonly Random m_random;
 		private static readonly JsonSerializerOptions m_serializerOptions = new() { WriteIndented = true };
 		private static readonly List<string> m_defaultGames = new()
 		{
@@ -183,5 +181,8 @@ namespace Boggle.Models
 				@"""CCENST"", ""EIILST"", ""CEIPST"", ""DDHNOT"", ""DHHLOR"", ""DHHNOW"", ""DHLNOR"", ""EIIITT"", ""EILPST"", ""EMOTTT""," +
 				@"""ENSSSU"", ""123456"", ""GORRVW"", ""IPRSYY"", ""NOOTUW"", ""OOOTTU"" ], ""Order"": 9.0, ""Filename"": ""Big20125x5.game.json"" } "
 		};
+
+
+		private Random m_random;
 	}
 }
