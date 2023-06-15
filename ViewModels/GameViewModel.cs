@@ -15,7 +15,7 @@ namespace Boggle.ViewModels
 			WeakReferenceMessenger.Default.Register<GameViewModel>(this, OnGameUpdated);
 			_ = WeakReferenceMessenger.Default.Send(App.c_isGameSelected);
 
-#if true
+#if false
 			// TODO: testing
 			m_seed = 23;
 			OnScramble();

@@ -10,13 +10,103 @@
 		<viewModels:AboutViewModel />
 	</ContentPage.BindingContext>
 
-	<VerticalStackLayout Spacing="10" Margin="10">
-		<Label Text="{Binding Instructions}" LineBreakMode="WordWrap" Padding="20" />
-		<HorizontalStackLayout Spacing="10">
+	<Grid RowDefinitions="Auto,Auto,Auto,*,Auto" Margin="10" Padding="20,10,20,20">
+		<Label Grid.Row="0" Text="Instructions:" FontSize="Medium" />
+		<Label Grid.Row="1" Text="{Binding Instructions}" LineBreakMode="WordWrap" Padding="20,0,0,10" />
+		<Label Grid.Row="2" Text="Notes:" FontSize="Medium" />
+		<ScrollView Grid.Row="3" Orientation="Vertical">
+			<VerticalStackLayout Padding="10,10,0,0">
+				<Label>
+					<Label.FormattedText>
+						<FormattedString>
+							<FormattedString.Spans>
+								<Span Text="Boggle is written with Microsoft's new MAUI cross-platform development platform. " />
+								<Span Text="It is under development and has many bugs, especially on the Windows side, since " />
+								<Span Text="Microsoft doesn't seem so sure about the viability of Windows. As such, you will " />
+								<Span Text="notice a few anomalies:" />
+							</FormattedString.Spans>
+						</FormattedString>
+					</Label.FormattedText>
+				</Label>
+				<Label Padding="10,10,0,0">
+					<Label.FormattedText>
+						<FormattedString>
+							<FormattedString.Spans>
+								<Span Text="1. Loading the solutions into the CollectionView is very slow on Android. As such, we " />
+								<Span Text="load solutions dynamically. A MAUI bug causes Windows to fail to respond when the list " />
+								<Span Text="of solutions is scrolled near the end of the loaded solutions. We have developed a " />
+								<Span Text="workaround for this. However, another MAUI bug causes Windows to fail to detect when " />
+								<Span Text="the CollectionView is scrolled at all. As a workaround, one can regenerate the solution " />
+								<Span Text="list by tapping the S for Solve toolbar button a second time. If this fails (which it " />
+								<Span Text="usually does), one can tap the S button repeatedly to load more solutions manually. " />
+								<Span Text="We regret any inconvenience this may cause." />
+							</FormattedString.Spans>
+						</FormattedString>
+					</Label.FormattedText>
+				</Label>
+				<Label Padding="10,10,0,0">
+					<Label.FormattedText>
+						<FormattedString>
+							<FormattedString.Spans>
+								<Span Text="2. When scrolled to the bottom of the solutions list, a MAUI bug causes the CollectionView " />
+								<Span Text="to disallow scrolling to the end of the list of solutions, leaving those last few solutions just out " />
+								<Span Text="of reach. To get around this annoying problem, we display a less annoying list of 0 length " />
+								<Span Text="words as filler. We apologize for the inconvience, but it's actually Microsoft's fault." />
+							</FormattedString.Spans>
+						</FormattedString>
+					</Label.FormattedText>
+				</Label>
+				<Label Padding="10,10,0,0">
+					<Label.FormattedText>
+						<FormattedString>
+							<FormattedString.Spans>
+								<Span Text="3. Another MAUI bug causes Windows to ignore the vertical spacing setting for the " />
+								<Span Text="CollectionView, which means the solutions on Windows are freakishly separated, not tidy " />
+								<Span Text="like on Android." />
+							</FormattedString.Spans>
+						</FormattedString>
+					</Label.FormattedText>
+				</Label>
+				<Label Padding="10,10,0,0">
+					<Label.FormattedText>
+						<FormattedString>
+							<FormattedString.Spans>
+								<Span Text="4. Another bug causes the Toolbar on Windows to collapse, making the text of each " />
+								<Span Text="toolbar button inaccessible unless the menu is expanded with the ellipsis button at " />
+								<Span Text="the end of the toolbar. As such, Windows uses the S glyph, for Scramble or Solve. " />
+								<Span Text="Our Art Department is working on more meaningful icons which will be used on both " />
+								<Span Text="platforms." />
+							</FormattedString.Spans>
+						</FormattedString>
+					</Label.FormattedText>
+				</Label>
+				<Label Padding="10,10,0,0">
+					<Label.FormattedText>
+						<FormattedString>
+							<FormattedString.Spans>
+								<Span Text="5. Typically, toolbar buttons are disabled when not appropriate. We haven't figured " />
+								<Span Text="that feature out yet." />
+							</FormattedString.Spans>
+						</FormattedString>
+					</Label.FormattedText>
+				</Label>
+				<Label Padding="10,10,0,0">
+					<Label.FormattedText>
+						<FormattedString>
+							<FormattedString.Spans>
+								<Span Text="6. Enjoy, please, enjoy." />
+							</FormattedString.Spans>
+						</FormattedString>
+					</Label.FormattedText>
+				</Label>
+			</VerticalStackLayout>
+		</ScrollView>
+
+		<HorizontalStackLayout Grid.Row="4" Spacing="10" Margin="0,20,0,0">
 			<Image Source="dotnet_bot.png" SemanticProperties.Description="The dot net bot waving hello!"
 					HeightRequest="64" />
 			<Label FontSize="22" FontAttributes="Bold" Text="{Binding Title}" VerticalOptions="End" />
 			<Label FontSize="16" Text="{Binding Version}" VerticalOptions="End" />
 		</HorizontalStackLayout>
-	</VerticalStackLayout>
+	</Grid>
 </ContentPage>

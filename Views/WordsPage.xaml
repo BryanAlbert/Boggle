@@ -321,12 +321,6 @@
 			<CollectionView.GroupHeaderTemplate>
 				<DataTemplate x:DataType="models:Solutions">
 					<Grid ColumnDefinitions="Auto,Auto,8,Auto,Auto,8,Auto,8,*" Margin="0, 20,0,0">
-						<Grid.GestureRecognizers>
-							<TapGestureRecognizer NumberOfTapsRequired="1"
-									Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:WordsViewModel}},
-									Path=SelectHeaderCommand}" CommandParameter="{Binding .}" />
-						</Grid.GestureRecognizers>
-
 						<ActivityIndicator Grid.Column="0" Margin="0,0,10,0" WidthRequest="20" HeightRequest="20"
 								IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
 						<Label Grid.Column="1" Text="{Binding WordCount}" Style="{StaticResource GroupHeaderLabel}" />
