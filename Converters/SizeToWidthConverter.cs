@@ -16,7 +16,7 @@ namespace Boggle.Converters
 					"Frame" => 0,
 					"Entry" => 1,
 					"Radius" => 2,
-					"Padding" =>  3,
+					"Padding" => 3,
 					"Margin" => 4,
 					_ => 0
 				};

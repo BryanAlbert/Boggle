@@ -94,7 +94,7 @@
 						IconImageSource="{FontImage Glyph='S', Color=White, Size=22}" />
 			</On>
 			<On Platform="Android">
-				<ToolbarItem Text="Solve" Command="{Binding SolveCommand}"  />
+				<ToolbarItem Text="Solve" Command="{Binding SolveCommand}" />
 			</On>
 		</OnPlatform>
 	</ContentPage.ToolbarItems>
@@ -308,8 +308,8 @@
 		<Label Grid.Row="2" Grid.Column="7" Text="{Binding Score, Converter={StaticResource PluralPoints}}"
 				Style="{StaticResource ScoreLabel}" />
 
-		<CollectionView Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="8" Margin="20,0,0,0"
-				ItemsSource="{Binding Solutions}" IsGrouped="True" SelectionMode="Single" RemainingItemsThreshold="10"
+		<CollectionView Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="8" Margin="20,0,0,0" IsGrouped="True"
+				ItemsSource="{Binding Solutions}" SelectionMode="Single" RemainingItemsThreshold="{Binding ScrollThreshold}"
 				RemainingItemsThresholdReachedCommand="{Binding AtScrollThresholdCommand}"
 				IsVisible="{Binding IsSolved}" SelectionChangedCommand="{Binding SelectWordCommand}"
 				SelectionChangedCommandParameter="{Binding Source={RelativeSource Self}, Path=SelectedItem}"

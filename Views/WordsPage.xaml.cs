@@ -51,5 +51,5 @@ public partial class WordsPage : ContentPage
 			if (delta <= view.RemainingItemsThreshold)
 				view.RemainingItemsThresholdReachedCommand.Execute(null);
 		}
-    }
+	}
 }

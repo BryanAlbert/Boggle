@@ -26,20 +26,22 @@ public partial class App : Application
 				window.Width = c_defaultWidth;
 				window.Height = c_defaultHeight;
 
-				// give it some time to complete window resizing task.
+				// give it some time to complete window resizing task
 				await window.Dispatcher.DispatchAsync(() => { });
 
 				DisplayInfo disp = DeviceDisplay.Current.MainDisplayInfo;
 				window.X = (disp.Width / disp.Density - window.Width) / 2;
 				window.Y = (disp.Height / disp.Density - window.Height) / 2;
 
-				// TODO: hack to move to the laptop display when the main display is above it
+#if false
+				// TODO: hack to move to the laptop display when the main display is above it on an external monitor
 				window.Y = 1080;
+#endif
 			}
 		};
 #endif
 
-		return window;
+				return window;
 	}
 
 

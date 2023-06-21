@@ -49,6 +49,7 @@ namespace Boggle.ViewModels
 		public bool IsSolved { get => m_isSolved; private set => SetProperty(ref m_isSolved, value); }
 		public bool IsCells5Visible { get => m_isCells5Visible; private set => SetProperty(ref m_isCells5Visible, value); }
 		public bool IsCells6Visible { get => m_isCells6Visible; private set => SetProperty(ref m_isCells6Visible, value); }
+		public int ScrollThreshold => c_scrollThreshold;
 		public bool HasScrolled
 		{
 			get { lock (m_lock) { return m_hasScrolled; } }
@@ -146,15 +147,7 @@ namespace Boggle.ViewModels
 				m_nextValue = 0;
 				await LoadSolutionsAsync();
 
-				// TODO: figure out a better way to do this... since CollectionView's spacing doesn't work on Windows,
-				// it's only Android that can show more than the ten Solutions on one page, so add more
-				if (DeviceInfo.Platform == DevicePlatform.Android)
-				{
-					// hopefully show the first batch of solutions first
-					await Task.Delay(250);
-					await LoadSolutionsAsync();
-				}
-				else
+				if (DeviceInfo.Platform == DevicePlatform.WinUI)
 				{
 					m_toastTimer = new(async (x) =>
 					{
@@ -208,7 +201,7 @@ namespace Boggle.ViewModels
 					return false;
 				}
 
-				int remaining = c_scrollBatchSize;
+				int remaining = c_solutionBatchSize;
 				foreach (KeyValuePair<int, List<Solution>> solutions in m_solutionsMap.Where(x => x.Key <= m_nextKey))
 				{
 					if (remaining == 0)
@@ -258,10 +251,12 @@ namespace Boggle.ViewModels
 		}
 
 
-		private const int c_scrollBatchSize = 10;
+		private const int c_solutionBatchSize = 20;
+		private const int c_scrollThreshold = 10;
 		private readonly object m_lock = new();
 		private readonly Solver m_solver;
 		private readonly CancellationTokenSource m_cancellationTokenSource = new();
+		private static readonly SemaphoreSlim m_loadSemaphore = new(1, 1);
 		private string m_message;
 		private bool m_isBoardGenerated;
 		private bool m_isNotSolved;
@@ -282,6 +277,5 @@ namespace Boggle.ViewModels
 		private int m_nextValue;
 		private int m_solveCount;
 		private Timer m_toastTimer;
-		private static readonly SemaphoreSlim m_loadSemaphore = new SemaphoreSlim(1, 1);
 	}
 }
