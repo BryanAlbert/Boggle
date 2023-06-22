@@ -15,7 +15,9 @@ namespace Boggle.ViewModels
 			WeakReferenceMessenger.Default.Register<GameViewModel>(this, OnGameUpdated);
 			_ = WeakReferenceMessenger.Default.Send(App.c_isGameSelected);
 
-#if false
+#if true
+			m_seed = null;
+#else
 			// TODO: testing
 			m_seed = 23;
 			OnScramble();
@@ -243,7 +245,7 @@ namespace Boggle.ViewModels
 
 
 		private const string c_validLetters = "ABCDEFGHIJKLMNOPRSTUVWXYZ";
-		private int? m_seed;
+		private readonly int? m_seed;
 		private Game m_game;
 		private string m_name;
 		private int m_size;
