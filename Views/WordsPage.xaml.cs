@@ -14,10 +14,10 @@ public partial class WordsPage : ContentPage
 
 
 	/// <summary>
-	/// Since Microsoft doesn't care about Windows, MAUI doens't execute the RemainingItemsThresholdReachedCommand
+	/// Since Microsoft doesn't care about Windows, MAUI doesn't execute the RemainingItemsThresholdReachedCommand
 	/// when the view is scrolled to the end. Since debugging on Android is so abysmal, we have to make hacks like this
 	/// to get things working. Sadly, these events never seem to get fired. Actually, if the same board is solved twice in a 
-	/// row, it seems to work... ocasionally... 
+	/// row, it seems to work... occasionally... 
 	/// </summary>
 	/// <param name="sender"></param>
 	/// <param name="e"></param>
@@ -34,7 +34,7 @@ public partial class WordsPage : ContentPage
 
 			// TODO: the IElementController seems to get confused after a while making it unreliable at determining the number
 			// of items in the LogicalChildren list to determine how far we are from the end, so do this instead (many entries go 
-			// missing so e.LastVisibleIntemIndex ends up greater than controller.LogicalChildren.Count)
+			// missing so e.LastVisibleItemIndex ends up greater than controller.LogicalChildren.Count)
 			ObservableCollection<Solutions> solutions = viewModel.Solutions;
 			List<string> items = new();
 			foreach (Solutions header in solutions)

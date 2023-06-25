@@ -72,6 +72,7 @@ namespace Boggle.ViewModels
 		public ICommand AtScrollThresholdCommand { get; }
 		public ICommand SelectWordCommand { get; }
 
+
 		private void OnGameUpdated(object recipient, GameViewModel game)
 		{
 			m_solver.Game = game;
@@ -108,7 +109,7 @@ namespace Boggle.ViewModels
 			// https://learn.microsoft.com/en-us/dotnet/communitytoolkit/mvvm/generators/observableproperty
 			if (SolveCount++ < 2)
 			{
-				// TODO: remove this hack when bugs are fixed: allow solving twice since the Scrolled event, requried for
+				// TODO: remove this hack when bugs are fixed: allow solving twice since the Scrolled event, required for
 				// a workaround for Windows not executing the RemainingItemsThresholdReachedCommand ICommand 
 				// when loading the CollectionView dynamically, required since it's so freaking slow, isn't fired unless 
 				// the CollectionView is loaded twice, apparently (and even then, it doesn't always work)
@@ -160,12 +161,17 @@ namespace Boggle.ViewModels
 						}
 					}, SolveCount, TimeSpan.FromSeconds(4), Timeout.InfiniteTimeSpan);
 				}
+				else
+				{
+					// on Android, load more solutions for the taller screens on some tablets
+					await LoadSolutionsAsync();
+				}
 			}
 			else if (AllSolutionsLoaded == false)
 			{
-				// TODO: remove when bug is fixed... hack on Windows, since the RemainingItemsTreshold(Reached|Command)
+				// TODO: remove when bug is fixed... hack on Windows, since the RemainingItemsThreshold(Reached|Command)
 				// are broken, we use the Solve command to activate loading more solutions, as would happen when scrolling
-				// the list past the threshold. Shouldn't be necessary if the othe hack (above) is working...
+				// the list past the threshold. Shouldn't be necessary if the other hack (above) is working...
 				await Toast.Make("Loading solutions...").Show(m_cancellationTokenSource.Token);
 				_ = Task.Run(LoadAllSolutionsAsync);
 			}

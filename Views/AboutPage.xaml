@@ -10,13 +10,46 @@
 		<viewModels:AboutViewModel />
 	</ContentPage.BindingContext>
 
-	<Grid RowDefinitions="Auto,Auto,Auto,*,Auto" Margin="10" Padding="20,10,20,20">
-		<Label Grid.Row="0" Text="Instructions:" FontSize="Medium" />
-		<Label Grid.Row="1" Text="{Binding Instructions}" LineBreakMode="WordWrap" Padding="20,0,0,10" />
-		<Label Grid.Row="2" Text="Notes:" FontSize="Medium" />
-		<ScrollView Grid.Row="3" Orientation="Vertical">
+	<Grid RowDefinitions="*,Auto" Margin="10" Padding="20,10,20,20">
+		<ScrollView Grid.Row="0" Orientation="Vertical">
 			<VerticalStackLayout Padding="10,10,0,0">
-				<Label>
+				<Label Text="Instructions:" FontSize="Medium" />
+				<Label Padding="10,10,0,0">
+					<Label.FormattedText>
+						<FormattedString>
+							<FormattedString.Spans>
+								<Span Text="1. Choose a Boggle game to play from the Games page. Various versions of " />
+								<Span Text="are listed, with their minimum word length, scoring table and dice collection." />
+							</FormattedString.Spans>
+						</FormattedString>
+					</Label.FormattedText>
+				</Label>
+				<Label Padding="10,10,0,0">
+					<Label.FormattedText>
+						<FormattedString>
+							<FormattedString.Spans>
+								<Span Text="2. Generate a board on the Game page. Use the Scramble button on the toolbar " />
+								<Span Text="(S on Windows) to randomly scramble the dice, or enter letters manually. You can " />
+								<Span Text="enter a string of letters in the Letters: field or enter each letter individually by tapping " />
+								<Span Text="a die. Refer to the Key for entering special letters, e.g., enter a 1 for the combo-letter Qu." />
+							</FormattedString.Spans>
+						</FormattedString>
+					</Label.FormattedText>
+				</Label>
+				<Label Padding="10,10,0,20">
+					<Label.FormattedText>
+						<FormattedString>
+							<FormattedString.Spans>
+								<Span Text="3. Solve the board on the Words page. Use the Solve button on the toolbar " />
+								<Span Text="(S on Windows) to find solutions. Tap a solution to see it on the board, the first " />
+								<Span Text="letter is brown, the second red, then orange, yellow, green, blue, violet and gray." />
+							</FormattedString.Spans>
+						</FormattedString>
+					</Label.FormattedText>
+				</Label>
+
+				<Label Text="Notes:" FontSize="Medium" />
+				<Label Padding="0,10,0,0">
 					<Label.FormattedText>
 						<FormattedString>
 							<FormattedString.Spans>
@@ -37,9 +70,9 @@
 								<Span Text="of solutions is scrolled near the end of the loaded solutions. We have developed a " />
 								<Span Text="workaround for this. However, another MAUI bug causes Windows to fail to detect when " />
 								<Span Text="the CollectionView is scrolled at all. As a workaround, one can regenerate the solution " />
-								<Span Text="list by tapping the S for Solve toolbar button a second time. If this fails (which it " />
-								<Span Text="usually does), one can tap the S button repeatedly to load more solutions manually. " />
-								<Span Text="We regret any inconvenience this may cause." />
+								<Span Text="list by tapping the S for Solve toolbar button a second time which can cause the scrolling " />
+								<Span Text="to start working. If this fails (which it usually does), one can tap the S button again to " />
+								<Span Text="load the solutions manually in the background. We regret any inconvenience this may cause." />
 							</FormattedString.Spans>
 						</FormattedString>
 					</Label.FormattedText>
@@ -51,7 +84,7 @@
 								<Span Text="2. When scrolled to the bottom of the solutions list, a MAUI bug causes the CollectionView " />
 								<Span Text="to disallow scrolling to the end of the list of solutions, leaving those last few solutions just out " />
 								<Span Text="of reach. To get around this annoying problem, we display a less annoying list of 0 length " />
-								<Span Text="words as filler. We apologize for the inconvience, but it's actually Microsoft's fault." />
+								<Span Text="words as filler. We apologize for the inconvenience, but it's actually Microsoft's fault." />
 							</FormattedString.Spans>
 						</FormattedString>
 					</Label.FormattedText>
