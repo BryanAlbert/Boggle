@@ -9,3 +9,5 @@ die randomly located and oriented, or letters can be added to the board manually
 be solved, using words from the Collins Scrabble Words dictionary, downloaded from 
 http://pages.cs.wisc.edu/~o-laughl/csw15.txt. Solutions are ordered by length. A solution can be 
 selected to show its location on the board.
+
+See the About page for a list of issues. 
