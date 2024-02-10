@@ -35,7 +35,7 @@ namespace Boggle.ViewModels
 		public string Name { get => m_name; set => SetProperty(ref m_name, value); }
 		public int Size { get => m_size; set => SetProperty(ref m_size, value); }
 		public string ComboLetters { get => m_comboLetters; set => SetProperty(ref m_comboLetters, value); }
-		public string ComboLetterIndicies { get; set; }
+		public string ComboLetterIndices { get; set; }
 
 		public string Letters
 		{
@@ -57,7 +57,7 @@ namespace Boggle.ViewModels
 							return;
 
 						test = test.ToUpper();
-						bool valid = ComboLetterIndicies.Contains(test);
+						bool valid = ComboLetterIndices.Contains(test);
 						if (valid)
 							filtered = m_letters[..index] + test + m_letters[(index + 1)..];
 
@@ -97,7 +97,7 @@ namespace Boggle.ViewModels
 				string filtered = string.Empty;
 				foreach (char letter in value.ToUpper())
 				{
-					if (ComboLetterIndicies.Contains(letter))
+					if (ComboLetterIndices.Contains(letter))
 						filtered += letter;
 					else
 						m_lettersEntry = null;
@@ -162,7 +162,7 @@ namespace Boggle.ViewModels
 				Name = m_game.Name;
 				Size = m_game.Size;
 				ComboLetters = m_game.ComboLettersList;
-				ComboLetterIndicies = c_validLetters + m_game.ComboLetterIndicies;
+				ComboLetterIndices = c_validLetters + m_game.ComboLetterIndices;
 				Cells5Visible = m_game.Size > 4;
 				Cells6Visible = m_game.Size > 5;
 				Letters = new string(' ', m_game.Size * m_game.Size);

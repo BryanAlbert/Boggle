@@ -49,11 +49,11 @@ namespace Boggle.Converters
 		}
 
 
-		private readonly double[] c_small4x4 = { 109.0, 5.0, 2.0, 0.5 };
-		private readonly double[] c_small5x5 = { 123.0, 3.0, 1.0, 0.5 };
-		private readonly double[] c_small6x6 = { 135.0, 3.0, 1.0, 0.4 };
-		private readonly double[] c_4x4 = { 392.0, 20.0, 5.0, 3.0 };
-		private readonly double[] c_5x5 = { 390.0, 15.0, 4.0, 2.0 };
-		private readonly double[] c_6x6 = { 386.0, 10.0, 3.0, 1.0 };
+		private readonly double[] c_small4x4 = [109.0, 5.0, 2.0, 0.5];
+		private readonly double[] c_small5x5 = [123.0, 3.0, 1.0, 0.5];
+		private readonly double[] c_small6x6 = [135.0, 3.0, 1.0, 0.4];
+		private readonly double[] c_4x4 = [392.0, 20.0, 5.0, 3.0];
+		private readonly double[] c_5x5 = [390.0, 15.0, 4.0, 2.0];
+		private readonly double[] c_6x6 = [386.0, 10.0, 3.0, 1.0];
 	}
 }

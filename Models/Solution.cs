@@ -6,14 +6,14 @@
 		{
 			Word = string.Empty;
 			Score = 0;
-			Path = new int[] { 0 };
+			Path = [0];
 		}
 
 		public Solution(string word)
 		{
 			Word = word;
 			Score = 0;
-			Path = new int[] { 0 };
+			Path = [0];
 		}
 
 		public Solution(string word, int[] path, ViewModels.GameViewModel game)

@@ -27,7 +27,7 @@ namespace Boggle.Converters
 
 
 		private readonly Color[] c_colors =
-		{
+		[
 			Colors.Ivory,
 			Colors.BurlyWood,
 			Colors.IndianRed,
@@ -37,6 +37,6 @@ namespace Boggle.Converters
 			Colors.LightSkyBlue,
 			Colors.BlueViolet,
 			Colors.DarkGray
-		};
+		];
 	}
 }

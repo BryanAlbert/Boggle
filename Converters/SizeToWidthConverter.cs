@@ -39,8 +39,8 @@ namespace Boggle.Converters
 		}
 
 
-		private readonly double[] c_4x4 = { 392.0, 90.0, 20.0, 5.0, 3.0 };
-		private readonly double[] c_5x5 = { 390.0, 73.0, 15.0, 4.0, 2.0 };
-		private readonly double[] c_6x6 = { 386.0, 58.0, 10.0, 3.0, 1.0 };
+		private readonly double[] c_4x4 = [392.0, 90.0, 20.0, 5.0, 3.0];
+		private readonly double[] c_5x5 = [390.0, 73.0, 15.0, 4.0, 2.0];
+		private readonly double[] c_6x6 = [386.0, 58.0, 10.0, 3.0, 1.0];
 	}
 }

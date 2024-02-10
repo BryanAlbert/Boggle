@@ -41,7 +41,7 @@ public partial class App : Application
 		};
 #endif
 
-				return window;
+		return window;
 	}
 
 

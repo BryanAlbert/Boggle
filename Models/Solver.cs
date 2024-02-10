@@ -16,7 +16,8 @@ namespace Boggle
 		}
 
 
-		public List<Solution> WordList { get; set; } = new List<Solution>();
+		public List<Solution> WordList { get; set; } = [];
+
 		public GameViewModel Game
 		{
 			get => m_game;
@@ -48,7 +49,7 @@ namespace Boggle
 				path[index] = 0;
 			}
 
-			return WordList.OrderBy(x => x.Score).ThenBy(x => x.Word).ToList();
+			return [.. WordList.OrderBy(x => x.Score).ThenBy(x => x.Word)];
 		}
 
 
@@ -58,11 +59,7 @@ namespace Boggle
 				throw new ArgumentNullException(nameof(Game));
 
 			string letters = Models.Game.RenderWord(string.Join("", Game.Letters.Distinct())).ToUpper();
-			List<string> words = new();
-			foreach (string word in m_dictionary)
-				if (!word.Any(x => !letters.Contains(x)))
-					words.Add(word);
-
+			List<string> words = [.. m_dictionary.Where(word => !word.Any(x => !letters.Contains(x)))];
 			m_abridged = words.ToArray();
 		}
 

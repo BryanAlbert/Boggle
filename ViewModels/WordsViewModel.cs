@@ -15,7 +15,7 @@ namespace Boggle.ViewModels
 			try
 			{
 				m_solver = new Solver();
-				Solutions = new ObservableCollection<Solutions>();
+				Solutions = [];
 				WeakReferenceMessenger.Default.Register<GameViewModel>(this, OnGameUpdated);
 				_ = WeakReferenceMessenger.Default.Send(App.c_isGameSelected);
 				_ = WeakReferenceMessenger.Default.Send(App.c_isBoardGenerated);
@@ -134,7 +134,7 @@ namespace Boggle.ViewModels
 
 				// TODO: remove this hackishness when more MAUI bugs are fixed, in the meantime, add filler at the end
 				// to make the CollectionView scroll the real solutions into view when requested
-				List<Solution> bogusList = new();
+				List<Solution> bogusList = [];
 				for (int bogus = 0; bogus < 10; bogus++)
 					bogusList.Add(new Solution());
 

@@ -19,11 +19,11 @@ namespace Boggle.Models
 			WordSize = game.WordLength;
 			Scoring = game.Scoring.Select(x => x.ToString()).ToList();
 			Cubes = game.Cubes;
-			IEnumerable<int> comboIndicies = Cubes.SelectMany(x => x.Where(char.IsDigit)).Distinct().Order().
+			IEnumerable<int> comboIndices = Cubes.SelectMany(x => x.Where(char.IsDigit)).Distinct().Order().
 				Select(x => int.Parse(x.ToString()));
 
-			ComboLetterIndicies = string.Concat(comboIndicies);
-			ComboLettersList = string.Join(", ", comboIndicies.Select(x => $"{x}={m_comboLetters[x]}"));
+			ComboLetterIndices = string.Concat(comboIndices);
+			ComboLettersList = string.Join(", ", comboIndices.Select(x => $"{x}={m_comboLetters[x]}"));
 		}
 
 
@@ -80,7 +80,7 @@ namespace Boggle.Models
 		}
 
 
-		public static string[] m_comboLetters = { "  ", "Qu", "In", "Th", "Er", "He", "An" };
+		public static string[] m_comboLetters = ["  ", "Qu", "In", "Th", "Er", "He", "An"];
 
 
 		public string Name { get; set; }
@@ -92,7 +92,7 @@ namespace Boggle.Models
 		public string Filename { get; set; }
 
 		[JsonIgnore]
-		public string ComboLetterIndicies { get; }
+		public string ComboLetterIndices { get; }
 		[JsonIgnore]
 		public string ComboLettersList { get; set; }
 
@@ -103,7 +103,7 @@ namespace Boggle.Models
 				m_random = new Random(seed.Value);
 
 			string letters = string.Empty;
-			List<int> used = new();
+			List<int> used = [];
 			for (int index = 0; index < Cubes.Count; index++)
 			{
 				int cube = m_random.Next(Cubes.Count);
@@ -133,8 +133,8 @@ namespace Boggle.Models
 
 
 		private static readonly JsonSerializerOptions m_serializerOptions = new() { WriteIndented = true };
-		private static readonly List<string> m_defaultGames = new()
-		{
+		private static readonly List<string> m_defaultGames =
+		[
 			@"{ ""Name"": ""Boggle Classic"", ""Size"": 4, ""WordSize"": 3, ""Scoring"": [ ""0"", ""0"", ""1"", ""1"", ""2"", ""3"", ""5"", ""11"" ]," +
 				@"""Cubes"": [ ""AEANEG"", ""AHSPCO"", ""ASPFFK"", ""OBJOAB"", ""IOTMUC"", ""RYVDEL"", ""LREIXD"", ""EIUNES"", ""WNGEEH""," +
 				@" ""LNHNRZ"", ""TSTIYD"", ""OWTOAT"", ""ERTTYL"", ""TOESSI"", ""TERWHV"", ""NUIHM1"" ], ""Order"": 0.0, ""Filename"": ""Classic4x4.game.json"" }",
@@ -180,7 +180,7 @@ namespace Boggle.Models
 				@"""Cubes"": [ ""AAAFRS"", ""AAEEEE"", ""AAFIRS"", ""ADENNN"", ""AEEEEM"", ""AEEGMU"", ""AEGMNN"", ""AFIRSY"", ""BBJKXZ""," +
 				@"""CCENST"", ""EIILST"", ""CEIPST"", ""DDHNOT"", ""DHHLOR"", ""DHHNOW"", ""DHLNOR"", ""EIIITT"", ""EILPST"", ""EMOTTT""," +
 				@"""ENSSSU"", ""123456"", ""GORRVW"", ""IPRSYY"", ""NOOTUW"", ""OOOTTU"" ], ""Order"": 9.0, ""Filename"": ""Big20125x5.game.json"" } "
-		};
+		];
 
 
 		private Random m_random;

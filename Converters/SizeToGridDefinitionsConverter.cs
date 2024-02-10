@@ -21,7 +21,7 @@ namespace Boggle.Converters
 						_ => new ColumnDefinition(c_4x4)
 					};
 
-					ColumnDefinition[] columns = { column, column, column, column, column, column };
+					ColumnDefinition[] columns = [column, column, column, column, column, column];
 					return new ColumnDefinitionCollection(columns);
 				}
 
@@ -33,7 +33,7 @@ namespace Boggle.Converters
 					_ => new RowDefinition(c_4x4)
 				};
 
-				RowDefinition[] rows = { row, row, row, row, row, row };
+				RowDefinition[] rows = [row, row, row, row, row, row];
 				return new RowDefinitionCollection(rows);
 			}
 
