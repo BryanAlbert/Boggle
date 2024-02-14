@@ -194,6 +194,7 @@ namespace Boggle.Models
 		private static readonly string[] m_comboLetters = ["  ", "Qu", "In", "Th", "Er", "He", "An"];
 		private static readonly string c_bonusLettersList = "1=Qu, 2=In, 3=Th, 4=Er, 5=He, 6=An";
 
+
 		private Random m_random;
 	}
 }

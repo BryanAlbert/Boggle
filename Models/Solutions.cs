@@ -2,7 +2,8 @@
 
 namespace Boggle.Models
 {
-	internal class Solutions(KeyValuePair<int, List<Solution>> solutions, List<Solution> partial) : ObservableCollection<Solution>(partial)
+	internal class Solutions(KeyValuePair<int, List<Solution>> solutions, List<Solution> partial) :
+		ObservableCollection<Solution>(partial)
 	{
 		public int WordLength { get; set; } = solutions.Key;
 		public int WordCount { get; set; } = solutions.Value.Count;

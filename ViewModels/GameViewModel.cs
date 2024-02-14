@@ -200,7 +200,7 @@ namespace Boggle.ViewModels
 
 		private void SetLetters()
 		{
-			Letters = new string(' ', m_game.Size * m_game.Size);
+			Letters = new(' ', m_game.Size * m_game.Size);
 			if (UseBonusCube)
 			{
 				ComboLetters = m_game.BonusLettersList;
