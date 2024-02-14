@@ -12,7 +12,7 @@ namespace Boggle.Models
 			m_random = new Random();
 		}
 
-		public Game(GameViewModel game) : this ()
+		public Game(GameViewModel game) : this()
 		{
 			Name = game.Name;
 			Size = game.Size;
@@ -24,6 +24,9 @@ namespace Boggle.Models
 
 			ComboLetterIndices = string.Concat(comboIndices);
 			ComboLettersList = string.Join(", ", comboIndices.Select(x => $"{x}={m_comboLetters[x]}"));
+			HasBonusCube = !Cubes.Any(x => x == c_bonusCube);
+			BonusLetterIndices = c_bonusCube;
+			BonusLettersList = c_bonusLettersList;
 		}
 
 
@@ -80,7 +83,7 @@ namespace Boggle.Models
 		}
 
 
-		public static string[] m_comboLetters = ["  ", "Qu", "In", "Th", "Er", "He", "An"];
+		public static readonly string c_bonusCube = "123456";
 
 
 		public string Name { get; set; }
@@ -92,19 +95,25 @@ namespace Boggle.Models
 		public string Filename { get; set; }
 
 		[JsonIgnore]
+		public bool HasBonusCube { get; }
+		[JsonIgnore]
 		public string ComboLetterIndices { get; }
 		[JsonIgnore]
-		public string ComboLettersList { get; set; }
+		public string ComboLettersList { get; }
+		[JsonIgnore]
+		public string BonusLetterIndices { get; }
+		[JsonIgnore]
+		public string BonusLettersList { get; }
 
 
 		public string Scramble(int? seed)
 		{
 			if (seed.HasValue)
-				m_random = new Random(seed.Value);
+				m_random = new(seed.Value);
 
 			string letters = string.Empty;
 			List<int> used = [];
-			for (int index = 0; index < Cubes.Count; index++)
+			for (int index = 0; index < Size * Size; index++)
 			{
 				int cube = m_random.Next(Cubes.Count);
 				while (used.Contains(cube % Cubes.Count))
@@ -135,20 +144,20 @@ namespace Boggle.Models
 		private static readonly JsonSerializerOptions m_serializerOptions = new() { WriteIndented = true };
 		private static readonly List<string> m_defaultGames =
 		[
-			@"{ ""Name"": ""Boggle Classic"", ""Size"": 4, ""WordSize"": 3, ""Scoring"": [ ""0"", ""0"", ""1"", ""1"", ""2"", ""3"", ""5"", ""11"" ]," +
-				@"""Cubes"": [ ""AEANEG"", ""AHSPCO"", ""ASPFFK"", ""OBJOAB"", ""IOTMUC"", ""RYVDEL"", ""LREIXD"", ""EIUNES"", ""WNGEEH""," +
+			@"{ ""Name"": ""Boggle Classic"", ""Size"": 4, ""WordSize"": 3, ""Scoring"": [ ""0"", ""0"", ""1"", ""1"", ""2"", ""3"", ""5"", ""11"" ], " +
+				@"""Cubes"": [ ""AEANEG"", ""AHSPCO"", ""ASPFFK"", ""OBJOAB"", ""IOTMUC"", ""RYVDEL"", ""LREIXD"", ""EIUNES"", ""WNGEEH"", " +
 				@" ""LNHNRZ"", ""TSTIYD"", ""OWTOAT"", ""ERTTYL"", ""TOESSI"", ""TERWHV"", ""NUIHM1"" ], ""Order"": 0.0, ""Filename"": ""Classic4x4.game.json"" }",
 
 			@" { ""Name"": ""Big Boggle Classic"", ""Size"": 5, ""WordSize"": 4, ""Scoring"": [ ""0"", ""0"", ""0"", ""1"", ""2"", ""3"", ""5"", ""11"" ]," +
-				@"""Cubes"": [ ""AAAFRS"", ""AAEEEE"", ""AAFIRS"", ""ADENNN"", ""AEEEEM"", ""AEEGMU"", ""AEGMNN"", ""AFIRSY"", ""BJK1XZ""," +
-				@"""CCENST"", ""CEIILT"", ""CEIPST"", ""DDHNOT"", ""DHHLOR"", ""DHHLOR"", ""DHLNOR"", ""EIIITT"", ""CEILPT"", ""EMOTTT""," +
+				@"""Cubes"": [ ""AAAFRS"", ""AAEEEE"", ""AAFIRS"", ""ADENNN"", ""AEEEEM"", ""AEEGMU"", ""AEGMNN"", ""AFIRSY"", ""BJK1XZ"", " +
+				@"""CCENST"", ""CEIILT"", ""CEIPST"", ""DDHNOT"", ""DHHLOR"", ""DHHLOR"", ""DHLNOR"", ""EIIITT"", ""CEILPT"", ""EMOTTT"", " +
 				@"""ENSSSU"", ""FIPRSY"", ""GORRVW"", ""IPRRRY"", ""NOOTUW"", ""OOOTTU"" ], ""Order"": 1.0, ""Filename"": ""BigClassic5x5.game.json"" } ",
 
 			@" { ""Name"": ""Super Big Boggle"", ""Size"": 6, ""WordSize"": 4, ""Scoring"": [ ""0"", ""0"", ""0"", ""1"", ""2"", ""3"", ""5"", ""11"", ""-2"" ]," +
-				@"""Cubes"": [ ""AAAFRS"", ""AAEEEE"", ""AAEEOO"", ""AAFIRS"", ""ABDEIO"", ""ADENNN"", ""AEEEEM"", ""AEEGMU"", ""AEGMNN""," +
-				@"""AEILMN"", ""AEINOU"", ""AFIRSY"", ""123456"", ""BBJKXZ"", ""CCENST"", ""CDDLNN"", ""CEIITT"", ""CEIPST"", ""CFGNUY""," +
-				@"""DDHNOT"", ""DHHLOR"", ""DHHNOW"", ""DHLNOR"", ""EHILRS"", ""EIILST"", ""EILPST"", ""EIO000"", ""EMTTTO"", ""ENSSSU""," +
-				@"""GORRVW"", ""HIRSTV"", ""HOPRST"", ""IPRSYY"", ""JK1WXZ"", ""NOOTUW"", ""OOOTTU"" ], ""Order"": 2.0, ""Filename"": ""SuperBig6x6.game.json"" } ",
+				@"""Cubes"": [ ""AAAFRS"", ""AAEEEE"", ""AAEEOO"", ""AAFIRS"", ""ABDEIO"", ""ADENNN"", ""AEEEEM"", ""AEEGMU"", ""AEGMNN"", " +
+				@"""AEILMN"", ""AEINOU"", ""AFIRSY"", ""BBJKXZ"", ""CCENST"", ""CDDLNN"", ""CEIITT"", ""CEIPST"", ""CFGNUY"", ""DDHNOT"", " +
+				@"""DHHLOR"", ""DHHNOW"", ""DHLNOR"", ""EHILRS"", ""EIILST"", ""EILPST"", ""EIO000"", ""EMTTTO"", ""ENSSSU"", ""GORRVW"", " +
+				@"""HIRSTV"", ""HOPRST"", ""IPRSYY"", ""JK1WXZ"", ""NOOTUW"", ""OOOTTU"", ""123456"" ], ""Order"": 2.0, ""Filename"": ""SuperBig6x6.game.json"" } ",
 
 			@"{ ""Name"": ""Boggle Update"", ""Size"": 4, ""WordSize"": 3, ""Scoring"": [ ""0"", ""0"", ""1"", ""1"", ""2"", ""3"", ""5"", ""11"" ]," +
 				@" ""Cubes"": [ ""AAEEGN"", ""ELRTTY"", ""AOOTTW"", ""ABBJOO"", ""EHRTVW"", ""CIMOTU"", ""DISTTY"", ""EIOSST"", ""DELRVY""," +
@@ -182,6 +191,8 @@ namespace Boggle.Models
 				@"""ENSSSU"", ""123456"", ""GORRVW"", ""IPRSYY"", ""NOOTUW"", ""OOOTTU"" ], ""Order"": 9.0, ""Filename"": ""Big20125x5.game.json"" } "
 		];
 
+		private static readonly string[] m_comboLetters = ["  ", "Qu", "In", "Th", "Er", "He", "An"];
+		private static readonly string c_bonusLettersList = "1=Qu, 2=In, 3=Th, 4=Er, 5=He, 6=An";
 
 		private Random m_random;
 	}

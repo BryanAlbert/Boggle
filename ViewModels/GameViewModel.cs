@@ -34,8 +34,19 @@ namespace Boggle.ViewModels
 
 		public string Name { get => m_name; set => SetProperty(ref m_name, value); }
 		public int Size { get => m_size; set => SetProperty(ref m_size, value); }
+		public bool HasBonusCube { get => m_hasBonusCube; set => SetProperty(ref m_hasBonusCube, value); }
 		public string ComboLetters { get => m_comboLetters; set => SetProperty(ref m_comboLetters, value); }
 		public string ComboLetterIndices { get; set; }
+
+		public bool UseBonusCube
+		{
+			get => m_useBonusCube;
+			set
+			{
+				if (SetProperty(ref m_useBonusCube, value) && HasBonusCube)
+					SetLetters();
+			}
+		}
 
 		public string Letters
 		{
@@ -120,7 +131,7 @@ namespace Boggle.ViewModels
 			}
 		}
 
-		public List<int> Scoring => m_game.Scoring.Select(x => int.Parse(x)).ToList();
+		public List<int> Scoring => m_game.Scoring.Select(int.Parse).ToList();
 		public int WordLength => m_game.WordSize;
 		public string RenderSize => $"{m_game.Size}x{m_game.Size}";
 		public string RenderScoring => string.Join(", ", m_game.Scoring);
@@ -157,15 +168,17 @@ namespace Boggle.ViewModels
 		{
 			if (game.Name != Name)
 			{
-				m_game = new Game(game);
+				m_game = new(game);
 				IsGameSelected = true;
 				Name = m_game.Name;
 				Size = m_game.Size;
-				ComboLetters = m_game.ComboLettersList;
-				ComboLetterIndices = c_validLetters + m_game.ComboLetterIndices;
+				HasBonusCube = m_game.HasBonusCube;
+				if (!HasBonusCube)
+					UseBonusCube = false;
+
+				SetLetters();
 				Cells5Visible = m_game.Size > 4;
 				Cells6Visible = m_game.Size > 5;
-				Letters = new string(' ', m_game.Size * m_game.Size);
 			}
 		}
 
@@ -182,6 +195,24 @@ namespace Boggle.ViewModels
 				// not on Android to try and keep the keyboard hidden
 				_ = LettersEntry?.Focus();
 #endif
+			}
+		}
+
+		private void SetLetters()
+		{
+			Letters = new string(' ', m_game.Size * m_game.Size);
+			if (UseBonusCube)
+			{
+				ComboLetters = m_game.BonusLettersList;
+				ComboLetterIndices = c_validLetters + m_game.BonusLetterIndices;
+				Cubes.Add(Game.c_bonusCube);
+			}
+			else
+			{
+				ComboLetters = m_game.ComboLettersList;
+				ComboLetterIndices = c_validLetters + m_game.ComboLetterIndices;
+				if (HasBonusCube)
+					_ = Cubes.Remove(Game.c_bonusCube);
 			}
 		}
 
@@ -249,6 +280,8 @@ namespace Boggle.ViewModels
 		private Game m_game;
 		private string m_name;
 		private int m_size;
+		private bool m_hasBonusCube;
+		private bool m_useBonusCube;
 		private string m_comboLetters;
 		private string m_letters;
 		private string m_lettersEntry;

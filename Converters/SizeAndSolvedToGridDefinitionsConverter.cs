@@ -18,10 +18,10 @@ namespace Boggle.Converters
 			{
 				ColumnDefinition column = size switch
 				{
-					4 => new ColumnDefinition(c_4x4[small ? 0 : 1]),
-					5 => new ColumnDefinition(c_5x5[small ? 0 : 1]),
-					6 => new ColumnDefinition(c_6x6[small ? 0 : 1]),
-					_ => new ColumnDefinition(c_4x4[small ? 0 : 1])
+					4 => new(c_4x4[small ? 0 : 1]),
+					5 => new(c_5x5[small ? 0 : 1]),
+					6 => new(c_6x6[small ? 0 : 1]),
+					_ => new(c_4x4[small ? 0 : 1])
 				};
 
 				return new ColumnDefinitionCollection([column, column, column, column, column, column]);
@@ -29,10 +29,10 @@ namespace Boggle.Converters
 
 			RowDefinition row = size switch
 			{
-				4 => new RowDefinition(c_4x4[small ? 0 : 1]),
-				5 => new RowDefinition(c_5x5[small ? 0 : 1]),
-				6 => new RowDefinition(c_6x6[small ? 0 : 1]),
-				_ => new RowDefinition(c_4x4[small ? 0 : 1])
+				4 => new(c_4x4[small ? 0 : 1]),
+				5 => new(c_5x5[small ? 0 : 1]),
+				6 => new(c_6x6[small ? 0 : 1]),
+				_ => new(c_4x4[small ? 0 : 1])
 			};
 
 			return new RowDefinitionCollection([row, row, row, row, row, row]);

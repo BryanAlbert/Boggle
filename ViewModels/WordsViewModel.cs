@@ -14,7 +14,7 @@ namespace Boggle.ViewModels
 		{
 			try
 			{
-				m_solver = new Solver();
+				m_solver = new();
 				Solutions = [];
 				WeakReferenceMessenger.Default.Register<GameViewModel>(this, OnGameUpdated);
 				_ = WeakReferenceMessenger.Default.Send(App.c_isGameSelected);
@@ -35,6 +35,9 @@ namespace Boggle.ViewModels
 		}
 
 
+		public static int ScrollThreshold => c_scrollThreshold;
+
+
 		public string Message { get => m_message; private set => SetProperty(ref m_message, value); }
 		public string Name { get => m_name; private set => SetProperty(ref m_name, value); }
 		public int Size { get => m_size; private set => SetProperty(ref m_size, value); }
@@ -49,7 +52,6 @@ namespace Boggle.ViewModels
 		public bool IsSolved { get => m_isSolved; private set => SetProperty(ref m_isSolved, value); }
 		public bool IsCells5Visible { get => m_isCells5Visible; private set => SetProperty(ref m_isCells5Visible, value); }
 		public bool IsCells6Visible { get => m_isCells6Visible; private set => SetProperty(ref m_isCells6Visible, value); }
-		public int ScrollThreshold => c_scrollThreshold;
 		public bool HasScrolled
 		{
 			get { lock (m_lock) { return m_hasScrolled; } }
@@ -136,7 +138,7 @@ namespace Boggle.ViewModels
 				// to make the CollectionView scroll the real solutions into view when requested
 				List<Solution> bogusList = [];
 				for (int bogus = 0; bogus < 10; bogus++)
-					bogusList.Add(new Solution());
+					bogusList.Add(new());
 
 				m_solutionsMap.Add(0, bogusList);
 

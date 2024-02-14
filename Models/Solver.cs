@@ -85,7 +85,7 @@ namespace Boggle
 				pathCopy[index] = testWord.Length;
 				if (isWord == true && testWord.Length >= Game.WordLength && !WordList.Any(x => x.Word == testWord))
 				{
-					WordList.Add(new Solution(testWord, pathCopy, Game));
+					WordList.Add(new(testWord, pathCopy, Game));
 					await MainThread.InvokeOnMainThreadAsync(() =>
 						m_setPath(pathCopy, WordList.Sum(x => x.Score), WordList.Count));
 				}

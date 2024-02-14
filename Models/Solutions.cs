@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
 
 namespace Boggle.Models
 {
@@ -15,7 +14,7 @@ namespace Boggle.Models
 			set
 			{
 				m_busy = value;
-				OnPropertyChanged(new PropertyChangedEventArgs(nameof(IsBusy)));
+				OnPropertyChanged(new(nameof(IsBusy)));
 			}
 		}
 

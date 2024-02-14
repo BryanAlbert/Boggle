@@ -15,10 +15,10 @@ namespace Boggle.Converters
 				{
 					ColumnDefinition column = size switch
 					{
-						4 => new ColumnDefinition(c_4x4),
-						5 => new ColumnDefinition(c_5x5),
-						6 => new ColumnDefinition(c_6x6),
-						_ => new ColumnDefinition(c_4x4)
+						4 => new(c_4x4),
+						5 => new(c_5x5),
+						6 => new(c_6x6),
+						_ => new(c_4x4)
 					};
 
 					ColumnDefinition[] columns = [column, column, column, column, column, column];
@@ -27,10 +27,10 @@ namespace Boggle.Converters
 
 				RowDefinition row = size switch
 				{
-					4 => new RowDefinition(c_4x4),
-					5 => new RowDefinition(c_5x5),
-					6 => new RowDefinition(c_6x6),
-					_ => new RowDefinition(c_4x4)
+					4 => new(c_4x4),
+					5 => new(c_5x5),
+					6 => new(c_6x6),
+					_ => new(c_4x4)
 				};
 
 				RowDefinition[] rows = [row, row, row, row, row, row];
