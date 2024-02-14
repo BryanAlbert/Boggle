@@ -77,10 +77,10 @@
 		<Label Text="{Binding Name}" IsVisible="{Binding IsGameSelected}" FontSize="30"
 				Style="{StaticResource NormalLabel}" HorizontalOptions="Center" />
 		<Grid ColumnDefinitions="Auto, *" RowDefinitions="Auto, Auto,*" Margin="15,0,15,15" IsVisible="{Binding IsGameSelected}">
-			<Label Grid.Row="0" Grid.Column="0" FontSize="15" Margin="0,0,5,0" VerticalOptions="Center"
+			<Label Grid.Row="0" Grid.Column="0" FontSize="15" Margin="0,0,5,3" VerticalOptions="Center"
 					IsVisible="{Binding HasBonusCube}">Use bonus cube</Label>
-			<CheckBox Grid.Row="0" Grid.Column="1" HorizontalOptions="Start"
-					IsVisible="{Binding HasBonusCube}" IsChecked="{Binding UseBonusCube}"/>
+			<Switch Grid.Row="0" Grid.Column="1" HorizontalOptions="Start"
+					IsVisible="{Binding HasBonusCube}" IsToggled="{Binding UseBonusCube}"/>
 			<Label Grid.Row="1" Grid.Column="0" Text="Key:" FontSize="15" VerticalOptions="Center" />
 			<Label Grid.Row="1" Grid.Column="1" Text="{Binding ComboLetters}" FontSize="15" HorizontalOptions="Start" VerticalOptions="Center" />
 			<Label Grid.Row="2" Grid.Column="0" Text="Letters:" FontSize="15" Margin="0,0,10,0" VerticalOptions="Center" />
