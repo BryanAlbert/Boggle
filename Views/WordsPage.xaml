@@ -102,15 +102,13 @@
 		</OnPlatform>
 	</ContentPage.ToolbarItems>
 
-	<Grid ColumnDefinitions="Auto,Auto,8,Auto,8,Auto,8,*" RowDefinitions="Auto,Auto,Auto,*">
-		<Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="8" Text="{Binding Message}" 
-				Style="{StaticResource NormalLabel}" HorizontalOptions="Center"
+	<VerticalStackLayout>
+		<Label Text="{Binding Message}"  Style="{StaticResource NormalLabel}" HorizontalOptions="Center"
 				IsVisible="{Binding IsBoardGenerated, Converter={StaticResource BooleanNot}}" />
-		<Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="8" Text="{Binding Name}"
-				FontSize="30" Style="{StaticResource NormalLabel}" HorizontalOptions="Center"
+		<Label Text="{Binding Name}" FontSize="30" Style="{StaticResource NormalLabel}" HorizontalOptions="Center"
 				IsVisible="{Binding IsBoardGenerated}" />
-		<Frame Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="8" BackgroundColor="Maroon"
-				IsVisible="{Binding IsBoardGenerated}" HorizontalOptions="Center" Margin="0,0,0,15">
+		<Frame BackgroundColor="Maroon" HorizontalOptions="Center" Margin="0,0,0,15"
+				IsVisible="{Binding IsBoardGenerated}" >
 			<Frame.WidthRequest>
 				<MultiBinding Converter="{StaticResource SizeToFrame}">
 					<Binding Path="Size" />
@@ -302,50 +300,50 @@
 			</Grid>
 		</Frame>
 
-		<ActivityIndicator Grid.Row="2" Grid.Column="0" Margin="20,0,0,0" HeightRequest="30"
-				IsRunning="{Binding IsSolving}" IsVisible="{Binding IsSolving}" />
-		<Label Grid.Row="2" Grid.Column="1" Text="{Binding WordCount}" Style="{StaticResource ScoreLabel}" Margin="20,0,0,0" />
-		<Label Grid.Row="2" Grid.Column="3" Text="{Binding WordCount, Converter={StaticResource TotalPluralWords}}"
-				Style="{StaticResource ScoreLabel}" />
-		<Label Grid.Row="2" Grid.Column="5" Text="{Binding Score}" Style="{StaticResource ScoreLabel}" />
-		<Label Grid.Row="2" Grid.Column="7" Text="{Binding Score, Converter={StaticResource PluralPoints}}"
-				Style="{StaticResource ScoreLabel}" />
+		<Grid ColumnDefinitions="Auto,Auto,8,Auto,8,Auto,8,*" RowDefinitions="Auto,Auto,Auto,*">
+			<ActivityIndicator Grid.Row="2" Grid.Column="0" Margin="20,0,0,0" HeightRequest="30"
+					IsRunning="{Binding IsSolving}" IsVisible="{Binding IsSolving}" />
+			<Label Grid.Row="2" Grid.Column="1" Text="{Binding WordCount}" Style="{StaticResource ScoreLabel}" Margin="20,0,0,0" />
+			<Label Grid.Row="2" Grid.Column="3" Text="{Binding WordCount, Converter={StaticResource TotalPluralWords}}"
+					Style="{StaticResource ScoreLabel}" />
+			<Label Grid.Row="2" Grid.Column="5" Text="{Binding Score}" Style="{StaticResource ScoreLabel}" />
+			<Label Grid.Row="2" Grid.Column="7" Text="{Binding Score, Converter={StaticResource PluralPoints}}"
+					Style="{StaticResource ScoreLabel}" />
 
-		<CollectionView Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="8" Margin="20,0,0,0" IsGrouped="True"
-				ItemsSource="{Binding Solutions}" SelectionMode="Single" RemainingItemsThreshold="{Binding ScrollThreshold}"
-				RemainingItemsThresholdReachedCommand="{Binding AtScrollThresholdCommand}"
-				IsVisible="{Binding IsSolved}" SelectionChangedCommand="{Binding SelectWordCommand}"
-				SelectionChangedCommandParameter="{Binding Source={RelativeSource Self}, Path=SelectedItem}"
-				Scrolled="OnCollectionViewScrolled">
-			<CollectionView.ItemsLayout>
-				<LinearItemsLayout Orientation="Vertical" ItemSpacing="0" />
-			</CollectionView.ItemsLayout>
+			<CollectionView Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="8" Margin="20,0,0,0" IsGrouped="True"
+					ItemsSource="{Binding SolutionsCollection}" SelectionMode="Single" HeightRequest="360"
+					IsVisible="{Binding IsSolved}" SelectionChangedCommand="{Binding SelectWordCommand}"
+					SelectionChangedCommandParameter="{Binding Source={RelativeSource Self}, Path=SelectedItem}">
+				<CollectionView.ItemsLayout>
+					<LinearItemsLayout Orientation="Vertical" ItemSpacing="0" />
+				</CollectionView.ItemsLayout>
 
-			<CollectionView.GroupHeaderTemplate>
-				<DataTemplate x:DataType="models:Solutions">
-					<Grid ColumnDefinitions="Auto,Auto,8,Auto,Auto,8,Auto,8,*" Margin="0, 20,0,0">
-						<ActivityIndicator Grid.Column="0" Margin="0,0,10,0" WidthRequest="20" HeightRequest="20"
-								IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
-						<Label Grid.Column="1" Text="{Binding WordCount}" Style="{StaticResource GroupHeaderLabel}" />
-						<Label Grid.Column="3" Text="{Binding WordLength}" Style="{StaticResource GroupHeaderLabel}" />
-						<Label Grid.Column="4" Text="{Binding WordCount, Converter={StaticResource HeaderPluralWords}}"
-								Style="{StaticResource GroupHeaderLabel}" />
-						<Label Grid.Column="6" Text="{Binding Score}" Style="{StaticResource GroupHeaderLabel}" />
-						<Label Grid.Column="8" Text="{Binding Score, Converter={StaticResource PluralPoints}}"
-								Style="{StaticResource GroupHeaderLabel}" />
-					</Grid>
-				</DataTemplate>
-			</CollectionView.GroupHeaderTemplate>
+				<CollectionView.GroupHeaderTemplate>
+					<DataTemplate x:DataType="models:Solutions">
+						<Grid ColumnDefinitions="Auto,Auto,8,Auto,Auto,8,Auto,8,*" Margin="0, 20,0,0">
+							<ActivityIndicator Grid.Column="0" Margin="0,0,10,0" WidthRequest="20" HeightRequest="20"
+									IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
+							<Label Grid.Column="1" Text="{Binding WordCount}" Style="{StaticResource GroupHeaderLabel}" />
+							<Label Grid.Column="3" Text="{Binding WordLength}" Style="{StaticResource GroupHeaderLabel}" />
+							<Label Grid.Column="4" Text="{Binding WordCount, Converter={StaticResource HeaderPluralWords}}"
+									Style="{StaticResource GroupHeaderLabel}" />
+							<Label Grid.Column="6" Text="{Binding Score}" Style="{StaticResource GroupHeaderLabel}" />
+							<Label Grid.Column="8" Text="{Binding Score, Converter={StaticResource PluralPoints}}"
+									Style="{StaticResource GroupHeaderLabel}" />
+						</Grid>
+					</DataTemplate>
+				</CollectionView.GroupHeaderTemplate>
 
-			<CollectionView.ItemTemplate>
-				<DataTemplate x:DataType="models:Solution">
-					<Grid ColumnDefinitions="20,100,50,*">
-						<Label Grid.Column="1" Text="{Binding Word}" Style="{StaticResource TableLabel}" />
-						<Label Grid.Column="2" Text="{Binding Score}" Style="{StaticResource TableLabel}" />
-						<Label Grid.Column="3" Text="{Binding RenderPath}" Style="{StaticResource TableLabel}" />
-					</Grid>
-				</DataTemplate>
-			</CollectionView.ItemTemplate>
-		</CollectionView>
-	</Grid>
+				<CollectionView.ItemTemplate>
+					<DataTemplate x:DataType="models:Solution">
+						<Grid ColumnDefinitions="20,100,50,*">
+							<Label Grid.Column="1" Text="{Binding Word}" Style="{StaticResource TableLabel}" />
+							<Label Grid.Column="2" Text="{Binding Score}" Style="{StaticResource TableLabel}" />
+							<Label Grid.Column="3" Text="{Binding RenderPath}" Style="{StaticResource TableLabel}" />
+						</Grid>
+					</DataTemplate>
+				</CollectionView.ItemTemplate>
+			</CollectionView>
+		</Grid>
+	</VerticalStackLayout>
 </ContentPage>

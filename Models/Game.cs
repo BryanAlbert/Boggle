@@ -53,10 +53,8 @@ namespace Boggle.Models
 
 		public static string RenderLetter(char letter)
 		{
-			if (int.TryParse(letter.ToString(), out int number))
-				return m_comboLetters[number];
-
-			return letter.ToString();
+			return int.TryParse(letter.ToString(), out int number) ?
+				m_comboLetters[number] : letter.ToString();
 		}
 
 		public static string RenderWord(string word)
@@ -65,9 +63,9 @@ namespace Boggle.Models
 			foreach (char letter in word)
 			{
 				if (int.TryParse(letter.ToString(), out int number))
-					builder.Append(m_comboLetters[number]);
+					_ = builder.Append(m_comboLetters[number]);
 				else
-					builder.Append(letter);
+					_ = builder.Append(letter);
 			}
 
 			return builder.ToString();
