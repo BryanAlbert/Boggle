@@ -82,7 +82,6 @@ namespace Boggle.ViewModels
 			if (IsSolved)
 				return;
 
-
 			IsNotSolved = false;
 			IsSolving = true;
 			List<Solution> solutions = await Task.Run(async () => await m_solver.SolveAsync((p, s, c) =>

@@ -311,9 +311,10 @@
 					Style="{StaticResource ScoreLabel}" />
 
 			<CollectionView Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="8" Margin="20,0,0,0" IsGrouped="True"
-					ItemsSource="{Binding SolutionsCollection}" SelectionMode="Single" HeightRequest="360"
+					ItemsSource="{Binding SolutionsCollection}" SelectionMode="Single"
 					IsVisible="{Binding IsSolved}" SelectionChangedCommand="{Binding SelectWordCommand}"
-					SelectionChangedCommandParameter="{Binding Source={RelativeSource Self}, Path=SelectedItem}">
+					SelectionChangedCommandParameter="{Binding Source={RelativeSource Self}, Path=SelectedItem}"
+					PropertyChanged="WordListPropertyChanged">
 				<CollectionView.ItemsLayout>
 					<LinearItemsLayout Orientation="Vertical" ItemSpacing="0" />
 				</CollectionView.ItemsLayout>
