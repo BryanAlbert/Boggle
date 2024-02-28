@@ -12,8 +12,8 @@ $solutionName = Split-Path $PWD -Leaf
 
 $windowsManifest = ".\Platforms\Windows\Package.appxmanifest"
 $androidManifest = ".\Platforms\Android\AndroidManifest.xml"
-$windowsAppPackages = ".\bin\Release\net7.0-windows10.0.19041.0\win10-x64\AppPackages"
-$androidAppPackages = ".\bin\Release\net7.0-android\AppPackages"
+$windowsAppPackages = ".\bin\Release\net8.0-windows10.0.19041.0\win10-x64\AppPackages"
+$androidAppPackages = ".\bin\Release\net8.0-android\AppPackages"
 $public = Join-Path "C:\Users\Public\Downloads" $solutionName
 
 [xml] $xmlWindows = Get-Content $windowsManifest
@@ -60,9 +60,9 @@ if ($NoIncrement -eq $true)
 
 Write-Host
 Write-Host "Steps to create sideloading installers:"
-Write-Host "Increment build number"
-Write-Host "Select Release, Windows Machine with Framework net7.0-windows(10.0.19041.0)"
+Write-Host "Increment build number with this script"
+Write-Host "Select Release, Framework net8.0-windows10.0.19041.0"
 Write-Host "Publish, Sideloading, no automatic updates, sign with bryan, don't change version, Publishing profile MSIX-win10-x64.pubxml, no symbol files, Create."
-Write-Host "Select Release, Pixel 5 - API 30 (Andriod 11.0 - API 30)"
+Write-Host "Select Release, Framework: net8.0-android"
 Write-Host "Publish, Distribute..., Ad Hoc, sign with bryan-qkr, Save As, password MiaIsTheGBOAT, then run CopyApkFile.ps1"
 write-Host "Run CopyInstallersToPublic.ps1"

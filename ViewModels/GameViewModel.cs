@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using CommunityToolkit.Maui.Core.Platform;
 using System.Windows.Input;
 
 namespace Boggle.ViewModels
@@ -10,7 +11,7 @@ namespace Boggle.ViewModels
 	{
 		public GameViewModel()
 		{
-			ScrambleCommand = new RelayCommand(OnScramble);
+			ScrambleCommand = new AsyncRelayCommand(OnScrambleAsync);
 			WeakReferenceMessenger.Default.Register<string>(this, OnRequest);
 			WeakReferenceMessenger.Default.Register<GameViewModel>(this, OnGameUpdated);
 			_ = WeakReferenceMessenger.Default.Send(App.c_isGameSelected);
@@ -182,19 +183,22 @@ namespace Boggle.ViewModels
 			}
 		}
 
-		private void OnScramble()
+		private async Task OnScrambleAsync()
 		{
 			// TODO: figure out how to use the RelayCommand constructor that takes the Func<bool> canExecute parameter,
 			// there is no ChangeCanExecute so it is never enabled.
 			// See https://learn.microsoft.com/en-us/dotnet/communitytoolkit/mvvm/generators/relaycommand and 
 			// https://learn.microsoft.com/en-us/dotnet/communitytoolkit/mvvm/generators/observableproperty
-			if (m_game != null)
+			if (m_game == null)
+				return;
+
+			Letters = m_game.Scramble(m_seed);
+			_ = LettersEntry.Focus();
+
+			if (DeviceInfo.Platform == DevicePlatform.Android)
 			{
-				Letters = m_game.Scramble(m_seed);
-#if WINDOWS
-				// not on Android to try and keep the keyboard hidden
-				_ = LettersEntry?.Focus();
-#endif
+				await Task.Delay(100);
+				_ = await LettersEntry.HideKeyboardAsync();
 			}
 		}
 

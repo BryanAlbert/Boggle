@@ -31,10 +31,10 @@ public partial class App : Application
 
 				DisplayInfo display = DeviceDisplay.Current.MainDisplayInfo;
 
-#if false
+#if false || !DEBUG
 				window.X = (display.Width / display.Density - window.Width) / 2;
 				window.Y = (display.Height / display.Density - window.Height) / 2;
-#elif true
+#elif false
 				// TODO: for debugging, show on the monitor to the left of the main display
 				window.X = -(display.Width / display.Density - window.Width) / 2;
 				window.Y = (display.Height / display.Density - window.Height) / 2;

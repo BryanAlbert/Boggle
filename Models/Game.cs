@@ -1,4 +1,5 @@
 ﻿using Boggle.ViewModels;
+using System.Diagnostics;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -131,10 +132,19 @@ namespace Boggle.Models
 		{
 			foreach (string jsonText in m_defaultGames)
 			{
-				Game json = JsonSerializer.Deserialize<Game>(jsonText);
-				string filepath = Path.Combine(FileSystem.AppDataDirectory, json.Filename);
-				if (!File.Exists(filepath))
-					SaveJson(filepath, JsonSerializer.Serialize(json, m_serializerOptions));
+				try
+				{
+					// we don't overwrite existing json files in case the user (somehow) modified them
+					// reinstall will be necessary if these are changed between releases
+					Game json = JsonSerializer.Deserialize<Game>(jsonText);
+					string filepath = Path.Combine(FileSystem.AppDataDirectory, json.Filename);
+					if (!File.Exists(filepath))
+						SaveJson(filepath, JsonSerializer.Serialize(json, m_serializerOptions));
+				}
+				catch (Exception exception)
+				{
+					Debug.WriteLine($"Exception processing json {jsonText}: {exception.Message}");
+				}
 			}
 		}
 
@@ -143,50 +153,46 @@ namespace Boggle.Models
 		private static readonly List<string> m_defaultGames =
 		[
 			@"{ ""Name"": ""Boggle Classic"", ""Size"": 4, ""WordSize"": 3, ""Scoring"": [ ""0"", ""0"", ""1"", ""1"", ""2"", ""3"", ""5"", ""11"" ], " +
-				@"""Cubes"": [ ""AEANEG"", ""AHSPCO"", ""ASPFFK"", ""OBJOAB"", ""IOTMUC"", ""RYVDEL"", ""LREIXD"", ""EIUNES"", ""WNGEEH"", " +
-				@" ""LNHNRZ"", ""TSTIYD"", ""OWTOAT"", ""ERTTYL"", ""TOESSI"", ""TERWHV"", ""NUIHM1"" ], ""Order"": 0.0, ""Filename"": ""Classic4x4.game.json"" }",
+				@"""Cubes"": [ ""1ABJMO"", ""AACIOT"", ""ABILTY"", ""ACDEMP"", ""ACELRS"", ""ADENVZ"", ""AHMORS"", ""BFIORX"", ""DENOSW"", " +
+				@"""DKNOTU"", ""EEFHIY"", ""EGINTV"", ""EGKLUY"", ""EHINPS"", ""ELPSTU"", ""GILRUW"" ], ""Order"": 0.0, ""Filename"": ""Classic4x4.game.json"" }",
 
-			@" { ""Name"": ""Big Boggle Classic"", ""Size"": 5, ""WordSize"": 4, ""Scoring"": [ ""0"", ""0"", ""0"", ""1"", ""2"", ""3"", ""5"", ""11"" ]," +
-				@"""Cubes"": [ ""AAAFRS"", ""AAEEEE"", ""AAFIRS"", ""ADENNN"", ""AEEEEM"", ""AEEGMU"", ""AEGMNN"", ""AFIRSY"", ""BJK1XZ"", " +
-				@"""CCENST"", ""CEIILT"", ""CEIPST"", ""DDHNOT"", ""DHHLOR"", ""DHHLOR"", ""DHLNOR"", ""EIIITT"", ""CEILPT"", ""EMOTTT"", " +
-				@"""ENSSSU"", ""FIPRSY"", ""GORRVW"", ""IPRRRY"", ""NOOTUW"", ""OOOTTU"" ], ""Order"": 1.0, ""Filename"": ""BigClassic5x5.game.json"" } ",
+			@" { ""Name"": ""Big Boggle Classic"", ""Size"": 5, ""WordSize"": 4, ""Scoring"": [ ""0"", ""0"", ""0"", ""1"", ""2"", ""3"", ""5"", ""11"" ], " +
+				@"""Cubes"": [ ""1BJKXZ"", ""1IKLUW"", ""AAAFRS"", ""AAEEEE"", ""AAFIRS"", ""ADENNN"", ""AEEEEM"", ""AEEGMU"", ""AEGMNN"", " +
+				@"""AFIRSY"", ""CCENST"", ""CEIILT"", ""CEILPT"", ""CEIPST"", ""CIMOTU"", ""DDHNOT"", ""DHHLNO"", ""DHHLOR"", ""DHLNOR"", " +
+				@"""EIIITT"", ""ENSSSU"", ""FIPRSY"", ""GORRVW"", ""NOOTUW"", ""OOOTTU"" ], ""Order"": 1.0, ""Filename"": ""BigClassic5x5.game.json"" } ",
 
-			@" { ""Name"": ""Super Big Boggle"", ""Size"": 6, ""WordSize"": 4, ""Scoring"": [ ""0"", ""0"", ""0"", ""1"", ""2"", ""3"", ""5"", ""11"", ""-2"" ]," +
-				@"""Cubes"": [ ""AAAFRS"", ""AAEEEE"", ""AAEEOO"", ""AAFIRS"", ""ABDEIO"", ""ADENNN"", ""AEEEEM"", ""AEEGMU"", ""AEGMNN"", " +
-				@"""AEILMN"", ""AEINOU"", ""AFIRSY"", ""BBJKXZ"", ""CCENST"", ""CDDLNN"", ""CEIITT"", ""CEIPST"", ""CFGNUY"", ""DDHNOT"", " +
-				@"""DHHLOR"", ""DHHNOW"", ""DHLNOR"", ""EHILRS"", ""EIILST"", ""EILPST"", ""EIO000"", ""EMTTTO"", ""ENSSSU"", ""GORRVW"", " +
-				@"""HIRSTV"", ""HOPRST"", ""IPRSYY"", ""JK1WXZ"", ""NOOTUW"", ""OOOTTU"", ""123456"" ], ""Order"": 2.0, ""Filename"": ""SuperBig6x6.game.json"" } ",
+			@" { ""Name"": ""Super Big Boggle"", ""Size"": 6, ""WordSize"": 4, ""Scoring"": [ ""0"", ""0"", ""0"", ""1"", ""2"", ""3"", ""5"", ""11"", ""-2"" ], " +
+				@"""Cubes"": [ ""000EIO"", ""123456"", ""1JKWXZ"", ""AAAFRS"", ""AAEEEE"", ""AAEEOO"", ""AAFIRS"", ""ABDEIO"", ""ADENNN"", ""AEEEEM"", " +
+				@"""AEEGMU"", ""AEGMNN"", ""AEILMN"", ""AEINOU"", ""AFIRSY"", ""BBJKXZ"", ""CCENST"", ""CDDLNN"", ""CEIITT"", ""CEIPST"", ""CFGNUY"", " +
+				@"""DDHNOT"", ""DHHLOR"", ""DHHNOW"", ""DHLNOR"", ""EHILRS"", ""EIILST"", ""EILPST"", ""EMOTTT"", ""ENSSSU"", ""GORRVW"", ""HIRSTV"", " +
+				@"""HOPRST"", ""IPRSYY"", ""NOOTUW"", ""OOOTTU"" ], ""Order"": 2.0, ""Filename"": ""SuperBig6x6.game.json"" } ",
 
-			@"{ ""Name"": ""Boggle Update"", ""Size"": 4, ""WordSize"": 3, ""Scoring"": [ ""0"", ""0"", ""1"", ""1"", ""2"", ""3"", ""5"", ""11"" ]," +
-				@" ""Cubes"": [ ""AAEEGN"", ""ELRTTY"", ""AOOTTW"", ""ABBJOO"", ""EHRTVW"", ""CIMOTU"", ""DISTTY"", ""EIOSST"", ""DELRVY""," +
-				@"""ACHOPS"", ""HIMN1U"", ""EEINSU"", ""EEGHNW"", ""AFFKPS"", ""HLNNRZ"", ""DEILRX"" ], ""Order"": 3.0, ""Filename"": ""Updated4x4.game.json"" }",
+			@"{ ""Name"": ""Boggle Update"", ""Size"": 4, ""WordSize"": 3, ""Scoring"": [ ""0"", ""0"", ""1"", ""1"", ""2"", ""3"", ""5"", ""11"" ], " +
+				@"""Cubes"": [ ""1HIMNU"", ""AAEEGN"", ""ABBJOO"", ""ACHOPS"", ""AFFKPS"", ""AOOTTW"", ""CIMOTU"", ""DEILRX"", ""DELRVY"", ""DISTTY"", " +
+				@"""EEGHNW"", ""EEINSU"", ""EHRTVW"", ""EIOSST"", ""ELRTTY"", ""HLNNRZ"" ], ""Order"": 3.0, ""Filename"": ""Updated4x4.game.json"" }",
 
-			@" { ""Name"": ""Boggle German"", ""Size"": 4, ""WordSize"": 3, ""Scoring"": [ ""0"", ""0"", ""1"", ""1"", ""2"", ""3"", ""5"", ""11"" ]," +
-				@"""Cubes"": [ ""PTESUL"", ""ENTVIG"", ""PEDCAM"", ""RESCAL"", ""VANZED"", ""RILWEU"", ""FEESIH"", ""TONKEU"", ""RESNIH""," +
-				@"""TAAEIO"", ""ENTSOD"", ""BO1JAM"", ""ROSMAI"", ""YUNGLE"", ""FOXRAI"", ""BARTIL"" ], ""Order"": 4.0, ""Filename"": ""German4x4.game.json"" } ",
+			@" { ""Name"": ""International Boggle"", ""Size"": 4, ""WordSize"": 3, ""Scoring"": [ ""0"", ""0"", ""1"", ""1"", ""2"", ""3"", ""5"", ""11"" ], " +
+				@"""Cubes"": [ ""1ABJMO"", ""AAEIOT"", ""ABILRT"", ""ACDEMP"", ""ACELRS"", ""ADENVZ"", ""AFIORX"", ""AIMORS"", ""DENOST"", " +
+				@"""EEFHIS"", ""EGINTV"", ""EGLNUY"", ""EHINRS"", ""EILRUW"", ""EKNOTU"", ""ELPSTU"" ], ""Order"": 4.0, ""Filename"": ""German4x4.game.json"" } ",
 
-			@" { ""Name"": ""Boggle Dutch"", ""Size"": 4, ""WordSize"": 3, ""Scoring"": [ ""0"", ""0"", ""1"", ""1"", ""2"", ""3"", ""5"", ""11"" ]," +
-				@"""Cubes"": [ ""AAEIOW"", ""AIMORS"", ""EGNJUY"", ""ABILTN"", ""ACDEMP"", ""EGINTV"", ""GELRUW"", ""ELPNTU"", ""DENOST""," +
-				@"""ACEHRS"", ""DBJMO1"", ""EEFHIS"", ""EHINRS"", ""EKNOTZ"", ""ADENVZ"", ""AIFKRX"" ], ""Order"": 5.0, ""Filename"": ""Dutch4x4.game.json"" } ",
+			@" { ""Name"": ""Boggle Dutch"", ""Size"": 4, ""WordSize"": 3, ""Scoring"": [ ""0"", ""0"", ""1"", ""1"", ""2"", ""3"", ""5"", ""11"" ], " +
+				@"""Cubes"": [ ""1BDJMO"", ""AAEIOW"", ""ABILNT"", ""ACDEMP"", ""ACEHRS"", ""ADENVZ"", ""AFIKRX"", ""AIMORS"", ""DENOST"", " +
+				@"""EEFHIS"", ""EGINTV"", ""EGJNUY"", ""EGLRUW"", ""EHINRS"", ""EKNOTZ"", ""ELNPTU"" ], ""Order"": 5.0, ""Filename"": ""Dutch4x4.game.json"" } ",
 
-			@" { ""Name"": ""Boggle French"", ""Size"": 4, ""WordSize"": 3, ""Scoring"": [ ""0"", ""0"", ""1"", ""1"", ""2"", ""3"", ""5"", ""11"" ]," +
-				@"""Cubes"": [ ""AAEIOT"", ""AIMORS"", ""EGNLUY"", ""ABILTR"", ""ACDEMP"", ""EGINTV"", ""EILRUW"", ""ELPSTU"", ""DENOST""," +
-				@"""ACELRS"", ""ABJMO1"", ""EEFHIS"", ""EHINRS"", ""EKNOTU"", ""ADENVZ"", ""AIFORX"" ], ""Order"": 6.0, ""Filename"": ""French4x4.game.json"" } ",
-
-			@" { ""Name"": ""Big Boggle Deluxe"", ""Size"": 5, ""WordSize"": 4, ""Scoring"": [ ""0"", ""0"", ""0"", ""1"", ""2"", ""3"", ""5"", ""11"" ]," +
-				@"""Cubes"": [ ""AAAFRS"", ""AAEEEE"", ""AAFIRS"", ""ADENNN"", ""AEEEEM"", ""AEEGMU"", ""AEGMNN"", ""AFIRSY"", ""BJK1XZ""," +
-				@"""CCNSTW"", ""CEIILT"", ""CEIPST"", ""DDLNOR"", ""DHHLOR"", ""DHHNOT"", ""DHLNOR"", ""EIIITT"", ""CEILPT"", ""EMOTTT""," +
+			@" { ""Name"": ""Big Boggle Deluxe"", ""Size"": 5, ""WordSize"": 4, ""Scoring"": [ ""0"", ""0"", ""0"", ""1"", ""2"", ""3"", ""5"", ""11"" ], " +
+				@"""Cubes"": [ ""1BJKXZ"", ""AAAFRS"", ""AAEEEE"", ""AAFIRS"", ""ADENNN"", ""AEEEEM"", ""AEEGMU"", ""AEGMNN"", ""AFIRSY"", " +
+				@"""CCNSTW"", ""CEIILT"", ""CEILPT"", ""CEIPST"", ""DDLNOR"", ""DHHLOR"", ""DHHNOT"", ""DHLNOR"", ""EIIITT"", ""EMOTTT"", " +
 				@"""ENSSSU"", ""FIPRSY"", ""GORRVW"", ""HIPRRY"", ""NOOTUW"", ""OOOTTU"" ], ""Order"": 7.0, ""Filename"": ""BigDeluxe5x5.game.json"" } ",
 
-			@" { ""Name"": ""Big Boggle Challenge"", ""Size"": 5, ""WordSize"": 4, ""Scoring"": [ ""0"", ""0"", ""0"", ""1"", ""2"", ""3"", ""5"", ""11"" ]," +
-				@"""Cubes"": [ ""AAAFRS"", ""AAEEEE"", ""AAFIRS"", ""ADENNN"", ""AEEEEM"", ""AEEGMU"", ""AEGMNN"", ""AFIRSY"", ""BJK1XZ""," +
-				@"""CCENST"", ""CEIILT"", ""CEIPST"", ""DDHNOT"", ""DHHLOR"", ""IKLM1U"", ""DHLNOR"", ""EIIITT"", ""CEILPT"", ""EMOTTT""," +
-				@"""ENSSSU"", ""FIPRSY"", ""GORRVW"", ""IPRRRY"", ""NOOTUW"", ""OOOTTU"" ], ""Order"": 8.0, ""Filename"": ""BigChallenge5x5.game.json"" } ",
+			@" { ""Name"": ""Big Boggle Challenge"", ""Size"": 5, ""WordSize"": 4, ""Scoring"": [ ""0"", ""0"", ""0"", ""1"", ""2"", ""3"", ""5"", ""11"" ], " +
+				@"""Cubes"": [ ""1BJKXZ"", ""1IKLUW"", ""AAAFRS"", ""AAEEEE"", ""AAFIRS"", ""ADENNN"", ""AEEEEM"", ""AEEGMU"", ""AEGMNN"", " +
+				@"""AFIRSY"", ""CCENST"", ""CEIILT"", ""CEILPT"", ""CEIPST"", ""DDHNOT"", ""DHHLOR"", ""DHLNOR"", ""EIIITT"", ""EMOTTT"", ""ENSSSU"", " +
+				@"""FIPRSY"", ""GORRVW"", ""IPRRRY"", ""NOOTUW"", ""OOOTTU"" ], ""Order"": 8.0, ""Filename"": ""BigChallenge5x5.game.json"" } ",
 			
-			@" { ""Name"": ""Big Boggle 2012"", ""Size"": 5, ""WordSize"": 4, ""Scoring"": [ ""0"", ""0"", ""0"", ""1"", ""2"", ""3"", ""5"", ""11"" ]," +
-				@"""Cubes"": [ ""AAAFRS"", ""AAEEEE"", ""AAFIRS"", ""ADENNN"", ""AEEEEM"", ""AEEGMU"", ""AEGMNN"", ""AFIRSY"", ""BBJKXZ""," +
-				@"""CCENST"", ""EIILST"", ""CEIPST"", ""DDHNOT"", ""DHHLOR"", ""DHHNOW"", ""DHLNOR"", ""EIIITT"", ""EILPST"", ""EMOTTT""," +
-				@"""ENSSSU"", ""123456"", ""GORRVW"", ""IPRSYY"", ""NOOTUW"", ""OOOTTU"" ], ""Order"": 9.0, ""Filename"": ""Big20125x5.game.json"" } "
+			@" { ""Name"": ""Big Boggle 2012"", ""Size"": 5, ""WordSize"": 4, ""Scoring"": [ ""0"", ""0"", ""0"", ""1"", ""2"", ""3"", ""5"", ""11"" ], " +
+				@"""Cubes"": [ ""123456"", ""AAAFRS"", ""AAEEEE"", ""AAFIRS"", ""ADENNN"", ""AEEEEM"", ""AEEGMU"", ""AEGMNN"", ""AFIRSY"", " +
+				@"""BBJKXZ"", ""CCENST"", ""CEIPST"", ""DDHNOT"", ""DHHLOR"", ""DHHNOW"", ""DHLNOR"", ""EIIITT"", ""EIILST"", ""EILPST"", " +
+				@"""EMOTTT"", ""ENSSSU"", ""GORRVW"", ""IPRSYY"", ""NOOTUW"", ""OOOTTU"" ], ""Order"": 9.0, ""Filename"": ""Big20125x5.game.json"" } "
 		];
 
 		private static readonly string[] m_comboLetters = ["  ", "Qu", "In", "Th", "Er", "He", "An"];

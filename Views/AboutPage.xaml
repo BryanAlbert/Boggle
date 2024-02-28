@@ -10,16 +10,21 @@
 		<viewModels:AboutViewModel />
 	</ContentPage.BindingContext>
 
-	<Grid RowDefinitions="*,Auto" Margin="10" Padding="20,10,20,20">
+	<Grid RowDefinitions="*,Auto" Margin="10" Padding="20,10,0,20">
 		<ScrollView Grid.Row="0" Orientation="Vertical">
-			<VerticalStackLayout Padding="10,10,0,0">
+			<VerticalStackLayout Padding="10,10,20,0">
 				<Label Text="Instructions:" FontSize="Medium" />
 				<Label Padding="10,10,0,0">
 					<Label.FormattedText>
 						<FormattedString>
 							<FormattedString.Spans>
-								<Span Text="1. Choose a Boggle game to play from the Games page. Various versions of " />
-								<Span Text="are listed, with their minimum word length, scoring table and dice collection." />
+								<Span Text="1. Choose a Boggle game to play from the Games page. Various versions of Boggle " />
+								<Span Text="are listed, with their board size, minimum word length, scoring table and dice collection. " />
+								<Span Text="The scoring table shows the scores for words of 1, 2, 3, ... length words. For example, " />
+								<Span Text="Boggle Classic's table is 0, 0, 1, 1, 2, 3, 5, and 11. One and two letter words get no score, " />
+								<Span Text="three and four letter words get one point, five letter words get two, six get three, seven get " />
+								<Span Text="five and eight and longer get eleven. Super Big Boggle is similar, except that nine letter " />
+								<Span Text="words get seven, ten letter get eight, and so on (the word length minus two). " />
 							</FormattedString.Spans>
 						</FormattedString>
 					</Label.FormattedText>
@@ -28,10 +33,13 @@
 					<Label.FormattedText>
 						<FormattedString>
 							<FormattedString.Spans>
-								<Span Text="2. Generate a board on the Game page. Use the Scramble button on the toolbar " />
-								<Span Text="(S on Windows) to randomly scramble the dice, or enter letters manually. You can " />
-								<Span Text="enter a string of letters in the Letters: field or enter each letter individually by tapping " />
-								<Span Text="a die. Refer to the Key for entering special letters, e.g., enter a 1 for the combo-letter Qu." />
+								<Span Text="2. Generate a board on the Game page. Use the Scramble button on the toolbar to randomly " />
+								<Span Text="scramble the dice, or enter letters manually. You can enter a string of letters in the Letters: " />
+								<Span Text="field or enter each letter individually by tapping a die and entering its letter. Refer to the Key " />
+								<Span Text="for entering special letters, e.g. enter a 1 for the combo-letter Qu. Some Boggle sets come " />
+								<Span Text="with a Bonus Cube with more combo letters. Tap the &quot;Use bonus cube&quot; toggle to " />
+								<Span Text="add the Bonus Cube to the cube set. Note that cubes are chosen at random, so the bonus cube " />
+								<Span Text="may or may not be used for a particular scrambling of the board." />
 							</FormattedString.Spans>
 						</FormattedString>
 					</Label.FormattedText>
@@ -40,9 +48,9 @@
 					<Label.FormattedText>
 						<FormattedString>
 							<FormattedString.Spans>
-								<Span Text="3. Solve the board on the Words page. Use the Solve button on the toolbar " />
-								<Span Text="(S on Windows) to find solutions. Tap a solution to see it on the board, the first " />
-								<Span Text="letter is brown, the second red, then orange, yellow, green, blue, violet and gray." />
+								<Span Text="3. Solve the board on the Words page. Use the Solve button on the toolbar to find solutions. Tap " />
+								<Span Text="a solution to see it on the board, the first letter is brown, the second red, then orange, yellow, " />
+								<Span Text="green, blue, violet and the remaining letters are gray." />
 							</FormattedString.Spans>
 						</FormattedString>
 					</Label.FormattedText>
@@ -53,10 +61,9 @@
 					<Label.FormattedText>
 						<FormattedString>
 							<FormattedString.Spans>
-								<Span Text="Boggle is written with Microsoft's new MAUI cross-platform development platform. " />
-								<Span Text="It is under development and has many bugs, especially on the Windows side, since " />
-								<Span Text="Microsoft doesn't seem so sure about the viability of Windows. As such, you will " />
-								<Span Text="notice a few anomalies:" />
+								<Span Text="Boggle is written with Microsoft's new MAUI cross-platform development platform. It is under " />
+								<Span Text="development and has many bugs. As such, you may notice a few anomalies. This build was built " />
+								<Span Text="with .NET 8 MAUI, released on November 17, 2023. Below is a list of known issues:" />
 							</FormattedString.Spans>
 						</FormattedString>
 					</Label.FormattedText>
@@ -65,14 +72,12 @@
 					<Label.FormattedText>
 						<FormattedString>
 							<FormattedString.Spans>
-								<Span Text="1. Loading the solutions into the CollectionView is very slow on Android. As such, we " />
-								<Span Text="load solutions dynamically. A MAUI bug causes Windows to fail to respond when the list " />
-								<Span Text="of solutions is scrolled near the end of the loaded solutions. We have developed a " />
-								<Span Text="workaround for this. However, another MAUI bug causes Windows to fail to detect when " />
-								<Span Text="the CollectionView is scrolled at all. As a workaround, one can regenerate the solution " />
-								<Span Text="list by tapping the S for Solve toolbar button a second time which can cause the scrolling " />
-								<Span Text="to start working. If this fails (which it usually does), one can tap the S button again to " />
-								<Span Text="load the solutions manually in the background. We regret any inconvenience this may cause." />
+								<Span Text="1. Loading the solutions into the CollectionView can be slow, especially on lesser Android devices. " />
+								<Span Text="In the first release, we attempted to load solutions dynamically, which ultimately worked on Android " />
+								<Span Text="but not on Windows. For example, a MAUI bug caused Windows to fail to respond when a user attempted " />
+								<Span Text="scrolling, making the list static. Fortunately, performance was improved with the .NET 8 MAUI release " />
+								<Span Text="so now we load all the solutions at once. Dynamic loading may be possible in the future as more bugs " />
+								<Span Text="are fixed." />
 							</FormattedString.Spans>
 						</FormattedString>
 					</Label.FormattedText>
@@ -81,10 +86,8 @@
 					<Label.FormattedText>
 						<FormattedString>
 							<FormattedString.Spans>
-								<Span Text="2. When scrolled to the bottom of the solutions list, a MAUI bug causes the CollectionView " />
-								<Span Text="to disallow scrolling to the end of the list of solutions, leaving those last few solutions just out " />
-								<Span Text="of reach. To get around this annoying problem, we display a less annoying list of 0 length " />
-								<Span Text="words as filler. We apologize for the inconvenience, but it's actually Microsoft's fault." />
+								<Span Text="2. Another MAUI bug causes Windows to ignore the vertical spacing setting for the CollectionView, " />
+								<Span Text="which means the solutions on Windows separated with too much space, not tidy like on Android." />
 							</FormattedString.Spans>
 						</FormattedString>
 					</Label.FormattedText>
@@ -93,9 +96,7 @@
 					<Label.FormattedText>
 						<FormattedString>
 							<FormattedString.Spans>
-								<Span Text="3. Another MAUI bug causes Windows to ignore the vertical spacing setting for the " />
-								<Span Text="CollectionView, which means the solutions on Windows are freakishly separated, not tidy " />
-								<Span Text="like on Android." />
+								<Span Text="3. Typically, toolbar buttons are disabled when not appropriate. We haven't figured that feature out yet." />
 							</FormattedString.Spans>
 						</FormattedString>
 					</Label.FormattedText>
@@ -104,11 +105,8 @@
 					<Label.FormattedText>
 						<FormattedString>
 							<FormattedString.Spans>
-								<Span Text="4. Another bug causes the Toolbar on Windows to collapse, making the text of each " />
-								<Span Text="toolbar button inaccessible unless the menu is expanded with the ellipsis button at " />
-								<Span Text="the end of the toolbar. As such, Windows uses the S glyph, for Scramble or Solve. " />
-								<Span Text="Our Art Department is working on more meaningful icons which will be used on both " />
-								<Span Text="platforms." />
+								<Span Text="4. Due to a bug in MAUI, the height of the solutions on the Words page is fixed, so resizing the app " />
+								<Span Text="causes the layout to behave strangely. " />
 							</FormattedString.Spans>
 						</FormattedString>
 					</Label.FormattedText>
@@ -117,8 +115,7 @@
 					<Label.FormattedText>
 						<FormattedString>
 							<FormattedString.Spans>
-								<Span Text="5. Typically, toolbar buttons are disabled when not appropriate. We haven't figured " />
-								<Span Text="that feature out yet." />
+								<Span Text="5. The art on the Toolbar isn't really working out, we need to figure that out as well." />
 							</FormattedString.Spans>
 						</FormattedString>
 					</Label.FormattedText>
@@ -127,7 +124,8 @@
 					<Label.FormattedText>
 						<FormattedString>
 							<FormattedString.Spans>
-								<Span Text="6. Enjoy, please, enjoy." />
+								<Span Text="6. The International Boggle board appears to have a cube with a Q instead of a Qu. However, " />
+								<Span Text="when the Q face is selected, the app automatically translates it to a Qu. " />
 							</FormattedString.Spans>
 						</FormattedString>
 					</Label.FormattedText>
