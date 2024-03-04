@@ -11,6 +11,13 @@ namespace Boggle.Models
 		public Game()
 		{
 			m_random = new Random();
+			BonusLetterIndices = c_bonusCube;
+			BonusLettersList = c_bonusLettersList;
+			Name = string.Empty;
+			ComboLettersList = string.Empty;
+			ComboLetterIndices = string.Empty;
+			Scoring = [];
+			Cubes = [];
 		}
 
 		public Game(GameViewModel game) : this()
@@ -26,8 +33,6 @@ namespace Boggle.Models
 			ComboLetterIndices = string.Concat(comboIndices);
 			ComboLettersList = string.Join(", ", comboIndices.Select(x => $"{x}={m_comboLetters[x]}"));
 			HasBonusCube = !Cubes.Any(x => x == c_bonusCube);
-			BonusLetterIndices = c_bonusCube;
-			BonusLettersList = c_bonusLettersList;
 		}
 
 
@@ -35,7 +40,7 @@ namespace Boggle.Models
 		{
 			SaveDefaultJson();
 			return Directory.EnumerateFiles(FileSystem.AppDataDirectory, "*.game.json").
-				Select(x => Load(x)).OrderBy(x => x.Order);
+				Select(Load).Where(x => x != null).OrderBy(x => x?.Order);
 		}
 
 		public static Game Load(string filePath)
@@ -43,7 +48,9 @@ namespace Boggle.Models
 			if (!File.Exists(filePath))
 				throw new FileNotFoundException("Unable to find file on local storage.", filePath);
 
-			Game game = JsonSerializer.Deserialize<Game>(File.ReadAllText(filePath));
+			Game? game = JsonSerializer.Deserialize<Game>(File.ReadAllText(filePath)) ??
+				throw new InvalidOperationException($"Failed to deserialize {filePath}");
+
 			return game;
 		}
 
@@ -91,7 +98,7 @@ namespace Boggle.Models
 		public List<string> Scoring { get; set; }
 		public List<string> Cubes { get; set; }
 		public double Order { get; set; }
-		public string Filename { get; set; }
+		public string? Filename { get; set; }
 
 		[JsonIgnore]
 		public bool HasBonusCube { get; }
@@ -136,10 +143,16 @@ namespace Boggle.Models
 				{
 					// we don't overwrite existing json files in case the user (somehow) modified them
 					// reinstall will be necessary if these are changed between releases
-					Game json = JsonSerializer.Deserialize<Game>(jsonText);
-					string filepath = Path.Combine(FileSystem.AppDataDirectory, json.Filename);
-					if (!File.Exists(filepath))
-						SaveJson(filepath, JsonSerializer.Serialize(json, m_serializerOptions));
+					Game? json = JsonSerializer.Deserialize<Game>(jsonText);
+					if (json != null)
+					{
+						if (json.Filename == null)
+							throw new InvalidOperationException($"Game's Filename is null in: {jsonText}");
+
+						string filepath = Path.Combine(FileSystem.AppDataDirectory, json.Filename);
+						if (!File.Exists(filepath))
+							SaveJson(filepath, JsonSerializer.Serialize(json, m_serializerOptions));
+					}
 				}
 				catch (Exception exception)
 				{

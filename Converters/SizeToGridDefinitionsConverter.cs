@@ -7,7 +7,7 @@ namespace Boggle.Converters
 		public bool GetColumnDefinition { get; set; }
 
 
-		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+		public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
 		{
 			if (value is int size)
 			{
@@ -40,10 +40,8 @@ namespace Boggle.Converters
 			return null;
 		}
 
-		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-		{
+		public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) =>
 			throw new NotImplementedException();
-		}
 
 
 		private readonly double c_4x4 = 95.0;

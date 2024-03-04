@@ -31,8 +31,7 @@
 		<Label Grid.Row="0" Grid.Column="1" Text="{Binding Selected.Name}" FontSize="25" Padding="5"
 				IsVisible="{Binding Selected, Converter={StaticResource NotNullConverter}}" />
 		<CollectionView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" ItemsSource="{Binding Games}" 
-					Margin="20,10,20,20" SelectionMode="Single"
-			SelectionChangedCommand="{Binding SelectGameCommand}"
+			Margin="20,10,20,20" SelectionMode="Single" SelectionChangedCommand="{Binding SelectGameCommand}"
 			SelectionChangedCommandParameter="{Binding Source={RelativeSource Self}, Path=SelectedItem}">
 
 			<CollectionView.ItemsLayout>

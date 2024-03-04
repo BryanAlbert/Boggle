@@ -4,7 +4,7 @@ namespace Boggle.Converters
 {
 	internal class SizeAndSolvedToWidthConverter : IMultiValueConverter
 	{
-		public string Type { get; set; }
+		public string Type { get; set; } = string.Empty;
 
 
 		public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)

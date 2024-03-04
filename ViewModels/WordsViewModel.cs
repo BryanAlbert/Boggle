@@ -14,22 +14,25 @@ namespace Boggle.ViewModels
 			try
 			{
 				m_solver = new();
-				SolutionsCollection = [];
-				WeakReferenceMessenger.Default.Register<GameViewModel>(this, OnGameUpdated);
-				_ = WeakReferenceMessenger.Default.Send(App.c_isGameSelected);
-				_ = WeakReferenceMessenger.Default.Send(App.c_isBoardGenerated);
-				if (m_solver.Game == null)
-					Message = "Pick a game on the Games page!";
-
-				SolveCommand = new AsyncRelayCommand(OnSolveAsync);
-				SelectWordCommand = new RelayCommand<Solution>(OnWordSelected);
-				IsNotSolved = true;
 			}
 			catch (Exception exception)
 			{
 				IsBoardGenerated = false;
 				Message = exception.Message;
 			}
+
+			SolutionsCollection = [];
+			WeakReferenceMessenger.Default.Register<GameViewModel>(this, OnGameUpdated);
+			_ = WeakReferenceMessenger.Default.Send(App.c_isGameSelected);
+			_ = WeakReferenceMessenger.Default.Send(App.c_isBoardGenerated);
+
+			SolveCommand = new AsyncRelayCommand(OnSolveAsync);
+			SelectWordCommand = new RelayCommand<Solution>(OnSolutionSelected);
+			IsNotSolved = true;
+			m_letters = string.Empty;
+			m_message = string.Empty;
+			m_name = string.Empty;
+			Message = "Pick a game on the Games page!";
 		}
 
 
@@ -37,7 +40,7 @@ namespace Boggle.ViewModels
 		public string Name { get => m_name; private set => SetProperty(ref m_name, value); }
 		public int Size { get => m_size; private set => SetProperty(ref m_size, value); }
 		public string Letters { get => m_letters; private set => SetProperty(ref m_letters, value); }
-		public int[] Path { get => m_path; private set => SetProperty(ref m_path, value); }
+		public int[]? Path { get => m_path; private set => SetProperty(ref m_path, value); }
 		public int WordCount { get => m_wordCount; private set => SetProperty(ref m_wordCount, value); }
 		public int Score { get => m_score; private set => SetProperty(ref m_score, value); }
 		public ObservableCollection<Solutions> SolutionsCollection { get; }
@@ -49,18 +52,18 @@ namespace Boggle.ViewModels
 		public bool IsCells6Visible { get => m_isCells6Visible; private set => SetProperty(ref m_isCells6Visible, value); }
 
 		public ICommand SolveCommand { get; }
-		public ICommand AtScrollThresholdCommand { get; }
 		public ICommand SelectWordCommand { get; }
 
 		private void OnGameUpdated(object recipient, GameViewModel game)
 		{
+			ArgumentNullException.ThrowIfNull(m_solver);
 			m_solver.Game = game;
 			IsBoardGenerated = game.IsBoardGenerated;
 			Message = "Scramble the board on the Game page!";
 			Name = game.Name;
 			Letters = game.Letters;
 			Size = game.Size;
-			Path = null;
+			Path = [];
 			IsCells5Visible = game.Size > 4;
 			IsCells6Visible = game.Size > 5;
 			IsNotSolved = true;
@@ -75,6 +78,8 @@ namespace Boggle.ViewModels
 
 		private async Task OnSolveAsync()
 		{
+			ArgumentNullException.ThrowIfNull(m_solver);
+
 			// TODO: figure out how to use the RelayCommand constructor that takes the Func<bool> canExecute parameter
 			// there is no ChangeCanExecute so it is never enabled.
 			// See https://learn.microsoft.com/en-us/dotnet/communitytoolkit/mvvm/generators/relaycommand and 
@@ -104,13 +109,14 @@ namespace Boggle.ViewModels
 			WordCount = solutions.Count;
 		}
 
-		private void OnWordSelected(Solution solution)
+		private void OnSolutionSelected(Solution? solution)
 		{
+			ArgumentNullException.ThrowIfNull(nameof(solution));
 			Path = solution?.Path;
 		}
 
 
-		private readonly Solver m_solver;
+		private readonly Solver? m_solver;
 		private string m_message;
 		private bool m_isBoardGenerated;
 		private bool m_isNotSolved;
@@ -121,7 +127,7 @@ namespace Boggle.ViewModels
 		private string m_name;
 		private int m_size;
 		private string m_letters;
-		private int[] m_path;
+		private int[]? m_path;
 		private int m_score;
 		private int m_wordCount;
 	}

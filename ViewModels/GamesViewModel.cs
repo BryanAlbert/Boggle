@@ -14,7 +14,7 @@ namespace Boggle.ViewModels
 			Games = new(Game.LoadAll().Select(x => new GameViewModel(x)));
 			SelectGameCommand = new RelayCommand<GameViewModel>(OnSelectGame);
 			WeakReferenceMessenger.Default.Register<string>(this, OnRequest);
-
+			
 #if false
 			// TODO: testing
 			Selected = Games.FirstOrDefault();
@@ -23,12 +23,13 @@ namespace Boggle.ViewModels
 
 
 		public ObservableCollection<GameViewModel> Games { get; }
-		public GameViewModel Selected { get => m_selected; set => SetProperty(ref m_selected, value); }
+		public GameViewModel? Selected { get => m_selected; set => SetProperty(ref m_selected, value); }
 		public ICommand SelectGameCommand { get; }
 
 
-		private void OnSelectGame(GameViewModel game)
+		private void OnSelectGame(GameViewModel? game)
 		{
+			ArgumentNullException.ThrowIfNull(game);
 			Selected = game;
 			game.IsGameSelected = true;
 			_ = WeakReferenceMessenger.Default.Send(game);
@@ -36,11 +37,11 @@ namespace Boggle.ViewModels
 
 		private void OnRequest(object recipient, string message)
 		{
-			if (message == App.c_isGameSelected && m_selected != null)
+			if (message == App.c_isGameSelected && Selected != null)
 				_ = WeakReferenceMessenger.Default.Send(Selected);
 		}
 
 
-		private GameViewModel m_selected;
+		private GameViewModel? m_selected;
 	}
 }

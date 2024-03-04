@@ -4,7 +4,7 @@ namespace Boggle.Converters
 {
 	internal class PathToColorConverter : IValueConverter
 	{
-		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+		public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
 		{
 			int index = 0;
 			if (value is int[] path && parameter is string coordinates)
@@ -20,10 +20,8 @@ namespace Boggle.Converters
 			return c_colors[index];
 		}
 
-		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-		{
+		public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) =>
 			throw new NotImplementedException();
-		}
 
 
 		private readonly Color[] c_colors =

@@ -10,8 +10,8 @@
 		<viewModels:AboutViewModel />
 	</ContentPage.BindingContext>
 
-	<Grid RowDefinitions="*,Auto" Margin="10" Padding="20,10,0,20">
-		<ScrollView Grid.Row="0" Orientation="Vertical">
+	<ScrollView Grid.Row="0" Orientation="Vertical">
+		<Grid RowDefinitions="*,Auto" Margin="10" Padding="20,10,0,20">
 			<VerticalStackLayout Padding="10,10,20,0">
 				<Label Text="Instructions:" FontSize="Medium" />
 				<Label Padding="10,10,0,0">
@@ -20,11 +20,12 @@
 							<FormattedString.Spans>
 								<Span Text="1. Choose a Boggle game to play from the Games page. Various versions of Boggle " />
 								<Span Text="are listed, with their board size, minimum word length, scoring table and dice collection. " />
-								<Span Text="The scoring table shows the scores for words of 1, 2, 3, ... length words. For example, " />
-								<Span Text="Boggle Classic's table is 0, 0, 1, 1, 2, 3, 5, and 11. One and two letter words get no score, " />
+								<Span Text="The scoring table shows the scores for words of 1, 2, 3, ... letters. For example, Boggle " />
+								<Span Text="Classic's table is 0, 0, 1, 1, 2, 3, 5, 11, ... One and two letter words get no score, " />
 								<Span Text="three and four letter words get one point, five letter words get two, six get three, seven get " />
-								<Span Text="five and eight and longer get eleven. Super Big Boggle is similar, except that nine letter " />
-								<Span Text="words get seven, ten letter get eight, and so on (the word length minus two). " />
+								<Span Text="five and eight and longer get eleven. Super Big Boggle is similar: 0, 0, 0, 1, 2, 3, 5, 11, x 2, ... " />
+								<Span Text="One to three letter words get zero, four get one, five get two, six get three, seven get " />
+								<Span Text="five, eight get eleven and nine and above get twice the letter count (so eighteen, twenty, etc.). " />
 							</FormattedString.Spans>
 						</FormattedString>
 					</Label.FormattedText>
@@ -105,8 +106,9 @@
 					<Label.FormattedText>
 						<FormattedString>
 							<FormattedString.Spans>
-								<Span Text="4. Due to a bug in MAUI, the height of the solutions on the Words page is fixed, so resizing the app " />
-								<Span Text="causes the layout to behave strangely. " />
+								<Span Text="4. Due to a bug in MAUI, the height of the solutions on the Words page is fixed, computed when the " />
+								<Span Text="solutions are rendered, so resizing the app after tapping Solve causes the layout to behave strangely. " />
+								<Span Text="Windows only (since Android apps can't be resized)." />
 							</FormattedString.Spans>
 						</FormattedString>
 					</Label.FormattedText>
@@ -131,13 +133,13 @@
 					</Label.FormattedText>
 				</Label>
 			</VerticalStackLayout>
-		</ScrollView>
 
-		<HorizontalStackLayout Grid.Row="4" Spacing="10" Margin="0,20,0,0">
-			<Image Source="dotnet_bot.png" SemanticProperties.Description="The dot net bot waving hello!"
-					HeightRequest="64" />
-			<Label FontSize="22" FontAttributes="Bold" Text="{Binding Title}" VerticalOptions="End" />
-			<Label FontSize="16" Text="{Binding Version}" VerticalOptions="End" />
-		</HorizontalStackLayout>
-	</Grid>
+			<HorizontalStackLayout Grid.Row="4" Spacing="10" Margin="0,20,0,0">
+				<Image Source="dotnet_bot.png" SemanticProperties.Description="The dot net bot waving hello!"
+						HeightRequest="64" />
+				<Label FontSize="22" FontAttributes="Bold" Text="{Binding Title}" VerticalOptions="End" />
+				<Label FontSize="16" Text="{Binding Version}" VerticalOptions="End" />
+			</HorizontalStackLayout>
+		</Grid>
+	</ScrollView>
 </ContentPage>

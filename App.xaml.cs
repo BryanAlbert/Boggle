@@ -12,7 +12,7 @@ public partial class App : Application
 	public const string c_isGameSelected = "IsGameSelected";
 	public const string c_isBoardGenerated = "IsBoardGenerated";
 
-	protected override Window CreateWindow(IActivationState activationState)
+	protected override Window CreateWindow(IActivationState? activationState)
 	{
 		Window window = base.CreateWindow(activationState);
 
@@ -21,10 +21,12 @@ public partial class App : Application
 		{
 			if (!m_initialized)
 			{
-				m_initialized = true;
-				Window window = sender as Window;
+				if (sender is not Window window)
+					return;
+
 				window.Width = c_defaultWidth;
 				window.Height = c_defaultHeight;
+				m_initialized = true;
 
 				// give it some time to complete window resizing task
 				await window.Dispatcher.DispatchAsync(() => { });
@@ -51,7 +53,10 @@ public partial class App : Application
 	}
 
 
+#if WINDOWS
 	private bool m_initialized;
+#endif
+
 	private const int c_defaultWidth = 550;
 	private const int c_defaultHeight = 760;
 }

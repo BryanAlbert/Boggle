@@ -8,8 +8,9 @@ namespace Boggle
 	{
 		public Solver()
 		{
-			using Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(c_dictionaryPath);
+			using Stream? stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(c_dictionaryPath);
 			{
+				ArgumentNullException.ThrowIfNull(stream);
 				using StreamReader reader = new(stream);
 				m_dictionary = reader.ReadToEnd().Split("\r\n");
 			}
@@ -18,13 +19,13 @@ namespace Boggle
 
 		public List<Solution> WordList { get; set; } = [];
 
-		public GameViewModel Game
+		public GameViewModel? Game
 		{
 			get => m_game;
 			set
 			{
 				m_game = value;
-				if (m_game.IsBoardGenerated)
+				if (m_game != null && m_game.IsBoardGenerated)
 					FilterWordList();
 			}
 		}
@@ -65,6 +66,7 @@ namespace Boggle
 
 		private async Task FindWordsAtAsync(int[] path, string word, int from)
 		{
+			ArgumentNullException.ThrowIfNull(Game);
 			foreach (Directions direction in Enum.GetValues(typeof(Directions)))
 			{
 				int index = GetIndexInDirection(path, from, direction);
@@ -76,7 +78,7 @@ namespace Boggle
 					continue;
 
 				string testWord = word + letter;
-				bool? isWord = IsWord(testWord.Trim().ToUpper());
+				bool? isWord = IsWord(testWord.Trim().ToUpperInvariant());
 				if (isWord == false)
 					continue;
 
@@ -87,7 +89,7 @@ namespace Boggle
 				{
 					WordList.Add(new(testWord, pathCopy, Game));
 					await MainThread.InvokeOnMainThreadAsync(() =>
-						m_setPath(pathCopy, WordList.Sum(x => x.Score), WordList.Count));
+						m_setPath!(pathCopy, WordList.Sum(x => x.Score), WordList.Count));
 				}
 
 				await FindWordsAtAsync(pathCopy, testWord, index);
@@ -96,6 +98,7 @@ namespace Boggle
 
 		private int GetIndexInDirection(int[] path, int from, Directions direction)
 		{
+			ArgumentNullException.ThrowIfNull(Game);
 			int index;
 			switch (direction)
 			{
@@ -132,6 +135,7 @@ namespace Boggle
 
 		private bool? IsWord(string word)
 		{
+			ArgumentNullException.ThrowIfNull(m_abridged);
 			int found = Array.BinarySearch(m_abridged, word);
 			if (found >= 0)
 				return true;
@@ -139,28 +143,33 @@ namespace Boggle
 			found = ~found;
 			if (found >= m_abridged.Length)
 				return false;
-		
-			string nextWord = (string) m_abridged.GetValue(found);
+
+			string? nextWord = (string?) m_abridged.GetValue(found);
+			ArgumentNullException.ThrowIfNull(nextWord);
 			return (word.Length < nextWord.Length && nextWord[..word.Length] == word) ? null : false;
 		}
 
 		private bool AtRightEdge(int from)
 		{
+			ArgumentNullException.ThrowIfNull(Game);
 			return (from + 1) % Game.Size == 0;
 		}
 
 		private bool AtBottomEdge(int from)
 		{
+			ArgumentNullException.ThrowIfNull(Game);
 			return from > Game.Letters.Length - Game.Size - 1;
 		}
 
 		private bool AtLeftEdge(int from)
 		{
+			ArgumentNullException.ThrowIfNull(Game);
 			return (from + Game.Size) % Game.Size == 0;
 		}
 
 		private bool AtTopEdge(int from)
 		{
+			ArgumentNullException.ThrowIfNull(Game);
 			return from < Game.Size;
 		}
 
@@ -168,8 +177,8 @@ namespace Boggle
 		private enum Directions { E, SE, S, SW, W, NW, N, NE }
 		private const string c_dictionaryPath = "Boggle.Dictionary.txt";
 		private readonly string[] m_dictionary;
-		private Array m_abridged;
-		private GameViewModel m_game;
-		private Action<int[], int, int> m_setPath;
+		private Array? m_abridged;
+		private GameViewModel? m_game;
+		private Action<int[], int, int>? m_setPath;
 	}
 }

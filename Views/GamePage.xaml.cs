@@ -19,6 +19,7 @@ public partial class GamePage : ContentPage
 
 		((GameViewModel) BindingContext).LetterEntries = [.. entries];
 		((GameViewModel) BindingContext).LettersEntry = LettersEntry;
+		m_previous = string.Empty;
 	}
 
 

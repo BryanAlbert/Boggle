@@ -11,11 +11,16 @@ namespace Boggle.ViewModels
 	{
 		public GameViewModel()
 		{
+			m_letters = string.Empty;
+			m_comboLetters = string.Empty;
+			m_lettersEntry = string.Empty;
+			m_name = string.Empty;
+			ComboLetterIndices = string.Empty;
+			LetterEntries = [];
 			ScrambleCommand = new AsyncRelayCommand(OnScrambleAsync);
 			WeakReferenceMessenger.Default.Register<string>(this, OnRequest);
 			WeakReferenceMessenger.Default.Register<GameViewModel>(this, OnGameUpdated);
 			_ = WeakReferenceMessenger.Default.Send(App.c_isGameSelected);
-
 #if true
 			m_seed = null;
 #else
@@ -27,6 +32,14 @@ namespace Boggle.ViewModels
 
 		public GameViewModel(Game game)
 		{
+			ArgumentNullException.ThrowIfNull(game);
+			m_letters = string.Empty;
+			m_comboLetters = string.Empty;
+			m_lettersEntry = string.Empty;
+			m_name = string.Empty;
+			ComboLetterIndices = string.Empty;
+			LetterEntries = [];
+			ScrambleCommand = new AsyncRelayCommand(OnScrambleAsync);
 			m_game = game;
 			Name = game.Name;
 			Size = game.Size;
@@ -75,7 +88,7 @@ namespace Boggle.ViewModels
 
 						if (valid)
 						{
-							m_letters = null;
+							m_letters = string.Empty;
 							MoveFocus(value[..2]);
 						}
 						else
@@ -112,14 +125,14 @@ namespace Boggle.ViewModels
 					if (ComboLetterIndices.Contains(letter))
 						filtered += letter;
 					else
-						m_lettersEntry = null;
+						m_lettersEntry = string.Empty;
 				}
 
 				int square = Size * Size;
 				if (filtered.Length > square)
 				{
 					filtered = filtered[..square];
-					m_lettersEntry = null;
+					m_lettersEntry = string.Empty;
 				}
 
 				if (SetProperty(ref m_lettersEntry, filtered))
@@ -132,22 +145,22 @@ namespace Boggle.ViewModels
 			}
 		}
 
-		public List<int> Scoring => m_game.Scoring.Select(int.Parse).ToList();
-		public int WordLength => m_game.WordSize;
-		public string RenderSize => $"{m_game.Size}x{m_game.Size}";
-		public string RenderScoring => string.Join(", ", m_game.Scoring);
-		public List<string> Cubes => m_game.Cubes;
-		public string Cubes1 => string.Join(", ", m_game.Cubes.Take(m_game.Size));
-		public string Cubes2 => string.Join(", ", m_game.Cubes.Skip(m_game.Size).Take(m_game.Size));
-		public string Cubes3 => string.Join(", ", m_game.Cubes.Skip(m_game.Size * 2).Take(m_game.Size));
-		public string Cubes4 => string.Join(", ", m_game.Cubes.Skip(m_game.Size * 3).Take(m_game.Size));
-		public string Cubes5 => string.Join(", ", m_game.Cubes.Skip(m_game.Size * 4).Take(m_game.Size));
-		public string Cubes6 => string.Join(", ", m_game.Cubes.Skip(m_game.Size * 5).Take(m_game.Size));
+		public List<int> Scoring => m_game?.Scoring.Select(int.Parse).ToList() ?? [];
+		public int WordLength => m_game?.WordSize ?? 0;
+		public string RenderSize => $"{m_game?.Size ?? 0}x{m_game?.Size ?? 0}";
+		public string RenderScoring => m_game != null ? string.Join(", ", m_game.Scoring).Replace("-", "x ") + ", ..." : string.Empty;
+		public List<string> Cubes => m_game?.Cubes ?? [];
+		public string Cubes1 => m_game != null ? string.Join(", ", m_game.Cubes.Take(m_game.Size)) : string.Empty;
+		public string Cubes2 => m_game != null ? string.Join(", ", m_game.Cubes.Skip(m_game.Size).Take(m_game.Size)) : string.Empty;
+		public string Cubes3 => m_game != null ? string.Join(", ", m_game.Cubes.Skip(m_game.Size * 2).Take(m_game.Size)) : string.Empty;
+		public string Cubes4 => m_game != null ? string.Join(", ", m_game.Cubes.Skip(m_game.Size * 3).Take(m_game.Size)) : string.Empty;
+		public string Cubes5 => m_game != null ? string.Join(", ", m_game.Cubes.Skip(m_game.Size * 4).Take(m_game.Size)) : string.Empty;
+		public string Cubes6 => m_game != null ? string.Join(", ", m_game.Cubes.Skip(m_game.Size * 5).Take(m_game.Size)) : string.Empty;
 		public bool IsGameSelected { get => m_isGameSelected; set => SetProperty(ref m_isGameSelected, value); }
 		public bool IsBoardGenerated { get => m_isBoardGenerated; set => SetProperty(ref m_isBoardGenerated, value); }
 		public bool Cells5Visible { get => m_cells5Visible; set => SetProperty(ref m_cells5Visible, value); }
 		public bool Cells6Visible { get => m_cell6Visible; set => SetProperty(ref m_cell6Visible, value); }
-		public InputView LettersEntry { get; set; }
+		public InputView? LettersEntry { get; set; }
 		public InputView[] LetterEntries { get; set; }
 		public ICommand ScrambleCommand { get; }
 
@@ -193,7 +206,7 @@ namespace Boggle.ViewModels
 				return;
 
 			Letters = m_game.Scramble(m_seed);
-			_ = LettersEntry.Focus();
+			_ = LettersEntry!.Focus();
 
 			if (DeviceInfo.Platform == DevicePlatform.Android)
 			{
@@ -204,7 +217,7 @@ namespace Boggle.ViewModels
 
 		private void SetLetters()
 		{
-			Letters = new(' ', m_game.Size * m_game.Size);
+			Letters = new(' ', m_game!.Size * m_game!.Size);
 			if (UseBonusCube)
 			{
 				ComboLetters = m_game.BonusLettersList;
@@ -213,7 +226,7 @@ namespace Boggle.ViewModels
 			}
 			else
 			{
-				ComboLetters = m_game.ComboLettersList;
+				ComboLetters = m_game!.ComboLettersList;
 				ComboLetterIndices = c_validLetters + m_game.ComboLetterIndices;
 				if (HasBonusCube)
 					_ = Cubes.Remove(Game.c_bonusCube);
@@ -226,7 +239,7 @@ namespace Boggle.ViewModels
 			if (LetterEntries[next].Text.Length == 0)
 				_ = LetterEntries[next].Focus();
 			else
-				_ = LettersEntry.Focus();
+				_ = LettersEntry!.Focus();
 		}
 
 		private void ClearEntry(string coordinates)
@@ -281,7 +294,7 @@ namespace Boggle.ViewModels
 
 		private const string c_validLetters = "ABCDEFGHIJKLMNOPRSTUVWXYZ";
 		private readonly int? m_seed;
-		private Game m_game;
+		private Game? m_game;
 		private string m_name;
 		private int m_size;
 		private bool m_hasBonusCube;
