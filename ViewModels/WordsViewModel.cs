@@ -23,8 +23,6 @@ namespace Boggle.ViewModels
 
 			SolutionsCollection = [];
 			WeakReferenceMessenger.Default.Register<GameViewModel>(this, OnGameUpdated);
-			_ = WeakReferenceMessenger.Default.Send(App.c_isGameSelected);
-			_ = WeakReferenceMessenger.Default.Send(App.c_isBoardGenerated);
 
 			SolveCommand = new AsyncRelayCommand(OnSolveAsync);
 			SelectWordCommand = new RelayCommand<Solution>(OnSolutionSelected);
@@ -33,6 +31,8 @@ namespace Boggle.ViewModels
 			m_message = string.Empty;
 			m_name = string.Empty;
 			Message = "Pick a game on the Games page!";
+			_ = WeakReferenceMessenger.Default.Send(App.c_isGameSelected);
+			_ = WeakReferenceMessenger.Default.Send(App.c_isBoardGenerated);
 		}
 
 

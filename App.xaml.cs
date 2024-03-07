@@ -36,7 +36,7 @@ public partial class App : Application
 #if false || !DEBUG
 				window.X = (display.Width / display.Density - window.Width) / 2;
 				window.Y = (display.Height / display.Density - window.Height) / 2;
-#elif false
+#elif true
 				// TODO: for debugging, show on the monitor to the left of the main display
 				window.X = -(display.Width / display.Density - window.Width) / 2;
 				window.Y = (display.Height / display.Density - window.Height) / 2;
