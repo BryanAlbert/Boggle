@@ -1,15 +1,24 @@
+<#
+.SYNOPSIS
+    Copies the newest Boggle Android Archive to the AppPackages folder.
+
+.DESCRIPTION
+    This script reads the Version from the Android manifest, finds the most recently-
+    built and Archived apk file in the ~\AppData\Local\Xamarin\Mono for Android\Archives 
+    folder and checks its version, then copies the signed apk to the Android AppPackages 
+    folder, giving it a versioned filename.
+
+.PARAMETER Overwrite 
+    Set to true to overwrite the target file. 
+#>
+
 param([Parameter(HelpMessage = "Overwrite existing apk file")] [switch] $Overwrite)
 
-# Finds the most recently-built Archive, reads the name of the apk from archive.xml's PackageName and its
-# build number from PackageVersionName and builds a versioned filename. Copies the signed apk from the 
-# signed-apks folder to our bin\Release\net7.0-android\AppPackages folder, giving it the versioned name.
 
 $solutionName = Split-Path $PWD -Leaf
-
 $windowsManifest = ".\Platforms\Windows\Package.appxmanifest"
 $androidManifest = ".\Platforms\Android\AndroidManifest.xml"
-$appPackages = ".\bin\Release\net7.0-android\AppPackages"
-
+$appPackages = ".\bin\Release\net8.0-android\AppPackages"
 $version = ([xml] (Get-Content $windowsManifest)).Package.Identity.Version
 $versionName = ([xml] (Get-Content $androidManifest)).manifest.versionName
 if ($version.Substring(0, $version.LastIndexOf(".")) -ne $versionName)
@@ -46,14 +55,6 @@ if ($packageVersionName -eq $versionName)
             }
 
             Write-Host "Copying $sourcePath to $destinationPath..."
-            Copy-Item $sourceName $destinationPath
-
-            if (!(Test-Path $destinationPath))
-            {
-                Write-Host "Creating directory: $destinationPath"
-                New-Item -ItemType Directory $destinationPath
-            }
-
             Copy-Item $sourceName $destinationPath
         }
         else

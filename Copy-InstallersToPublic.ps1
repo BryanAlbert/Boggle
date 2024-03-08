@@ -1,15 +1,40 @@
-param([Parameter(HelpMessage = "Overwrite existing installer files")] [switch] $Overwrite)
+<#
+.SYNOPSIS
+    Copies the latest AppPackages to the Public Downloads folder.
 
-# Copies the latest AppPackages to the Public Downloads folder.
+.DESCRIPTION
+    This script first checks the Windows and Android version strings in the project manifest
+    files for consistency, then copies the installer files from the AppPackages folders
+    to the Public Downloads folder C:\Users\Public\Downloads\Boggle. 
+
+    TODO: implement this: 
+    When using -CopyToNetwork, \\Bryan-Dell must be turned on (Bryan's old Dell Inspiron 
+    13-7353 laptop). The network share is \\Bryan-Dell\Users\Public\Downloads and the 
+    target folder is "Boggle". Note that the parent folders (e.g. \\Bryan-Dell\Users\)
+    are not shared so the whole path needs to be typed in on a computer on the network. 
+
+.PARAMETER Overwrite
+    Set to true to overwrite the target file. 
+
+.PARAMETER CopyToNetwork
+    Copies AppPackages files to the Albert home network share on \\Bryan-Dell.
+#>
+
+param(
+    [Parameter(HelpMessage = "Overwrite existing installer files")] [switch] $Overwrite,
+    [Parameter(HelpMessage = "Copy to `"\\BRYAN-DELL\Users\Downloads\Boggle`"")] [switch] $CopyToNetwork)
+
+
+if ($CopyToNetwork) {
+    write-Host "Note: -CopyToNetwork is not implemented."
+}
 
 $solutionName = Split-Path $PWD -Leaf
-
 $windowsManifest = ".\Platforms\Windows\Package.appxmanifest"
-$windowsAppPackages = ".\bin\Release\net7.0-windows10.0.19041.0\win10-x64\AppPackages"
+$windowsAppPackages = ".\bin\Release\net8.0-windows10.0.19041.0\win10-x64\AppPackages"
 $androidManifest = ".\Platforms\Android\AndroidManifest.xml"
-$androidAppPackages = ".\bin\Release\net7.0-android\AppPackages"
+$androidAppPackages = ".\bin\Release\net8.0-android\AppPackages"
 $public = Join-Path "C:\Users\Public\Downloads" $solutionName
-
 $version = ([xml] (Get-Content $windowsManifest)).Package.Identity.Version
 $versionName = ([xml] (Get-Content $androidManifest)).manifest.versionName
 if ($version.Substring(0, $version.LastIndexOf(".")) -ne $versionName)

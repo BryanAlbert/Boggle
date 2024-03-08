@@ -11,3 +11,47 @@ http://pages.cs.wisc.edu/~o-laughl/csw15.txt. Solutions are ordered by length. A
 selected to show its location on the board.
 
 See the About page for a list of issues. 
+
+## Installation Instructions
+Although MAUI can build apps for Android, iOS and Windows, as well as macOS, this app supports only 
+Android and Windows. Normally an app would be discovered and installed from either the Windows Store 
+or the Android Store, but as this app is not intended for widespread distribution, it is packaged and 
+delivered in a rougher configuration requiring a bit more effort to install. 
+
+### Windows
+To install on Windows:
+1. Download the Boggle_0.0.2.0_Test.zip file
+2. Unzip the zip file (double-click the file and click the Extract All button on the toolbar)
+3. When the extraction is complete, open the Boggle_0.0.2.0_Test folder
+4. Double-click the Boggle_0.0.2.0_x64.msix file
+5. If your computer doesn't know what an msix file is, first install the Microsoft App Installer from the 
+Windows Store, then double click the msix file again
+6. If the installer tells you, "This app package's publisher certificate could not be verified..."
+    1. Close the installer
+    2. Double-click on the Boggle_0.0.2.0_x64.cer file
+    3. Click Open then Install Certificate... 
+    4. Choose Local Machine, Next
+    5. Click Yes on the User Account Control dialog's "Do you want to allow this app to make changes 
+    to your device?"
+    6. Choose "Place all certificates in the following store", Browse... choose "Trusted People", OK
+    7. Next, Finish, OK, OK
+    8. Double-click the msix file again
+7. Click Install
+8. Click Launch
+
+### Android
+To install on Android:
+1. Tap the com.albert challenge.boggle-0.0.1.apk file
+2. Tap Install
+3. Tap Open
+
+Note that when Boggle is initializing and loading games, it first writes any missing games to the app's 
+storage. This means that if a user were to (somehow) change a game's json file in app storage, those 
+changes would not be overwritten when Boggle is opened. One side effect of this is that if an update to 
+the Boggle app is released which includes changes to the game json files, they won't be loaded unless 
+the app's storage is cleared. On Windows this is accomplished by uninstalling the app, on Android the 
+files must be deleted via "Clear storage" in the app's Settings. 
+
+## Usage
+Tap the About tab for play instructions and a list of notes about the app (including known issues, etc.).
+
