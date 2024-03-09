@@ -84,7 +84,7 @@ namespace Boggle.ViewModels
 			// there is no ChangeCanExecute so it is never enabled.
 			// See https://learn.microsoft.com/en-us/dotnet/communitytoolkit/mvvm/generators/relaycommand and 
 			// https://learn.microsoft.com/en-us/dotnet/communitytoolkit/mvvm/generators/observableproperty
-			if (IsSolved)
+			if (!IsBoardGenerated || IsSolved)
 				return;
 
 			IsNotSolved = false;
