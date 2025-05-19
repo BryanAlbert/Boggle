@@ -35,6 +35,7 @@ delivered as a "side loading" app, requiring a bit more effort to install.
 ![Boggle on Windows](./BoggleUWP.jpg)
 
 To install on Windows:
+1. Open the [Boggle Drive](https://drive.google.com/drive/folders/1185IUbNDf4cHqg_6ee6uSBi_wyod-ssb?usp=sharing) folder
 1. Download the Boggle_0.0.3.0_Test.zip file
 2. Unzip the zip file (double-click the file and click the Extract All button on the toolbar)
 3. When the extraction is complete, open the Boggle_0.0.3.0_Test folder
@@ -58,6 +59,7 @@ you need to tell your computer to trust the certificate with which the installer
 
 ### Android
 To install on Android:
+1. Open the [Boggle Drive](https://drive.google.com/drive/folders/1185IUbNDf4cHqg_6ee6uSBi_wyod-ssb?usp=sharing) folder
 1. Tap the com.albert challenge.boggle-0.0.3.apk file
 2. Tap Install
 3. Tap Open
