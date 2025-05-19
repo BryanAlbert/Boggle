@@ -27,6 +27,8 @@ or the Android Store, but as this app is not intended for widespread distributio
 delivered as a "side loading" app, requiring a bit more effort to install. 
 
 ### Windows
+![Boggle on Windows](./BoggleUWP.jpg)
+
 To install on Windows:
 1. Download the Boggle_0.0.3.0_Test.zip file
 2. Unzip the zip file (double-click the file and click the Extract All button on the toolbar)
