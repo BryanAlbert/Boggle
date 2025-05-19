@@ -13,14 +13,19 @@ selected to show its location on the board.
 See the About page for a list of issues. 
 
 ## Installation Instructions
-Note: if you don't want to install the app, you can watch this video 
-[Boggle on Android](https://drive.google.com/file/d/1fNZHHJ5NsjgETRqWXWAG02mX-SnTekN_/view?usp=drive_link). 
-In this exciting video, the user peruses the list of supported games, choosing the Big Boggle 
+Here are detailed instructions for installing the latest version on Windows and Android.
+
+### `tldr;` Watch the video of Boggle running on Android
+If you don't want to install the app, you can watch this video of
+[Boggle on Android](https://drive.google.com/file/d/1fNZHHJ5NsjgETRqWXWAG02mX-SnTekN_/view?usp=drive_link)
+instead. In this exciting video, the user peruses the list of supported games, choosing the Big Boggle 
 Classic. She then taps the Game icon below to switch to the game board. On this page she selects the 
 Scramble button up top to arrange the board, then goes to the Words tab. (She could have also entered 
-letters manually if she were playing on a real Boggle set...) Next she taps Solve to find all the words...
-733 points, not bad, with the winning word HOWITZERS for 11 points. 
+letters manually if she were playing on a real Boggle set, though some people think this is cheating...)
+Next she taps Solve to find all the words: 733 points, not bad, with the winning word HOWITZERS for 
+11 points. 
 
+### About Platforms
 Although MAUI can build apps for Android, iOS and Windows, as well as macOS, this app supports only 
 Android and Windows. Normally an app would be discovered and installed from either the Windows Store 
 or the Android Store, but as this app is not intended for widespread distribution, it is packaged and 
